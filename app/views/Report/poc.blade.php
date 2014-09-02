@@ -102,10 +102,11 @@ function drawChartFromPHP(marker, infowindow, location,id,max) {
         ['2020', 16, 22, 23, 30, 16, 9, ''],
         ['2030', 28, 19, 29, 30, 12, 13, '']
       ]);*/
-	  var options = {'title':'ภาพรวมการจู่โจม ณ '+ location,
-                       'width':400,
-                       'height':300,
-                       'isStacked': true
+	  var options = {title:'ภาพรวมการจู่โจม ณ '+ location,
+                       width:400,
+                       height:300,
+                       isStacked: true,
+                       is3D: true
                        };	
       // Instantiate and draw our chart, passing in some options.
       

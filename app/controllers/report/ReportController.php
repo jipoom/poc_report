@@ -14,7 +14,9 @@ class ReportController extends BaseController {
 	|	Route::get('/', 'HomeController@showWelcome');
 	|
 	*/
-
+	public function showStandAlone(){
+		return View::make('Report/poc_standalone');
+	}
 	public function showPOC()
 	{
 		//$lat = array(0,0,0,0,0,0,0);

@@ -13,11 +13,12 @@
 Route::group(array('prefix' => 'report'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
+	Route::get('stand_alone', 'ReportController@showStandAlone');
 	Route::get('export', 'ReportController@export');
 	Route::get('getData/{id}', 'ReportController@getData');
 });
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return View::make('home');
 });
