@@ -13,6 +13,7 @@
 Route::group(array('prefix' => 'report'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
+	Route::get('export', 'ReportController@export');
 	Route::get('getData/{id}', 'ReportController@getData');
 });
 

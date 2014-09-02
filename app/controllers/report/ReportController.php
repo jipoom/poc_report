@@ -24,7 +24,19 @@ class ReportController extends BaseController {
 		$location = Location::getLocationNameJSON();
 		$threatToday = Threat::getThreatTodayJSON();
 		$threatMax = Threat::getMaxThreatTodayJSON();
+		
 		return View::make('Report/poc', compact('lat', 'long','id','location','threatToday','threatMax'));
+	}
+	public function export()
+	{
+		$threat = Threat::all();
+
+		$threat_array = (array)$threat->toArray();
+
+		Excel::create('POC')
+		-> sheet('Threat_Report')
+		-> with($threat_array)
+		-> export('xlsx');
 	}
 	public function getData($id)
 	{
@@ -41,7 +53,7 @@ class ReportController extends BaseController {
 		    // and your second column is a "number" type
 		    // but you can change them if they are not
 		    array('label' => 'Date', 'type' => 'string'),
-		    array('label' => 'Threat', 'type' => 'number')
+		    array('label' => 'Threat', 'type' => 'number'),
 		);	
 		
 		$allCases = Threat::where('location_id','=',$id)->get();

@@ -76,7 +76,7 @@ function drawChartFromPHP(marker, infowindow, location,id,max) {
           
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(jsonData);
-	
+	 
 	  var view = new google.visualization.DataView(data);
 	    view.setColumns([0, {
 	        type: 'number',
@@ -84,22 +84,37 @@ function drawChartFromPHP(marker, infowindow, location,id,max) {
 	        calc: function (dt, row) {
 	            var value = dt.getValue(row, 1);
 	            // Check if data set is super diff
-	            if(value < max/50)
-	            	return {v: max/50, f: dt.getFormattedValue(row, 1)};
+	            if(value < max/12)
+	            	return {v: max/12, f: dt.getFormattedValue(row, 1)};
 	            else
 	            	return value;
 	        }
-	    }]);		
-	
+	    },{ calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" }]);	
+	    
+	    //The commented below is stacked column 	
+	   /*var data2 = google.visualization.arrayToDataTable([
+        ['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General',
+         'Western', 'Literature', { role: 'annotation' } ],
+        ['2010', 10, 24, 20, 32, 18, 5, ''],
+        ['2020', 16, 22, 23, 30, 16, 9, ''],
+        ['2030', 28, 19, 29, 30, 12, 13, '']
+      ]);*/
 	  var options = {'title':'ภาพรวมการจู่โจม ณ '+ location,
                        'width':400,
                        'height':300,
+                       'isStacked': true
                        };	
       // Instantiate and draw our chart, passing in some options.
       
       var node = document.createElement('div'),
     	 chart = new google.visualization.ColumnChart(node);
-      
+	    google.visualization.events.addListener(chart, 'ready', function () {
+	      node.innerHTML = '<img src="' + chart.getImageURI() + '">';
+	    });
+	      
       chart.draw(view, options);
       infowindow.setContent(node);
       infowindow.open(marker.getMap(),marker);
@@ -114,7 +129,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <div id="map_wrapper">
     <div id="map_canvas" class="mapping"></div>
 </div>
-
+{{ HTML::link(URL::to('report/export'), 'export')}}
 
  
     </body>
