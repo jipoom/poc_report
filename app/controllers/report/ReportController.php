@@ -15,7 +15,7 @@ class ReportController extends BaseController {
 	|
 	*/
 	public function showStandAlone(){
-		return View::make('Report/poc_standalone');
+		return View::make('report/poc_standalone');
 	}
 	public function showPOC()
 	{
@@ -27,7 +27,7 @@ class ReportController extends BaseController {
 		$threatToday = Threat::getThreatTodayJSON();
 		$threatMax = Threat::getMaxThreatTodayJSON();
 		
-		return View::make('Report/poc', compact('lat', 'long','id','location','threatToday','threatMax'));
+		return View::make('report/poc', compact('lat', 'long','id','location','threatToday','threatMax'));
 	}
 	public function export()
 	{
