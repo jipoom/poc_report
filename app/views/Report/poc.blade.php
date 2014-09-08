@@ -71,9 +71,9 @@ function initialize() {
   }
 }
 
-function makeInfoWindowEvent(map, infowindow, locaionName,locationID, max,marker) {
+function makeInfoWindowEvent(map, infowindow, locationName,locationID, max,marker) {
   google.maps.event.addListener(marker, 'click', function() {
-	 drawChartFromPHP(marker, infowindow, locaionName, locationID,max);
+	 drawChartFromPHP(marker, infowindow, locationName, locationID,max);
   });
 }
       
