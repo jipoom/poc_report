@@ -6,6 +6,7 @@
 			@show </title>
 		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
 		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/css/jquery.simple-dtpicker.css')}}" />
 		@yield('styles')
 	</head>
     <body>
@@ -15,7 +16,7 @@
 						<div class ="pull-right" >
 							
 							@if(Auth::check())
-								Logged in as {{Auth::user()->description}}
+								Logged in as {{Auth::user()->location->name}}
 							@endif	
 				
 						</div>
@@ -26,17 +27,21 @@
         		<div class="collapse navbar-collapse navbar-ex1-collapse">
 						<ul class="nav navbar-nav">
 							<li{{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-							<!-- check role-->
 							@if(Auth::check())
-							   <li><a href="{{{ URL::to('report/overall') }}}"><span class="glyphicon glyphicon-book"></span> รายงานการจู่โจมตรวจค้นทั้งหมด</a></li>
-					           <li><a href="{{{ URL::to('report/byitems') }}}"><span class="glyphicon glyphicon-book"></span> รายงานการจู่โจมตรวจค้นแยกตามประเภทสิ่งของต้องห้าม</a></li>
-					           <li><a href="{{{ URL::to('report/map') }}}"><span class="glyphicon glyphicon-book"></span> ภาพรวมการจู่โจมตรวจค้น</a></li>
-					        <!-- check role-->
-					        @else
-							   <li><a href="{{{ URL::to('report/create') }}}"><span class="glyphicon glyphicon-book"></span> เพิ่มรายงาน การจู่โจมตรวจค้น</a></li>
-					           <li><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
-					          
-					        @endif
+								<!-- check อธิบดี-->
+								@if(Auth::user()->location->id == 0)
+								    <li><a href="{{{ URL::to('report/overall') }}}"><span class="glyphicon glyphicon-book"></span> รายงานการจู่โจมตรวจค้นทั้งหมด</a></li>
+						            <li><a href="{{{ URL::to('report/byitems') }}}"><span class="glyphicon glyphicon-book"></span> รายงานการจู่โจมตรวจค้นแยกตามประเภทสิ่งของต้องห้าม</a></li>
+						            <li><a href="{{{ URL::to('report/map') }}}"><span class="glyphicon glyphicon-book"></span> ภาพรวมการจู่โจมตรวจค้น</a></li>
+						        <!-- check ศปส-->
+						        @elseif(Auth::user()->location->id == 1)
+									  <li><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
+								@else
+						        	<li><a href="{{{ URL::to('report/create') }}}"><span class="glyphicon glyphicon-book"></span> เพิ่มรายงาน การจู่โจมตรวจค้น</a></li>
+						            <li><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
+						       
+						        @endif
+						     @endif    
 							</li>
 						</ul>
 						<ul class="nav navbar-nav pull-right">
@@ -58,7 +63,15 @@
     	</div>
     	<div class="container">
         	@yield('content')
-        </div>	
+        </div>
+        <script src="{{asset('assets/js/jquery-1.11.1.min.js')}}"></script>
+        <script src="{{asset('assets/js/jquery.simple-dtpicker.js')}}"></script>
+       
+        <script>
+        	$(function() {
+				$('*[name=found_date]').appendDtpicker();
+			});
+        </script>	
         @yield('scripts')
     </body>
 </html>

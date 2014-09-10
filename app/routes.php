@@ -14,6 +14,17 @@ Route::group(array('prefix' => 'report'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
 	Route::get('stand_alone', 'ReportController@showStandAlone');
+	
+	//อธิบดี
+	Route::get('map', 'ReportController@showPOC');
+	Route::get('overall', 'ReportController@showOverall');
+	
+	//เรือนจำ
+	Route::get('create', 'ReportController@getCreate');
+	Route::post('create', 'ReportController@postCreate');
+	Route::get('view', 'ReportController@getView');
+	
+	
 	Route::get('export', 'ReportController@export');
 	Route::get('getData/{id}', 'ReportController@getData');
 });

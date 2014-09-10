@@ -3,7 +3,12 @@
 
 class Location extends Eloquent {	
 	public $timestamps = false;
-    protected $table = 'poc_location';
+    protected $table = 'locations';	
+	public function user()
+	{
+		return $this->hasMany('User');
+	}
+	
 	public static function getLatitudeJSON()
 	{
 		$i=0;		
@@ -52,6 +57,9 @@ class Location extends Eloquent {
 		}
 		return json_encode($lat);
 	}
+	
+	
+	
 }
 
 ?>

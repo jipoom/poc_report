@@ -15,12 +15,11 @@ class UserController extends BaseController {
 	|
 	*/
 	public function getCreate(){
-		$roles = Role::all()->lists('role','id');		
-		return View::make('user/create',compact('roles'));
+		$locations = Location::all()->lists('name','id');	
+		return View::make('user/create',compact('locations'));
 	}
 	public function postCreate(){
 		$rules = array('username' => 'required|min:3|unique:users', 
-		'description' => 'required|min:3', 
 		'password'=>'required|alpha_num|between:6,12|confirmed',
     	'password_confirmation'=>'required|alpha_num|between:6,12'
 		);
@@ -34,8 +33,7 @@ class UserController extends BaseController {
 			$user = new User;
 			$user->username	= Input::get('username');
 			$user->password	= Hash::make(Input::get('password'));
-			$user->description	= Input::get('description');
-			$user->role_id = Input::get('role');
+			$user->location_id = Input::get('location');
 			$user->save();
 			return Redirect::to('/')->with('message', 'Create user succeeded');
 		}
@@ -57,7 +55,7 @@ class UserController extends BaseController {
         );
 	  	if (Auth::attempt($user))
 		{
-			return Redirect::to('/');
+			return Redirect::to('report/stand_alone');
 			//return View::make('user/profile');
 		}
 		else {
