@@ -17,6 +17,9 @@ class ReportController extends BaseController {
 	public function showStandAlone(){
 		return View::make('report/poc_standalone');
 	}
+	public function showDashBoard(){
+		return View::make('report/dashboard');
+	}
 	public function showPOC()
 	{
 		//$lat = array(0,0,0,0,0,0,0);
@@ -105,6 +108,63 @@ class ReportController extends BaseController {
 			return Redirect::to('/')->with('message', 'new report added');
 		//}
 		
+	}
+	public function getDashBoardData(){
+		$table = array();
+		$table['cols'] = array(
+		    /* define your DataTable columns here
+		     * each column gets its own array
+		     * syntax of the arrays is:
+		     * label => column label
+		     * type => data type of column (string, number, date, datetime, boolean)
+		     */
+		    // I assumed your first column is a "string" type
+		    // and your second column is a "number" type
+		    // but you can change them if they are not
+		    array('label' => 'Date', 'type' => 'string'),
+		    array('label' => 'Threat', 'type' => 'number'),
+		);	
+		
+		$prohibitedItems = Report::where('category_id','=',Category::where('name','=','สิ่งของต้องห้าม')->first()->id)->count();
+		$drug = Report::where('category_id','=',Category::where('name','=','ยาเสพติด')->first()->id)->count();
+		$temp = array();	
+		// Prohibited
+		$temp[] = array('v' => "สิ่งของต้องห้าม");	
+		$temp[] = array('v' => $prohibitedItems);
+		$rows[] = array('c' => $temp);
+		// Drug
+		$temp = array();		
+		$temp[] = array('v' => "ยาเสพติด");	
+		$temp[] = array('v' => $drug);
+		$rows[] = array('c' => $temp);	
+		// Not found
+		$temp = array();
+		$temp[] = array('v' => "ไม่พบ");	
+		$temp[] = array('v' => 1);
+		$rows[] = array('c' => $temp);	
+			
+		/*foreach($allCases as $report)
+		{
+			// Logic goes here
+				
+			$temp = array();	
+			$temp[] = array('v' => "Threat".$report->id);	
+			$temp[] = array('v' => $report->qty);
+			$rows[] = array('c' => $temp);	
+		}*/
+		// create row
+			
+		// populate the table with rows of data
+		$table['rows'] = $rows;	
+		
+		$jsonTable = json_encode($table);
+
+		// set up header; first two prevent IE from caching queries
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Content-type: application/json');
+		
+		// return the JSON data
+		echo $jsonTable;
 	}
 	
 	public function getData($id)

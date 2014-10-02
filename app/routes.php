@@ -14,6 +14,7 @@ Route::group(array('prefix' => 'report'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
 	Route::get('stand_alone', 'ReportController@showStandAlone');
+	Route::get('dashboard', 'ReportController@showDashBoard');
 	
 	//อธิบดี
 	Route::get('map', 'ReportController@showPOC');
@@ -27,6 +28,9 @@ Route::group(array('prefix' => 'report'), function()
 	
 	Route::get('export', 'ReportController@export');
 	Route::get('getData/{id}', 'ReportController@getData');
+	Route::get('getDashBoardData', 'ReportController@getDashBoardData');
+	
+
 });
 
 Route::group(array('prefix' => 'user'), function()

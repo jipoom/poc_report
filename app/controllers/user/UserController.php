@@ -55,7 +55,7 @@ class UserController extends BaseController {
         );
 	  	if (Auth::attempt($user))
 		{
-			return Redirect::to('report/stand_alone');
+			return Redirect::to('report/dashboard');
 			//return View::make('user/profile');
 		}
 		else {
