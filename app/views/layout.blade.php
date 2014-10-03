@@ -67,11 +67,8 @@
         <script src="{{asset('assets/js/jquery-1.11.1.min.js')}}"></script>
         <script src="{{asset('assets/js/jquery.simple-dtpicker.js')}}"></script>
        
-        <script>
-        	$(function() {
-				$('*[name=found_date]').appendDtpicker();
-			});
-        </script>	
+        
+        	
         @yield('scripts')
     </body>
 </html>

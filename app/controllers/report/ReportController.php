@@ -18,7 +18,21 @@ class ReportController extends BaseController {
 		return View::make('report/poc_standalone');
 	}
 	public function showDashBoard(){
-		return View::make('report/dashboard');
+		$date = Input::get('date');
+		if($date==null)
+		{
+			$date=date('d-M-Y');
+		}
+		$timestamp = strtotime($date);
+		$prohibitedId=Category::where('name','=','สิ่งของต้องห้าม')->first()->id;
+		// yet to be done
+		$drugId=Category::where('name','=','ยาเสพติด')->first()->id;
+		$totalItems=Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
+		$totalDrugs=Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
+		$totalPrisonInspected=Report::where('found_date','=',date("Y-m-d", $timestamp))->count();
+		
+		
+		return View::make('report/dashboard',compact('date','totalItems','totalDrugs','totalPrisonInspected'));
 	}
 	public function showPOC()
 	{
@@ -62,6 +76,8 @@ class ReportController extends BaseController {
 		
 		// Check if the form validates with success
 		//if ($validator -> passes()) {
+			$timestamp = strtotime(Input::get('found_date'));
+
 			if(Input::get('isFound') == "yes")
 			{
 				if(count(Input::get('check_outside')) != 0)
@@ -73,8 +89,8 @@ class ReportController extends BaseController {
 								$report -> item_id = $outside;
 								$report -> found_at_id = 1;
 								$report -> qty = Input::get('item_outside.'.$outside);	
-								$report -> category_id = 0;
-								$report -> found_date = Input::get('found_date');
+								$report -> category_id = Item::find($outside)->category_id;
+								$report -> found_date = date("Y-m-d", $timestamp);
 								$report -> note = Input::get('note');
 								$report -> location_id = Auth::user()->location->id;
 								$report -> ip_address = Request::getClientIp();
@@ -91,8 +107,8 @@ class ReportController extends BaseController {
 								$report -> item_id = $inside;
 								$report -> found_at_id = 2;
 								$report -> qty = Input::get('item_inside.'.$inside);	
-								$report -> category_id = 0;
-								$report -> found_date = Input::get('found_date');
+								$report -> category_id = Item::find($outside)->category_id;;
+								$report -> found_date = date("Y-m-d", $timestamp);
 								$report -> note = Input::get('note');
 								$report -> location_id = Auth::user()->location->id;
 								$report -> ip_address = Request::getClientIp();
@@ -109,7 +125,9 @@ class ReportController extends BaseController {
 		//}
 		
 	}
-	public function getDashBoardData(){
+	public function getDashBoardData($date,$khetId){
+			
+		$timestamp = strtotime($date);
 		$table = array();
 		$table['cols'] = array(
 		    /* define your DataTable columns here
@@ -124,9 +142,13 @@ class ReportController extends BaseController {
 		    array('label' => 'Date', 'type' => 'string'),
 		    array('label' => 'Threat', 'type' => 'number'),
 		);	
+		$prohibitedId=Category::where('name','=','สิ่งของต้องห้าม')->first()->id;
+		$drugId=Category::where('name','=','ยาเสพติด')->first()->id;
+		$prisonFoundItems=Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->where('khet_id','=',$khetId)->count();
+		$prisonFoundDrugs=Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->where('khet_id','=',$khetId)->count();
 		
-		$prohibitedItems = Report::where('category_id','=',Category::where('name','=','สิ่งของต้องห้าม')->first()->id)->count();
-		$drug = Report::where('category_id','=',Category::where('name','=','ยาเสพติด')->first()->id)->count();
+		$prohibitedItems = Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
+		$drug = Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->where('khet_id','=',$khetId)->count();
 		$temp = array();	
 		// Prohibited
 		$temp[] = array('v' => "สิ่งของต้องห้าม");	

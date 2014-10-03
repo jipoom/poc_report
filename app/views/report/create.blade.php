@@ -1,4 +1,7 @@
 @extends("layout")
+@section('styles')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+@stop
 @section("content")
 {{ Form::open(array('url'=>'report/create', 'class'=>'form-signup')) }}
     <h4 class="form-signup-heading">เพิ่มรายงาน{{$location}}</h2>
@@ -46,4 +49,13 @@
 
     {{ Form::submit('Submit', array('class'=>'btn btn-large btn-primary btn-block'))}}
 {{ Form::close() }}
+@stop
+@section('scripts')
+ 		 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+ 		<script>
+		  $(function() {
+		    $("#found_date").datepicker({ dateFormat: 'dd-M-yy' });
+		  });
+		  </script>
 @stop
