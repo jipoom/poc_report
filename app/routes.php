@@ -27,7 +27,7 @@ Route::group(array('prefix' => 'report'), function()
 	
 	
 	Route::get('export', 'ReportController@export');
-	Route::get('getData/{id}', 'ReportController@getData');
+	Route::get('getData/{startDate}/{endDate}/{location_id}/{found_at}', 'ReportController@getData');
 	Route::get('getDashBoardData/{date}/{khetId}', 'ReportController@getDashBoardData');
 	
 

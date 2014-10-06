@@ -189,7 +189,54 @@ class ReportController extends BaseController {
 		echo $jsonTable;
 	}
 	
-	public function getData($id)
+	public function getData($startDate,$endDate,$location_id,$found_at){
+			
+		$timestamp_start = strtotime($startDate);
+		$timestamp_end = strtotime($endDate);
+		$table = array();
+		$table['cols'] = array(
+		    /* define your DataTable columns here
+		     * each column gets its own array
+		     * syntax of the arrays is:
+		     * label => column label
+		     * type => data type of column (string, number, date, datetime, boolean)
+		     */
+		    // I assumed your first column is a "string" type
+		    // and your second column is a "number" type
+		    // but you can change them if they are not
+		    array('label' => 'Date', 'type' => 'string'),
+		    array('label' => Location::find($location_id)->name.'('.FoundAt::find($found_at)->name.')', 'type' => 'number'),
+		);	
+		
+		
+		$allCases = Report::where('location_id','=',$location_id)->where('found_at_id','=',$found_at)->get();
+		
+			
+		foreach($allCases as $report)
+		{
+			// Logic goes here
+				
+			$temp = array();	
+			$temp[] = array('v' => Item::find($report->item_id)->name);	
+			$temp[] = array('v' => $report->qty);
+			$rows[] = array('c' => $temp);	
+		}
+		// create row
+			
+		// populate the table with rows of data
+		$table['rows'] = $rows;	
+		
+		$jsonTable = json_encode($table);
+
+		// set up header; first two prevent IE from caching queries
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Content-type: application/json');
+		
+		// return the JSON data
+		echo $jsonTable;
+	}
+
+	public function getAllData($id)
 	{
 			
 		$table = array();
