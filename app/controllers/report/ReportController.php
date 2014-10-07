@@ -29,7 +29,7 @@ class ReportController extends BaseController {
 		$drugId=Category::where('name','=','ยาเสพติด')->first()->id;
 		$totalItems=Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
 		$totalDrugs=Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
-		$totalPrisonInspected=Report::where('found_date','=',date("Y-m-d", $timestamp))->count();
+		$totalPrisonInspected=Report::where('found_date','=',date("Y-m-d", $timestamp))->groupBy('location_id')->count();
 		
 		
 		return View::make('report/dashboard',compact('date','totalItems','totalDrugs','totalPrisonInspected'));
@@ -142,16 +142,33 @@ class ReportController extends BaseController {
 		//}
 		
 	}
-	public function getHDashBoardData(){
-		$date = Input::get('date');
-		$khetId = Input::get('khetId');
-		//$performance = DevicePerformance::where('device_id', '=', $id) -> orderBy('created_at') ->take(576)->lists('created_at');
-		//$memory = DevicePerformance::where('device_id', '=', $id) -> orderBy('created_at') ->take(576)->lists('memory');
-		$performance = array('x','y','z');
-		$memory = array(1,2,3);
-		$graph_data = array('categories'=>$performance, 'impression'=>$memory);
+	public function getHDashBoardData($date,$khetId){
+
+		$timestamp = strtotime($date);
 		
-		echo json_encode($graph_data);
+		$prohibitedId=Category::where('name','=','สิ่งของต้องห้าม')->first()->id;
+		$drugId=Category::where('name','=','ยาเสพติด')->first()->id;
+		
+		$prohibitedItems = Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->where('khet_id','=',$khetId)->count();
+		$drug = Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->where('khet_id','=',$khetId)->count();
+		$locationFound = Report::select(DB::raw('count(*) as location_count, location_id'))->groupBy('location_id')->first();
+		$locationAll = Location::where('khet_id','=',$khetId)->count();
+		
+		$rows = array();
+		$row[0] = 'ไม่พบ';
+		$row[1] = $locationAll-$locationFound->location_count;
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = $prohibitedItems;
+		array_push($rows,$row);
+		
+	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = $drug;
+		array_push($rows,$row);
+		
+		echo json_encode($rows);
 	}
 	public function getDashBoardData($date,$khetId){
 			
@@ -177,6 +194,10 @@ class ReportController extends BaseController {
 		
 		$prohibitedItems = Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
 		$drug = Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->where('khet_id','=',$khetId)->count();
+		
+		$locationFound = Report::select(DB::raw('count(*) as location_count, location_id'))->groupBy('location_id')->first();
+		$locationAll = Location::where('khet_id','=',$khetId)->count();
+		
 		$temp = array();	
 		// Prohibited
 		$temp[] = array('v' => "สิ่งของต้องห้าม");	
@@ -190,7 +211,7 @@ class ReportController extends BaseController {
 		// Not found
 		$temp = array();
 		$temp[] = array('v' => "ไม่พบ");	
-		$temp[] = array('v' => 1);
+		$temp[] = array('v' => $locationAll - $locationFound->location_count);
 		$rows[] = array('c' => $temp);	
 			
 		/*foreach($allCases as $report)
