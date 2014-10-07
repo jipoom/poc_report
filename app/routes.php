@@ -15,6 +15,7 @@ Route::group(array('prefix' => 'report'), function()
 	Route::get('poc', 'ReportController@showPOC');
 	Route::get('stand_alone', 'ReportController@showStandAlone');
 	Route::get('dashboard', 'ReportController@showDashBoard');
+	Route::get('hdashboard', 'ReportController@showHDashBoard');
 	
 	//อธิบดี
 	Route::get('map', 'ReportController@showPOC');
@@ -29,6 +30,7 @@ Route::group(array('prefix' => 'report'), function()
 	Route::get('export', 'ReportController@export');
 	Route::get('getData/{startDate}/{endDate}/{location_id}/{found_at}', 'ReportController@getData');
 	Route::get('getDashBoardData/{date}/{khetId}', 'ReportController@getDashBoardData');
+	Route::get('getHDashBoardData', 'ReportController@getHDashBoardData');
 	
 
 });

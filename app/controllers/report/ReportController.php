@@ -34,6 +34,23 @@ class ReportController extends BaseController {
 		
 		return View::make('report/dashboard',compact('date','totalItems','totalDrugs','totalPrisonInspected'));
 	}
+	public function showHDashBoard(){
+		$date = Input::get('date');
+		if($date==null)
+		{
+			$date=date('d-M-Y');
+		}
+		$timestamp = strtotime($date);
+		$prohibitedId=Category::where('name','=','สิ่งของต้องห้าม')->first()->id;
+		// yet to be done
+		$drugId=Category::where('name','=','ยาเสพติด')->first()->id;
+		$totalItems=Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
+		$totalDrugs=Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
+		$totalPrisonInspected=Report::where('found_date','=',date("Y-m-d", $timestamp))->count();
+		
+		
+		return View::make('report/hdashboard',compact('date','totalItems','totalDrugs','totalPrisonInspected'));
+	}
 	public function showPOC()
 	{
 		//$lat = array(0,0,0,0,0,0,0);
@@ -124,6 +141,17 @@ class ReportController extends BaseController {
 			return Redirect::to('/')->with('message', 'new report added');
 		//}
 		
+	}
+	public function getHDashBoardData(){
+		$date = Input::get('date');
+		$khetId = Input::get('khetId');
+		//$performance = DevicePerformance::where('device_id', '=', $id) -> orderBy('created_at') ->take(576)->lists('created_at');
+		//$memory = DevicePerformance::where('device_id', '=', $id) -> orderBy('created_at') ->take(576)->lists('memory');
+		$performance = array('x','y','z');
+		$memory = array(1,2,3);
+		$graph_data = array('categories'=>$performance, 'impression'=>$memory);
+		
+		echo json_encode($graph_data);
 	}
 	public function getDashBoardData($date,$khetId){
 			
