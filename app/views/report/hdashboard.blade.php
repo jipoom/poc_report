@@ -69,6 +69,9 @@ Stand Alone
                         return '<b>'+ this.point.name +'</b>: '+ this.y +' เรือนจำ';
                     }
                 },
+                credits: {
+			      enabled: false
+			    },
                 plotOptions: {
                     pie: {
                         allowPointSelect: true,
@@ -116,6 +119,9 @@ Stand Alone
                         return '<b>'+ this.point.name +'</b>: '+ this.y +' เรือนจำ';
                     }
                 },
+                credits: {
+			      enabled: false
+			    },
                 plotOptions: {
                     pie: {
                         allowPointSelect: true,
