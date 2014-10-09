@@ -74,6 +74,43 @@ class ReportController extends BaseController {
 		-> with($threat_array)
 		-> export('xlsx');
 	}
+	
+	public function getAddData()
+	{
+		$location = Location::find(Auth::user()->location->id)->name;
+		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
+		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
+		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
+		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
+	}
+	public function postAddData()
+	{
+		$location = Location::find(Auth::user()->location->id)->name;
+		//Insert Data into DB set confirmation bit to 0
+		$timestamp = strtotime(Input::get('date'));
+		if(Input::get('isFound') == "no")
+		{
+			foreach(Item::all() as $item)	
+			{
+				$report = new Report;
+				$report -> item_id = $item->id;
+				$report -> found_at_id = 0;
+				$report -> qty = 0;	
+				$report -> category_id = Item::find($item->id)->category_id;
+				$report -> found_date = date("Y-m-d", $timestamp);
+				$report -> note = Input::get('area');
+				$report -> location_id = Auth::user()->location->id;
+				$report -> ip_address = Request::getClientIp();
+				$report -> is_confirmed = 0;
+				$report -> save();
+			}
+		}
+		//Get Unconfirm Report
+		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
+		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
+		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
+		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
+	}
 
 	public function getCreate()
 	{

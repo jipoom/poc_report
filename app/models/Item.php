@@ -12,6 +12,20 @@ class Item extends Eloquent {
 	{
 		return $this->belongTo('Category','category_id');
 	}
+	public static function getAllItemArray()
+	{
+		$item= array();	
+		$init_item = Item::where('id','<>',0)->first();
+		$item = array_add($item,$init_item->id, $init_item->name);
+		$allitem = Item::where('id','<>',0)->get();
+		foreach($allitem as $temp)
+		{
+				
+			$item = array_add($item, $temp->id, $temp->name);
+		}
+		$item = array_add($item, 0, 'อื่นๆ');
+		return $item;
+	}
 }
 
 ?>

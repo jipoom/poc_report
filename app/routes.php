@@ -22,6 +22,8 @@ Route::group(array('prefix' => 'report'), function()
 	Route::get('overall', 'ReportController@showOverall');
 	
 	//เรือนจำ
+	Route::get('add', 'ReportController@getAddData');
+	Route::post('add', 'ReportController@postAddData');
 	Route::get('create', 'ReportController@getCreate');
 	Route::post('create', 'ReportController@postCreate');
 	Route::get('view', 'ReportController@getView');

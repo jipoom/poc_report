@@ -89,8 +89,7 @@ Stand Alone
                         }
                     }
                 },
-                // [green, red, orange]
-                colors: ['#00FA9A','#CD4009', '#FFC125',],
+                colors: ['green','red', 'orange',],
                 series: [{
                     type: 'pie',
                     name: 'Browser share',
