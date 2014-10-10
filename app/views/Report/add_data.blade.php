@@ -24,8 +24,10 @@
 	</div>
 {{ Form::close() }}
 	<div id="data">
+	<?php $printButton = false;?>
 	{{ Form::open(array('url'=>'report/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}	
 	@if(count($unconfirmInsideReport)>0)
+	<?php $printButton = true;?>
 	พบภายในเรือนจำ
 	<table border="1" style="width:100%">
 		<tr>			
@@ -63,6 +65,7 @@
 	@endif
 	
 	@if(count($unconfirmOutsideReport)>0)
+	<?php $printButton = true;?>
 	สกัดกั้นก่อนเข้าเรือนจำ
 	<table border="1" style="width:100%">
 		<tr>			
@@ -100,6 +103,7 @@
 	</table>
 	@endif
 	@if(count($unconfirmNotfound)>0)
+	<?php $printButton = true;?>
 	ไม่พบ
 	<table border="1" style="width:100%">
 		<tr>			
@@ -133,6 +137,9 @@
 			</tr>
 		@endforeach
 	</table>
+	@endif
+	@if
+	
 	@endif
 	{{ Form::close() }}
 	</div>
