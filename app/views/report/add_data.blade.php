@@ -8,7 +8,9 @@
 {{ Form::select('method', ['1', '2', '3']) }}</p>
 <p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" readonly="true"value="{{isset($date) ? $date : date('d-M-Y')}}"> </p>
 <p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', 'true',array('id'=>'not_found')) }}  ไม่พบ</p>
-<input type="button" id ="insert" onclick="needMoreDetail()" value="Submit form">
+<div id='showButton' style="display: none">
+<input type="button" onclick="needMoreDetail()" value="เพิ่มบันทึก">
+</div>
 	<div id='detail' style="display: none">
 	<table border="1" style="width:100%">
 		<tr>
@@ -16,7 +18,7 @@
 				<p>{{ Form::radio('before', 'yes') }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', 'no', 'true') }}  พบภายในเรือนจำ</p>
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray()) }} {{Form::text('qty')}} หน่วย </p>
 				<p>บริเวณที่พบ: {{Form::text('area')}}  </p>
-				<input type="button" onclick="save()" value="Submit form">
+				<input type="button" onclick="save()" value="บันทึก">
 			</td>
 				
 		</tr>
@@ -24,10 +26,8 @@
 	</div>
 {{ Form::close() }}
 	<div id="data">
-	<?php $printButton = false;?>
 	{{ Form::open(array('url'=>'report/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}	
 	@if(count($unconfirmInsideReport)>0)
-	<?php $printButton = true;?>
 	พบภายในเรือนจำ
 	<table border="1" style="width:100%">
 		<tr>			
@@ -65,7 +65,6 @@
 	@endif
 	
 	@if(count($unconfirmOutsideReport)>0)
-	<?php $printButton = true;?>
 	สกัดกั้นก่อนเข้าเรือนจำ
 	<table border="1" style="width:100%">
 		<tr>			
@@ -103,7 +102,6 @@
 	</table>
 	@endif
 	@if(count($unconfirmNotfound)>0)
-	<?php $printButton = true;?>
 	ไม่พบ
 	<table border="1" style="width:100%">
 		<tr>			
@@ -138,10 +136,9 @@
 		@endforeach
 	</table>
 	@endif
-	@if
 	
-	@endif
 	{{ Form::close() }}
+	<input type="button" onclick="save()" value="ยืนยัน">
 	</div>
 @stop
 @section('scripts')
@@ -154,6 +151,7 @@
             }
             else if($('#not_found').is(':checked')){
                 //add to array process ajx
+                $("#detail").hide();
                 document.getElementById("infoForm").submit();
             }
 		    
@@ -164,10 +162,20 @@
 		  $(document).ready(function(){
             $('#not_found').click(function(){
             if($('#not_found').attr("value")=="no"){
-                $("#insert").show();
+                //$("#insert").show();
+                $("#showButton").hide();
                 $("#detail").hide();
             }
             });
+            
+            $('#found').click(function(){
+            if($('#found').attr("value")=="yes"){
+               // $("#insert").show();
+                $("#showButton").show();
+                //$("#detail").show();
+            }
+            });
+            
             
 		  });
 		  $(function() {
