@@ -7,7 +7,7 @@
 {{ Form::open(array('url'=>'report/add', 'class'=>'form-signup', 'id'=>'infoForm')) }}
 <p>วิธีการจู่โจม
 {{ Form::select('method', Method::getArray()) }}</p>
-<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" readonly="true"value="{{isset($date) ? $date : date('d-M-Y')}}"> </p>
+<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{isset($date) ? $date : date('d-m-Y')}}"> </p>
 <p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ</p>
 <div id='showButton' style="display: none">
 <input type="button" onclick="needMoreDetail()" value="เพิ่มบันทึก">
@@ -27,160 +27,41 @@
 	</table>
 	</div>
 {{ Form::close() }}
-	<div id="data">
+	
 	{{ Form::open(array('url'=>'report/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}	
 	<!-- CSRF Token -->
 	<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-	<input type="hidden" name="date" value="{{isset($date) ? $date : date('d-M-Y')}}" />
+
 	<!-- ./ csrf token -->
-	@if(count($unconfirmInsideReport)>0)
-	พบภายในเรือนจำ
-	<table border="1" style="width:100%">
-		<tr>			
-				<td>
-					สิ่งของต้องห้าม
-				</td>
-				<td>
-					วันที่
-				</td>
-				<td>
-					จำนวน 
-				</td>
-				<td>
-					บริเวณที่พบ 
-				</td>
-				<td>
-					วิธีการ 
-				</td>
-				<td>
-					Action 
-				</td>		
-			</tr>
-		@foreach($unconfirmInsideReport as $value)
-			<tr>			
-				<td>
-					{{Item::find($value->item_id)->name}}
-				</td>	
-				<td>
-					{{$value->found_date}}
-				</td>
-				<td>
-					{{$value->qty}} {{Item::find($value->item_id)->unit}}
-				</td>	
-				<td>
-					{{$value->area_found}}
-				</td>	
-				<td>
-					{{Method::find($value->method_id)->name}}  
-				</td>			
-				<td>
-					{{ HTML::link(URL::to('report/delete/'.$value->id), 'Remove')}}
-				</td>
-					
-			</tr>
-		@endforeach
-	</table>
-	@endif
-	
-	@if(count($unconfirmOutsideReport)>0)
-	สกัดกั้นก่อนเข้าเรือนจำ
-	<table border="1" style="width:100%">
-		<tr>			
-				<td>
-					สิ่งของต้องห้าม
-				</td>
-				<td>
-					วันที่
-				</td>
-				<td>
-					จำนวน 
-				</td>	
-				<td>
-					บริเวณที่พบ 
-				</td>
-				<td>
-					วิธีการ 
-				</td>
-				<td>
-					Action 
-				</td>
-				
-			</tr>
-		@foreach($unconfirmOutsideReport as $value)
-			<tr>			
-				<td>
-					{{Item::find($value->item_id)->name}}
-				</td>
-				<td>
-					{{$value->found_date}}
-				</td>
-				<td>
-					{{$value->qty}} {{Item::find($value->item_id)->unit}}
-				</td>
-				<td>
-					{{$value->area_found}}
-				</td>
-				<td>
-						{{Method::find($value->method_id)->name}}  
-				</td>
-				<td>
-					{{ HTML::link(URL::to('report/delete/'.$value->id), 'Remove')}}
-				</td>
-				
-			</tr>
-		@endforeach
-	</table>
-	@endif
-	@if(count($unconfirmNotfound)>0)
-	ไม่พบ
-	<table border="1" style="width:100%">
-		<tr>			
-				<td>
-					สิ่งของต้องห้าม
-				</td>
-				<td>
-					วันที่
-				</td>
-				<td>
-					จำนวน 
-				</td>
-				<td>
-					บริเวณที่พบ 
-				</td>	
-				<td>
-					Action 
-				</td>
-			</tr>
-		@foreach($unconfirmNotfound as $value)
-			<tr>			
-				<td>
-					{{Item::find($value->item_id)->name}}
-				</td>
-				<td>
-					{{$value->found_date}}
-				</td>	
-				<td>
-					{{$value->qty}} {{Item::find($value->item_id)->unit}}
-				</td>
-				<td>
-					{{$value->area_found}}
-				</td>
-				<td>
-					{{ HTML::link(URL::to('report/delete/'.$value->id), 'Remove')}}
-				</td>
-			</tr>
-		@endforeach
-	</table>
-	@endif
-	
+	<div id="data">
+
+	</div>
 	{{ Form::close() }}
 	<input type="button" onclick="confirmForm()" value="ยืนยัน">
-	</div>
+	
 @stop
 @section('scripts')
 		<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
  		<script>
+		function getUnconfirmedData(){
+			var date = $("#found_date").val();
 
+					if (window.XMLHttpRequest) {
+						// code for IE7+, Firefox, Chrome, Opera, Safari
+						xmlhttp = new XMLHttpRequest();
+					} else {// code for IE6, IE5
+						xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+					}
+					xmlhttp.onreadystatechange = function() {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+							document.getElementById("data").innerHTML = xmlhttp.responseText;
+						}
+					}
+					xmlhttp.open("GET", "{{{ URL::to('report/unconfirmedData') }}}/" + date, true);
+			xmlhttp.send();
+			
+		}	 
+			
 		  function needMoreDetail() {
 		    if($('#found').is(':checked')){
             	$("#insert").hide();
@@ -196,7 +77,7 @@
 		  function confirmForm() {
 		  	if($('#not_found').is(':checked')){
                 //checkIfExist bofore proceeding
-                date = $('#found_date').attr("value");
+                date = $('#found_date').val();
                 itemId = 0;
                 itemName = 'ไม่พบ';
                 foundAt =  0;
@@ -209,12 +90,14 @@
             else {
             	//$("#insert").hide();
                 //$("#detail").show();
+                date = $('#found_date').val();
+                $('#confirmForm').append('<input type="hidden" name="date" value="'+date+'"/>');
                 document.getElementById("confirmForm").submit(); 
             }
 		   
 		  }
 		  function save() {
-		  		date = $('#found_date').attr("value");
+		  		date = $('#found_date').val();
                 itemId = $('#item').val();
                 itemName =  $('#item').attr("name");
                 area =  $('#area').val();
@@ -262,11 +145,11 @@
                 //$("#detail").show();
             }
             });
-            
+            getUnconfirmedData();
             
 		  });
 		  $(function() {
-		    $("#found_date").datepicker({ dateFormat: 'dd-M-yy' });
+		    $("#found_date").datepicker({ dateFormat: 'dd-mm-yy',isBuddhist: true });
 		  });
 
 		  </script>

@@ -77,9 +77,10 @@ class ReportController extends BaseController {
 	
 	public function getAddData()
 	{
+			
 		$location = Auth::user()->location->name;
-		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
-		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
+		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date('d-M-Y'))->get();
+		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date('d-M-Y'))->get();
 		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
 		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound' ));
 	}
@@ -87,6 +88,7 @@ class ReportController extends BaseController {
 	{
 		$location = Location::find(Auth::user()->location->id)->name;
 		//Insert Data into DB set confirmation bit to 0
+		$date = Input::get('date');
 		$timestamp = strtotime(Input::get('date'));
 		if(Input::get('isFound') == "no")
 		{
@@ -124,6 +126,7 @@ class ReportController extends BaseController {
 			{
 				$updatedReport = Report::find($report->id);
 				$updatedReport->qty = Input::get('qty');
+				$updatedReport->is_confirmed = 0;
 				$updatedReport->ip_address = Request::getClientIp();		
 				$updatedReport->save();
 			}
@@ -145,12 +148,21 @@ class ReportController extends BaseController {
 			}
 				
 			//Get Unconfirm Report
-			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
-			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
+			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date("Y-m-d", $timestamp))->get();
+			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
-			return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
+			return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','date'));
 		}
 
+	}
+	public function getUnconfirmedData($date)
+	{
+		$timestamp = strtotime($date);	
+		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date("Y-m-d", $timestamp))->get();
+		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
+		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
+		return View::make('report/unconfirmed_data',compact('unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
+		
 	}
 	public function postConfirm()
 	{
@@ -189,6 +201,7 @@ class ReportController extends BaseController {
 	}
 	public function deleteData($reportId)
 	{
+		$date= date("d-m-Y", strtotime(Report::find($reportId)->found_date));
 		if(Auth::user()->location->id == Report::find($reportId)->location_id && Report::find($reportId)->is_confirmed == 0)	{
 			//Delete
 			Report::find($reportId) -> delete();
@@ -196,8 +209,11 @@ class ReportController extends BaseController {
 			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
 			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
 			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
-			//return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
-			return Redirect::to('report/add') -> with('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound');
+			return View::make('report/add_data',compact('date'));
+			//return Redirect::to('report/add')->with('date', $date);
+			
+			
+			
 		}			
 		else{
 			//Not allowed to delete

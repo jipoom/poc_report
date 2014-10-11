@@ -22,10 +22,11 @@ Route::group(array('prefix' => 'report'), function()
 	Route::get('overall', 'ReportController@showOverall');
 	
 	//เรือนจำ
-	Route::get('add', 'ReportController@getAddData');
+	Route::get('add', array('as' => 'add', 'uses' => 'ReportController@getAddData'));
 	Route::post('add', 'ReportController@postAddData');
 	Route::get('delete/{id}', 'ReportController@deleteData');
 	Route::post('confirm', array('before' => 'csrf', 'uses' => 'ReportController@postConfirm'));
+	Route::get('unconfirmedData/{date}','ReportController@getUnconfirmedData');
 	Route::get('exist', 'ReportController@checkIfRecordExist');
 	Route::get('create', 'ReportController@getCreate');
 	Route::post('create', 'ReportController@postCreate');
