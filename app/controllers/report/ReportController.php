@@ -165,18 +165,26 @@ class ReportController extends BaseController {
 		$foundAt = Input::get('foundAt');
 		$area = Input::get('area');
 		$timestamp = strtotime(Input::get('date'));
-		$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->where('item_id','=',0)->get();
 		//$result = Report::whereRaw('found_date = '.date("Y-m-d", $timestamp).' and ((is_confirm = 1 and location_id = '.Auth::user()->location->id.' and  item_id = '.$itemId.') or ( item_id = 0))');
-		if(count($result) > 0)
+		
+		if(Input::get('itemId')==0){
+			$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 			return count($result);
-		else {
-			$result = Report::where('location_id','=',Auth::user()->location->id)
-			->where('found_date','=',date("Y-m-d", $timestamp))
-			->where('found_at_id','=',$foundAt)
-			->where('item_id','=',$itemId)
-			->where('area_found','=',$area)
-			->get();
-			return count($result);
+		}
+		else
+		{
+			$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->where('item_id','=',0)->get();
+			if(count($result) > 0)
+				return count($result);
+			else {
+				$result = Report::where('location_id','=',Auth::user()->location->id)
+				->where('found_date','=',date("Y-m-d", $timestamp))
+				->where('found_at_id','=',$foundAt)
+				->where('item_id','=',$itemId)
+				->where('area_found','=',$area)
+				->get();
+				return count($result);
+			}
 		}
 	}
 	public function deleteData($reportId)
