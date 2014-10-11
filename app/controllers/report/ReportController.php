@@ -152,7 +152,7 @@ class ReportController extends BaseController {
 			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
 			//return Redirect::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','date'));
-			return Redirect::to('report/add')->withInput();
+			return Redirect::to('report/add')->withInput(array('date' => Input::get('date'), 'isFound' => Input::get('isFound')));
 		}
 
 	}
