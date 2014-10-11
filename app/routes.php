@@ -25,6 +25,8 @@ Route::group(array('prefix' => 'report'), function()
 	Route::get('add', 'ReportController@getAddData');
 	Route::post('add', 'ReportController@postAddData');
 	Route::get('delete/{id}', 'ReportController@deleteData');
+	Route::post('confirm', array('before' => 'csrf', 'uses' => 'ReportController@postConfirm'));
+	Route::get('exist', 'ReportController@checkIfRecordExist');
 	Route::get('create', 'ReportController@getCreate');
 	Route::post('create', 'ReportController@postCreate');
 	Route::get('view', 'ReportController@getView');

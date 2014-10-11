@@ -77,11 +77,11 @@ class ReportController extends BaseController {
 	
 	public function getAddData()
 	{
-		$location = Location::find(Auth::user()->location->id)->name;
+		$location = Auth::user()->location->name;
 		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
 		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
 		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
-		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
+		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound' ));
 	}
 	public function postAddData()
 	{
@@ -90,40 +90,94 @@ class ReportController extends BaseController {
 		$timestamp = strtotime(Input::get('date'));
 		if(Input::get('isFound') == "no")
 		{
+			//delete old data
+			Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id) -> delete();
+			//insert
 			$report = new Report;
-			$report -> item_id = Input::get('item');
+			$report -> item_id = 0;
 			$report -> found_at_id = 0;
-			$report -> qty = 0;	
+			$report -> qty = 0;
 			$report -> category_id = 0;
 			$report -> found_date = date("Y-m-d", $timestamp);
-			$report -> note = Input::get('area');
+			$report -> area_found = Input::get('area');
 			$report -> location_id = Auth::user()->location->id;
 			$report -> ip_address = Request::getClientIp();
-			$report -> is_confirmed = 0;
+			$report -> is_confirmed = 1;
+			$report -> method_id = 0;
 			$report -> save();
+			//return to table page
+			return Redirect::to('');
+			}
+		else
+		{
+			//Delete notfound data
+			Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id)->where('item_id','=',0) -> delete();
+
+				
+			$report = Report::where('item_id','=',Input::get('item'))
+			->where('found_date','=',date("Y-m-d", $timestamp))
+			->where('area_found','=',Input::get('area'))
+			->where('location_id','=',Auth::user()->location->id)->first();
+			
+			//Update
+			if(count($report) > 0)
+			{
+				$updatedReport = Report::find($report->id);
+				$updatedReport->qty = Input::get('qty');
+				$updatedReport->ip_address = Request::getClientIp();		
+				$updatedReport->save();
+			}
+			//Insert
+			else
+			{
+				$report = new Report;
+				$report -> item_id = Input::get('item');
+				$report -> found_at_id =Input::get('before');
+				$report -> qty = Input::get('qty');
+				$report -> category_id = Item::find(Input::get('item'))->category_id;
+				$report -> found_date = date("Y-m-d", $timestamp);
+				$report -> area_found = Input::get('area');
+				$report -> location_id = Auth::user()->location->id;
+				$report -> ip_address = Request::getClientIp();
+				$report -> is_confirmed = 0;
+				$report -> method_id = Input::get('method');
+				$report -> save();
+			}
+				
+			//Get Unconfirm Report
+			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
+			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
+			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
+			return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 		}
-		else{
-			echo Input::get('item');
-			$report = new Report;
-			$report -> item_id = Input::get('item');
-			if(Input::get('before') == "yes")
-				$report -> found_at_id = 1;
-			else if(Input::get('before') == "no")
-				$report -> found_at_id = 2;
-			$report -> qty = Input::get('qty');	
-			$report -> category_id = Item::find(Input::get('item'))->category_id;
-			$report -> found_date = date("Y-m-d", $timestamp);
-			$report -> note = Input::get('area');
-			$report -> location_id = Auth::user()->location->id;
-			$report -> ip_address = Request::getClientIp();
-			$report -> is_confirmed = 0;
-			$report -> save();
+
+	}
+	public function postConfirm()
+	{
+	//$location = Location::find(Auth::user()->location->id)->name;
+	$timestamp = strtotime(Input::get('date'));
+	$affectedRows = Report::where('is_confirmed', '=', 0)->where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->update(array('is_confirmed' => 1));
+	return Redirect::to('');
+	}
+	public function checkIfRecordExist()
+	{
+	    $itemId = Input::get('itemId');
+		$foundAt = Input::get('foundAt');
+		$area = Input::get('area');
+		$timestamp = strtotime(Input::get('date'));
+		$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->where('item_id','=',0)->get();
+		//$result = Report::whereRaw('found_date = '.date("Y-m-d", $timestamp).' and ((is_confirm = 1 and location_id = '.Auth::user()->location->id.' and  item_id = '.$itemId.') or ( item_id = 0))');
+		if(count($result) > 0)
+			return count($result);
+		else {
+			$result = Report::where('location_id','=',Auth::user()->location->id)
+			->where('found_date','=',date("Y-m-d", $timestamp))
+			->where('found_at_id','=',$foundAt)
+			->where('item_id','=',$itemId)
+			->where('area_found','=',$area)
+			->get();
+			return count($result);
 		}
-		//Get Unconfirm Report
-		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
-		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
-		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
-		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 	}
 	public function deleteData($reportId)
 	{
