@@ -200,10 +200,14 @@ class ReportController extends BaseController {
 			}
 		}
 	}
-	public function deleteData($reportId)
+	public function deleteData($reportId,$foundDate)
 	{
-		$date= date("d-m-Y", strtotime(Report::find($reportId)->found_date));
-		if(Auth::user()->location->id == Report::find($reportId)->location_id && Report::find($reportId)->is_confirmed == 0)	{
+		$date= date("d-m-Y", strtotime($foundDate));
+		$result = Report::where('id','=',$reportId)
+		->where('location_id','=',Auth::user()->location->id)
+		->where('is_confirmed','=',0)
+		->where('found_date','=',$foundDate)->get();
+		if(count($result)>0)	{
 			//Delete
 			Report::find($reportId) -> delete();
 			//Return to the add page
@@ -211,10 +215,7 @@ class ReportController extends BaseController {
 			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
 			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
 			return View::make('report/add_data',compact('date'));
-			//return Redirect::to('report/add')->withInput();
-			
-			
-			
+			//return Redirect::to('report/add')->withInput();	
 		}			
 		else{
 			//Not allowed to delete

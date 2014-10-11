@@ -40,7 +40,7 @@
 					{{Method::find($value->method_id)->name}}  
 				</td>			
 				<td>
-					{{ HTML::link(URL::to('report/delete/'.$value->id), 'Remove')}}
+					{{ HTML::link(URL::to('report/delete/'.$value->id.'/'.$value->found_date), 'Remove')}}
 				</td>
 					
 			</tr>
@@ -90,7 +90,7 @@
 						{{Method::find($value->method_id)->name}}  
 				</td>
 				<td>
-					{{ HTML::link(URL::to('report/delete/'.$value->id), 'Remove')}}
+					{{ HTML::link(URL::to('report/delete/'.$value->id.'/'.$value->found_date), 'Remove')}}
 				</td>
 				
 			</tr>
@@ -133,7 +133,7 @@
 					{{$value->area_found}}
 				</td>
 				<td>
-					{{ HTML::link(URL::to('report/delete/'.$value->id), 'Remove')}}
+					{{ HTML::link(URL::to('report/delete/'.$value->id.'/'.$value->found_date), 'Remove')}}
 				</td>
 			</tr>
 		@endforeach

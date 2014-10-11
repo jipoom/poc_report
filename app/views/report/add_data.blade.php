@@ -16,7 +16,7 @@
 	<table border="1" style="width:100%">
 		<tr>
 			<td>
-				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', 'true',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
+				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),Input::old('',(isset($date))? $date : date('d-m-Y')),array('id'=>'item')) }} {{Form::text('qty')}} หน่วย  
 				{{$errors->first('qty', ':message')}}</p>
 				<p>บริเวณที่พบ: {{Form::text('area','',array('id'=>'area'))}}  </p>
