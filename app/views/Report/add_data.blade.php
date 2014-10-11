@@ -7,7 +7,7 @@
 {{ Form::open(array('url'=>'report/add', 'class'=>'form-signup', 'id'=>'infoForm')) }}
 <p>วิธีการจู่โจม
 {{ Form::select('method', Method::getArray()) }}</p>
-<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{isset($date) ? $date : date('d-m-Y')}}"> </p>
+<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m-Y'))}}"> </p>
 <p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ</p>
 <div id='showButton' style="display: none">
 <input type="button" onclick="needMoreDetail()" value="เพิ่มบันทึก">
