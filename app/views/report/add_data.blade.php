@@ -28,21 +28,20 @@
 	</div>
 {{ Form::close() }}
 	
-	{{ Form::open(array('url'=>'report/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}	
-	<!-- CSRF Token -->
-	<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
-	<!-- ./ csrf token -->
+
+	
 	<div id="data">
 
 	</div>
-	{{ Form::close() }}
-	<input type="button" onclick="confirmForm()" value="ยืนยัน">
+	
+	
 	
 @stop
 @section('scripts')
 		<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
  		<script>
+ 		// Get unconfirmed data
 		function getUnconfirmedData(){
 			var date = $("#found_date").val();
 
@@ -61,7 +60,7 @@
 			xmlhttp.send();
 			
 		}	  
-			
+		  // bring up detail form	
 		  function needMoreDetail() {
 		    if($('#found').is(':checked')){
 
@@ -75,6 +74,7 @@
             }
 		    
 		  }
+		  // ยืนยัน
 		  function confirmForm() {
 		  	if($('#not_found').is(':checked')){
                 //checkIfExist bofore proceeding
@@ -101,12 +101,13 @@
             	}
 		   
 		  }
+		  //บันทึกแต่ยังไม่ ยืนยัน
 		  function save() {
 		  		date = $('#found_date').val();
                 itemId = $('#item').val();
                 itemName =  $('#item').attr("name");
                 area =  $('#area').val();
-  
+  			 	// Check if user has selected foundAt
                 if($('#before').is(':checked')){
 	            	isPassed = true;
 	            	foundAt = $('#before').attr("value");
@@ -119,11 +120,12 @@
 	            	isPassed = false;
 				 	alert('กรุณาเลือก สถานที่พบเจอสิ่งของต้องห้าม')
 				} 
-		  		//checkIfExist bofore proceeding
+		  		//if above conditions hold
 		  		if(isPassed == true)
 		  		{
 			  		if(testQty() == true)
 			  		{
+				  		//check if a record exists bofore proceeding
 				  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area) == true){
 							document.getElementById("infoForm").submit();
 						}
@@ -134,6 +136,7 @@
 					}
 				}  
 		  }
+		  // Validate qty value
 		  function testQty(){
 		  	var str = $('#qty').val();;
 			var patt = /^(([0-9]+[.][0-9]+)|[0-9]+)$/;
@@ -153,26 +156,31 @@
 		  }
 		  
 		  $(document).ready(function(){
+            
             if($('#found').is(':checked')){
             	 $("#showButton").show();
             	 $("#detail").show();
             }
             
-			   		
+            // Default confirm(notfound) hide
+			$("#confirmButton2").hide();   		
 			
 			   
-            
+            //กดไม่พบ
             $('#not_found').click(function(){
             if($('#not_found').attr("value")=="no"){
-                //$("#insert").show();
+                $("#confirmButton2").show();
+                $("#confirmButton1").hide();
                 $("#showButton").hide();
                 $("#detail").hide();
             }
             });
-            
+            //กดพบ
             $('#found').click(function(){
             if($('#found').attr("value")=="yes"){
                // $("#insert").show();
+                $("#confirmButton2").hide(); 
+                $("#confirmButton1").show();  
                 $("#showButton").show();
                 //$("#detail").show();
             }
@@ -180,6 +188,7 @@
             getUnconfirmedData();
             
 		  });
+		  // If users select a prohibited item then display the right unit
 		  $(function(){
 			   $('#item').change(function(e) {
 			   		var itemId = $("#item").val();

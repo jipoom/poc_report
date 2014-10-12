@@ -79,8 +79,8 @@ class ReportController extends BaseController {
 	{
 			
 		$location = Auth::user()->location->name;
-		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date('d-M-Y'))->get();
-		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date('d-M-Y'))->get();
+		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date('Y-m-d'))->get();
+		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date('Y-m-d'))->get();
 		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
 		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound' ));
 	}
@@ -236,7 +236,7 @@ class ReportController extends BaseController {
 			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
 			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
 			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
-			return View::make('report/add_data',compact('date'));
+			return View::make('report/add_data',compact('date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 			//return Redirect::to('report/add')->withInput();	
 		}			
 		else{

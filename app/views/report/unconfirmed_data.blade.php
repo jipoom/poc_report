@@ -1,6 +1,10 @@
-
+{{ Form::open(array('url'=>'report/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}	
+	<!-- CSRF Token -->
+	<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+	<!-- ./ csrf token -->
 	@if(count($unconfirmInsideReport)>0)
 	พบภายในเรือนจำ
+	
 	<table border="1" style="width:100%">
 		<tr>			
 				<td>
@@ -139,3 +143,8 @@
 		@endforeach
 	</table>
 	@endif
+    @if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
+		<input type="button" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน">
+	@endif
+	<input type="button" id ="confirmButton2" style="display: none" onclick="confirmForm()" value="ยืนยัน">
+	{{ Form::close() }}
