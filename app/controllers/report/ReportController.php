@@ -87,7 +87,7 @@ class ReportController extends BaseController {
 	public function postAddData()
 	{
 			
-		$rules = array('qty' => 'regex:/^[0-9][.]*[0-9]*$/', 
+		$rules = array('qty' => array('regex:/^(([0-9]+[.][0-9]+)|[0-9]+)$/'), 
 		'isFound'=>'required'
 		);
 	
@@ -179,6 +179,14 @@ class ReportController extends BaseController {
 		return View::make('report/unconfirmed_data',compact('unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 		
 	}
+	
+	public function getUnit($itemId)
+	{
+		$unit = Item::find($itemId)->unit;	
+		return $unit;
+		
+	}
+	
 	public function postConfirm()
 	{
 		//$location = Location::find(Auth::user()->location->id)->name;

@@ -17,7 +17,7 @@
 		<tr>
 			<td>
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
-				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),Input::old('',(isset($date))? $date : date('d-m-Y')),array('id'=>'item')) }} {{Form::text('qty')}} หน่วย  
+				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('qty','',array('id'=>'qty'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
 				<p>บริเวณที่พบ: {{Form::text('area','',array('id'=>'area'))}}  </p>
 				<input type="button" onclick="save()" value="บันทึก">
@@ -60,10 +60,11 @@
 					xmlhttp.open("GET", "{{{ URL::to('report/unconfirmedData') }}}/" + date, true);
 			xmlhttp.send();
 			
-		}	 
+		}	  
 			
 		  function needMoreDetail() {
 		    if($('#found').is(':checked')){
+
             	$("#insert").hide();
                 $("#detail").show();
             }
@@ -89,6 +90,7 @@
             }
             else if($('#found').is(':checked')){
 				 //chage is_confirmed to 1
+
 				 date = $('#found_date').val();
 	             $('#confirmForm').append('<input type="hidden" name="date" value="'+date+'"/>');
 	             document.getElementById("confirmForm").submit();  
@@ -120,10 +122,22 @@
 		  		//checkIfExist bofore proceeding
 		  		if(isPassed == true)
 		  		{
-			  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area) == true){
-						document.getElementById("infoForm").submit();
-					}	 
+			  		if(testQty() == true)
+			  		{
+				  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area) == true){
+							document.getElementById("infoForm").submit();
+						}
+					}
+					else
+					{
+						alert('กรุณากรอกปริมาณสิ่งของต้องห้ามให้ถูกต้อง')
+					}
 				}  
+		  }
+		  function testQty(){
+		  	var str = $('#qty').val();;
+			var patt = /^(([0-9]+[.][0-9]+)|[0-9]+)$/;
+			return patt.test(str);
 		  }
 		  function checkIfRecordExist(date,itemId,itemName,foundAt){
 		     	var result = $.ajax({
@@ -137,11 +151,17 @@
 		      	else
 		      		return confirm("ข้อมูลได้ถูกใส่ลงในฐานข้อมูลแล้ว ท่านต้องการจะอัพเดทหรือไม่");
 		  }
+		  
 		  $(document).ready(function(){
             if($('#found').is(':checked')){
             	 $("#showButton").show();
             	 $("#detail").show();
             }
+            
+			   		
+			
+			   
+            
             $('#not_found').click(function(){
             if($('#not_found').attr("value")=="no"){
                 //$("#insert").show();
@@ -160,6 +180,29 @@
             getUnconfirmedData();
             
 		  });
+		  $(function(){
+			   $('#item').change(function(e) {
+			   		var itemId = $("#item").val();
+
+					if (window.XMLHttpRequest) {
+						// code for IE7+, Firefox, Chrome, Opera, Safari
+						xmlhttp = new XMLHttpRequest();
+					} else {// code for IE6, IE5
+						xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+					}
+					xmlhttp.onreadystatechange = function() {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+							document.getElementById("unit").innerHTML = xmlhttp.responseText;
+						}
+					}
+					xmlhttp.open("GET", "{{{ URL::to('report/getunit') }}}/" + itemId, true);
+			xmlhttp.send();
+			
+			
+			   });
+			   
+			});
+				
 		  $(function() {
 		    $("#found_date").datepicker({ dateFormat: 'dd-mm-yy',isBuddhist: true });
 		  });

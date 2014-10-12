@@ -28,6 +28,7 @@ Route::group(array('prefix' => 'report'), function()
 	Route::post('confirm', array('before' => 'csrf', 'uses' => 'ReportController@postConfirm'));
 	Route::get('unconfirmedData/{date}','ReportController@getUnconfirmedData');
 	Route::get('exist', 'ReportController@checkIfRecordExist');
+	Route::get('getunit/{itemId}','ReportController@getUnit');
 	Route::get('create', 'ReportController@getCreate');
 	Route::post('create', 'ReportController@postCreate');
 	Route::get('view', 'ReportController@getView');
