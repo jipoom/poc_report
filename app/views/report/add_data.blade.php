@@ -8,7 +8,7 @@
 <p>วิธีการจู่โจม
 {{ Form::select('method', Method::getArray()) }}</p>
 <p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m-Y'))}}"> </p>
-<p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ</p>
+<p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ  {{{ $errors->first('isFound', ':message') }}}</p>
 <div id='showButton' style="display: none">
 <input type="button" onclick="needMoreDetail()" value="เพิ่มบันทึก">
 </div>
@@ -18,7 +18,7 @@
 			<td>
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),Input::old('',(isset($date))? $date : date('d-m-Y')),array('id'=>'item')) }} {{Form::text('qty')}} หน่วย  
-				{{$errors->first('qty', ':message')}}</p>
+				 {{$errors->first('qty', ':message')}}</p>
 				<p>บริเวณที่พบ: {{Form::text('area','',array('id'=>'area'))}}  </p>
 				<input type="button" onclick="save()" value="บันทึก">
 			</td>
@@ -87,13 +87,16 @@
 					document.getElementById("infoForm").submit();
 				}
             }
-            else {
-            	//$("#insert").hide();
-                //$("#detail").show();
-                date = $('#found_date').val();
-                $('#confirmForm').append('<input type="hidden" name="date" value="'+date+'"/>');
-                document.getElementById("confirmForm").submit(); 
+            else if($('#found').is(':checked')){
+				 //chage is_confirmed to 1
+				 date = $('#found_date').val();
+	             $('#confirmForm').append('<input type="hidden" name="date" value="'+date+'"/>');
+	             document.getElementById("confirmForm").submit();  
             }
+            else
+            	{
+            		alert('กรุณาเลือก พบหรือไม่พบ')
+            	}
 		   
 		  }
 		  function save() {
@@ -103,15 +106,24 @@
                 area =  $('#area').val();
   
                 if($('#before').is(':checked')){
+	            	isPassed = true;
 	            	foundAt = $('#before').attr("value");
 	            }
-	            if($('#after').is(':checked')){
+	            else if($('#after').is(':checked')){
+	            	isPassed = true;
 	            	foundAt = $('#after').attr("value");
-	            } 
+	            }
+	            else{
+	            	isPassed = false;
+				 	alert('กรุณาเลือก สถานที่พบเจอสิ่งของต้องห้าม')
+				} 
 		  		//checkIfExist bofore proceeding
-		  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area) == true){
-					document.getElementById("infoForm").submit();
-				}	   
+		  		if(isPassed == true)
+		  		{
+			  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area) == true){
+						document.getElementById("infoForm").submit();
+					}	 
+				}  
 		  }
 		  function checkIfRecordExist(date,itemId,itemName,foundAt){
 		     	var result = $.ajax({
