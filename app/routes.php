@@ -10,7 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::group(array('prefix' => 'report'), function()
+Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
 	Route::get('stand_alone', 'ReportController@showStandAlone');
@@ -29,8 +29,8 @@ Route::group(array('prefix' => 'report'), function()
 	Route::get('unconfirmedData/{date}','ReportController@getUnconfirmedData');
 	Route::get('exist', 'ReportController@checkIfRecordExist');
 	Route::get('getunit/{itemId}','ReportController@getUnit');
-	Route::get('create', 'ReportController@getCreate');
-	Route::post('create', 'ReportController@postCreate');
+	//Route::get('create', 'ReportController@getCreate');
+	//Route::post('create', 'ReportController@postCreate');
 	Route::get('view', 'ReportController@getView');
 	
 	

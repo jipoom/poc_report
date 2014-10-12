@@ -66,7 +66,7 @@
         </div>
         <script src="{{asset('assets/js/jquery-1.11.1.min.js')}}"></script>
         <script src="{{asset('assets/js/jquery.simple-dtpicker.js')}}"></script>
-       
+        <script src="{{asset('assets/js/jquery-ui.js')}}"></script> <!--1.11.1-->
         
         	
         @yield('scripts')
