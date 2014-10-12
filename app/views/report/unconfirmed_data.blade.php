@@ -143,8 +143,10 @@
 		@endforeach
 	</table>
 	@endif
+	<!-- this button is showned when found is selected and hidden when not_found is selected-->
     @if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
 		<input type="button" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน">
 	@endif
+	<!-- this button is showned when not_found is selected and hidden when found is selected-->
 	<input type="button" id ="confirmButton2" style="display: none" onclick="confirmForm()" value="ยืนยัน">
 	{{ Form::close() }}
