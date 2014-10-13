@@ -7,7 +7,8 @@
 {{ Form::open(array('url'=>'report/add', 'class'=>'form-signup', 'id'=>'infoForm')) }}
 <p>วิธีการจู่โจม
 {{ Form::select('method', Method::getArray()) }}</p>
-<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m-Y'))}}"> </p>
+
+<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> </p>
 <p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ  {{{ $errors->first('isFound', ':message') }}}</p>
 <div id='showButton' style="display: none">
 <input type="button" onclick="needMoreDetail()" value="เพิ่มบันทึก">
@@ -212,17 +213,17 @@
 			   
 			});
 				
-		  $(function() {
+		  /*$(function() {
 		    $("#found_date").datepicker({ dateFormat: 'dd-mm-yy',isBuddhist: true });
-		  });
-		  /*$(function () {
+		  });*/
+		  $(function () {
 		    var d = new Date();
 		    var toDay = d.getDate() + '/'
         + (d.getMonth() + 1) + '/'
         + (d.getFullYear() + 543);
 
 				// Datepicker
-		    $("#found_date").datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: true, defaultDate: toDay, dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+		    $("#found_date").datepicker({ dateFormat: 'dd-mm-yy', isBuddhist: true, defaultDate: toDay, dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
               dayNamesMin: ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'],
               monthNames: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
               monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
@@ -232,7 +233,7 @@
               monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
 			  $("#datepicker-en").datepicker({ dateFormat: 'dd/mm/yy'});
 			  $("#inline").datepicker({ dateFormat: 'dd/mm/yy', inline: true });
-			});*/
+			});
 
 		  </script>
 @stop

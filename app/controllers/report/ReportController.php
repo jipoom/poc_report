@@ -82,7 +82,8 @@ class ReportController extends BaseController {
 		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date('Y-m-d'))->get();
 		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date('Y-m-d'))->get();
 		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
-		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound' ));
+		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;
+		return View::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','buddhistYear' ));
 	}
 	public function postAddData()
 	{
@@ -90,7 +91,7 @@ class ReportController extends BaseController {
 		$rules = array('qty' => array('regex:/^(([0-9]+[.][0-9]+)|[0-9]+)$/'), 
 		'isFound'=>'required'
 		);
-	
+		
 		// Validate the inputs
 		$validator = Validator::make(Input::all(), $rules);
 		
@@ -98,8 +99,8 @@ class ReportController extends BaseController {
 		if ($validator -> passes()) {	
 			$location = Location::find(Auth::user()->location->id)->name;
 			//Insert Data into DB set confirmation bit to 0
-			$date = Input::get('date');
-			$timestamp = strtotime(Input::get('date'));
+			$date = Report::convertYearBtoC(Input::get('date'));
+			$timestamp = strtotime($date);
 			if(Input::get('isFound') == "no")
 			{
 				//delete old data
@@ -172,7 +173,8 @@ class ReportController extends BaseController {
 	}
 	public function getUnconfirmedData($date)
 	{
-		$timestamp = strtotime($date);	
+		$date = Report::convertYearBtoC($date);	
+		$timestamp = strtotime($date);
 		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
@@ -236,6 +238,7 @@ class ReportController extends BaseController {
 			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
 			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
 			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
+			$date = Report::convertYearCtoB($date);
 			return View::make('report/add_data',compact('date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 			//return Redirect::to('report/add')->withInput();	
 		}			

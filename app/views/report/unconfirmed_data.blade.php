@@ -32,7 +32,7 @@
 					{{Item::find($value->item_id)->name}}
 				</td>	
 				<td>
-					{{date("d-m-Y", strtotime($value->found_date))}}
+					{{Report::convertYearCtoB(date("d-m-Y", strtotime($value->found_date)))}}
 				</td>
 				<td>
 					{{$value->qty}} {{Item::find($value->item_id)->unit}}
@@ -82,7 +82,7 @@
 					{{Item::find($value->item_id)->name}}
 				</td>
 				<td>
-					{{date("d-m-Y", strtotime($value->found_date))}}
+					{{Report::convertYearCtoB(date("d-m-Y", strtotime($value->found_date)))}}
 				</td>
 				<td>
 					{{$value->qty}} {{Item::find($value->item_id)->unit}}
@@ -128,7 +128,7 @@
 				</td>
 				<td>
 					
-					{{date("d-m-Y", strtotime($value->found_date))}}
+					{{Report::convertYearCtoB(date("d-m-Y", strtotime($value->found_date)))}}
 				</td>	
 				<td>
 					{{$value->qty}} {{Item::find($value->item_id)->unit}}
