@@ -65,14 +65,28 @@ class ReportController extends BaseController {
 	}
 	public function export()
 	{
-		$threat = Threat::all();
 
-		$threat_array = (array)$threat->toArray();
-
-		Excel::create('POC')
-		-> sheet('Threat_Report')
-		-> with($threat_array)
-		-> export('xlsx');
+		
+		/*$users = UserService::findAllPublic();
+        $total = UserService::count();
+        $total_with_photo = UserService::countWithPhoto();
+        Excel::create('excelfile', function($excel) use ($users, $total, $total_with_photo) {
+            $excel->sheet('Excel', function($sheet) use ($users, $total, $total_with_photo) {
+                $sheet->loadView('report.excel')->with("users", $users)->with("total", $total)->with("total_with_photo", $total_with_photo);
+            });
+        })->export('xls');*/
+		 $date= date("Y-m-d", strtotime("3-10-2014"));	
+		 $threat = DB::table('report')->select('item_id', DB::raw('SUM(qty) as sum'))->groupBy('item_id')->get();
+		 $itemFounds = array();
+		 foreach($threat as $t){
+			$itemFounds = array_add($itemFounds, $t->item_id, $t->sum);
+		 }
+		 
+		 Excel::create('excelfile', function($excel)  {
+            $excel->sheet('Excel', function($sheet) {
+                $sheet->loadView('table.test');
+            });
+        })->export('xls');
 	}
 	
 	public function getAddData()

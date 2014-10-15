@@ -27,8 +27,7 @@ Stand Alone
 
 @section('scripts')
  <!-- load Google AJAX API -->
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-		<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript">
             //load the Google Visualization API and the chart
