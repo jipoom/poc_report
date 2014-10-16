@@ -5,10 +5,11 @@
 @section("content")
 
 {{ Form::open(array('url'=>'report/add', 'class'=>'form-signup', 'id'=>'infoForm')) }}
+<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> </p>
+
 <p>วิธีการจู่โจม
 {{ Form::select('method', Method::getArray()) }}</p>
 
-<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> </p>
 <p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ  {{{ $errors->first('isFound', ':message') }}}</p>
 <div id='showButton' style="display: none">
 <input type="button" onclick="needMoreDetail()" value="เพิ่มบันทึก">
