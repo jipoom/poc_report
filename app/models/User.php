@@ -31,5 +31,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->belongsTo('Location', 'location_id');
 	}
+	public static function add($username,$pwd,$location){
+		$user = new User;
+		$user->username	= $username;
+		$user->password	= Hash::make($pwd);
+		$user->location_id = Location::where('name','=',$location)->first()->id;
+		$user->role_id = 3;
+		$user->save();
+	}
 
 }

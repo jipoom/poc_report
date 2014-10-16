@@ -45,6 +45,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 Route::group(array('prefix' => 'user'), function()
 {
 	Route::get('create', 'UserController@getCreate');
+	Route::get('bulk','UserController@getCreateBulkUsers');
 	Route::post('create', 'UserController@postCreate');
 	Route::get('login', 'UserController@getLogin');
 	Route::post('login', 'UserController@postLogin');

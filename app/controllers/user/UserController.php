@@ -69,5 +69,17 @@ class UserController extends BaseController {
 		Session::flush();
 		return Redirect::to('/')->with('message','You have logged out!!');		
 	}
+	public function getCreateBulkUsers(){
+		User::add('popsuri','calmvg','รจ.จ.ศรีสะเกษ');
+		User::add('popamna','7p5rkj','รจ.ก.สุรินทร์');
+		User::add('temsuri','bj46mv','รจ.ช.โคกตาปัน');
+		User::add('popamna','7p5rkj','รจ.จ.อำนาจเจริญ');
+		User::add('popubon','9kz4hj','รจ.ก.อุบลราชธานี');
+		User::add('aopyai','15gfuj','รจ.อ.บัวใหญ่');
+		User::add('idratta','e437jl','รจ.อ.รัตนบุรี');
+		User::add('aopkant','jpwuwm','รจ.อ.กันทรลักษ์');
+		User::add('fdcnakon','hu1g7v','ทส.ญ.นครราชสีมา');
+		//User::add('inctrad','bj46mv','สถานกักขังกลางจังหวัดตราด');
+	}
 
 }
