@@ -75,18 +75,16 @@ class ReportController extends BaseController {
                 $sheet->loadView('report.excel')->with("users", $users)->with("total", $total)->with("total_with_photo", $total_with_photo);
             });
         })->export('xls');*/
-		 $date= date("Y-m-d", strtotime("3-10-2014"));	
-		 $threat = DB::table('report')->select('item_id', DB::raw('SUM(qty) as sum'))->groupBy('item_id')->get();
-		 $itemFounds = array();
-		 foreach($threat as $t){
-			$itemFounds = array_add($itemFounds, $t->item_id, $t->sum);
+     	 $itemFound = Report::generateReportRow(2,"16-10-2014","16-10-2014");
+		 foreach($itemFound as $t){
+		 	echo $t;
 		 }
-		 
-		 Excel::create('excelfile', function($excel)  {
+	 
+		 /*Excel::create('excelfile', function($excel)  {
             $excel->sheet('Excel', function($sheet) {
                 $sheet->loadView('table.test');
             });
-        })->export('xls');
+        })->export('xls');*/
 	}
 	
 	public function getAddData()
