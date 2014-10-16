@@ -15,13 +15,13 @@ class UserController extends BaseController {
 	|
 	*/
 	public function getCreate(){
-		$locations = Location::all()->lists('name','id');	
+		$locations = Location::orderBy('name')->lists('name','id');	
 		return View::make('user/create',compact('locations'));
 	}
 	public function postCreate(){
 		$rules = array('username' => 'required|min:3|unique:users', 
-		'password'=>'required|alpha_num|between:6,12|confirmed',
-    	'password_confirmation'=>'required|alpha_num|between:6,12'
+		'password'=>'required|alpha_num|confirmed',
+    	'password_confirmation'=>'required|alpha_num'
 		);
 		
 
@@ -34,6 +34,7 @@ class UserController extends BaseController {
 			$user->username	= Input::get('username');
 			$user->password	= Hash::make(Input::get('password'));
 			$user->location_id = Input::get('location');
+			$user->role_id = 3;
 			$user->save();
 			return Redirect::to('/')->with('message', 'Create user succeeded');
 		}

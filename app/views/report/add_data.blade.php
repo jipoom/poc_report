@@ -22,6 +22,7 @@
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('qty','',array('id'=>'qty'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
 				<p>บริเวณที่พบ: {{Form::text('area','',array('id'=>'area'))}}  </p>
+				<p>เจ้าของ: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
 				<input type="button" onclick="save()" value="บันทึก">
 			</td>
 				
@@ -90,17 +91,13 @@
 					document.getElementById("infoForm").submit();
 				}
             }
-            else if($('#found').is(':checked')){
+            else{
 				 //chage is_confirmed to 1
 
 				 date = $('#found_date').val();
 	             $('#confirmForm').append('<input type="hidden" name="date" value="'+date+'"/>');
 	             document.getElementById("confirmForm").submit();  
             }
-            else
-            	{
-            		alert('กรุณาเลือก พบหรือไม่พบ')
-            	}
 		   
 		  }
 		  //บันทึกแต่ยังไม่ ยืนยัน

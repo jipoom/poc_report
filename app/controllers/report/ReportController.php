@@ -166,6 +166,7 @@ class ReportController extends BaseController {
 					$report -> location_id = Auth::user()->location->id;
 					$report -> ip_address = Request::getClientIp();
 					$report -> is_confirmed = 0;
+					$report -> item_owner = Input::get('owner');
 					$report -> method_id = Input::get('method');
 					$report -> save();
 				}
@@ -204,7 +205,8 @@ class ReportController extends BaseController {
 	public function postConfirm()
 	{
 		//$location = Location::find(Auth::user()->location->id)->name;
-		$timestamp = strtotime(Input::get('date'));
+		$date = Report::convertYearBtoC(Input::get('date'));	
+		$timestamp = strtotime($date);
 		$affectedRows = Report::where('is_confirmed', '=', 0)->where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->update(array('is_confirmed' => 1));
 		return Redirect::to('');
 	}
@@ -213,7 +215,8 @@ class ReportController extends BaseController {
 	    $itemId = Input::get('itemId');
 		$foundAt = Input::get('foundAt');
 		$area = Input::get('area');
-		$timestamp = strtotime(Input::get('date'));
+		$date = Report::convertYearBtoC(Input::get('date'));	
+		$timestamp = strtotime($date);
 		//$result = Report::whereRaw('found_date = '.date("Y-m-d", $timestamp).' and ((is_confirm = 1 and location_id = '.Auth::user()->location->id.' and  item_id = '.$itemId.') or ( item_id = 0))');
 		
 		if(Input::get('itemId')==0){
