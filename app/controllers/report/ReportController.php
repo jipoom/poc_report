@@ -217,6 +217,7 @@ class ReportController extends BaseController {
 		$area = Input::get('area');
 		$date = Report::convertYearBtoC(Input::get('date'));	
 		$timestamp = strtotime($date);
+		$owner = Input::get('itemOwner');
 		//$result = Report::whereRaw('found_date = '.date("Y-m-d", $timestamp).' and ((is_confirm = 1 and location_id = '.Auth::user()->location->id.' and  item_id = '.$itemId.') or ( item_id = 0))');
 		
 		if(Input::get('itemId')==0){
@@ -234,6 +235,7 @@ class ReportController extends BaseController {
 				->where('found_at_id','=',$foundAt)
 				->where('item_id','=',$itemId)
 				->where('area_found','=',$area)
+				->where('item_owner','=',$owner)
 				->get();
 				return count($result);
 			}

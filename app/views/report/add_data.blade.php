@@ -86,8 +86,9 @@
                 itemName = 'ไม่พบ';
                 foundAt =  0;
                 area = '';
+                itemOwner = '';
                 // Update DB
-				if(checkIfRecordExist(date,itemId,itemName,foundAt,area) == true){
+				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner) == true){
 					document.getElementById("infoForm").submit();
 				}
             }
@@ -106,6 +107,8 @@
                 itemId = $('#item').val();
                 itemName =  $('#item').attr("name");
                 area =  $('#area').val();
+                itemOwner = $('#owner').val();
+                
   			 	// Check if user has selected foundAt
                 if($('#before').is(':checked')){
 	            	isPassed = true;
@@ -125,7 +128,8 @@
 			  		if(testQty() == true)
 			  		{
 				  		//check if a record exists bofore proceeding
-				  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area) == true){
+				  		
+				  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner) == true){
 							document.getElementById("infoForm").submit();
 						}
 					}
@@ -141,10 +145,10 @@
 			var patt = /^(([0-9]+[.][0-9]+)|[0-9]+)$/;
 			return patt.test(str);
 		  }
-		  function checkIfRecordExist(date,itemId,itemName,foundAt){
+		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner){
 		     	var result = $.ajax({
 		          url: "{{URL::to('report/exist/')}}",
-		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area },
+		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner},
 		          dataType:"text",
 		          async: false
 		          }).responseText;
