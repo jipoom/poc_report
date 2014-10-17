@@ -70,20 +70,8 @@ class UserController extends BaseController {
 		return Redirect::to('/')->with('message','You have logged out!!');		
 	}
 	public function getCreateBulkUsers(){
-		User::add('poptran','nwq3zq','รจ.จ.ตรัง');
-		User::add('popnara','5dew3s','รจ.จ.นราธิวาส');
-		User::add('poppatt','v2whpd','รจ.ก.ปัตตานี');
-		User::add('coppata','jmdeau','รจ.ก.พัทลุง');
-		User::add('coppata1','f8n4zw','รจ.พ.พัทลุง');
-		User::add('odcbanna','bjmhry','ทส.ป.บ้านนาวง');
-		User::add('copyala','3uq2cy','รจ.ก.ยะลา');
-		User::add('aopbato','6e9wnt','รจ.อ.เบตง');
-		User::add('copsong','efrq8h','รจ.ก.สงขลา');
-		User::add('popsong','zt4yp5','รจ.จ.สงขลา');
-		User::add('fdcsong','zwf9sc','ทส.ญ.สงขลา');
-		User::add('tdcsong','88b2u4','ทส.บ.สงขลา');
-		User::add('popsatu','9qtexs','รจ.จ.สตูล');
-		User::add('aopnatv','aerb7v','รจ.อ.นาทวี');
+		User::add('poploei','c11rqz','รจ.จ.เลย');
+
 		//User::add('inctrad','bj46mv','สถานกักขังกลางจังหวัดตราด');
 	}
 
