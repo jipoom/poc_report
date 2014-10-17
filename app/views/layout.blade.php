@@ -16,7 +16,7 @@
 						<div class ="pull-right" >
 							
 							@if(Auth::check())
-								Logged in as {{Auth::user()->location->name}}
+								{{Auth::user()->location->fullname}}
 							@endif	
 				
 						</div>
