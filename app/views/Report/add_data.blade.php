@@ -22,7 +22,10 @@
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('qty','',array('id'=>'qty'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
 				<p>บริเวณที่พบ: {{Form::text('area','',array('id'=>'area'))}}  </p>
-				<p>เจ้าของ: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
+				<p>{{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} ระบุผู้ครบครอง  {{ Form::radio('hasOwner', 'no', '',array('id'=>'noOwner')) }}  ไม่ระบุผู้ครอบครอง</p>
+				<div id='owner_area' style="display: none">
+					<p>ผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
+				</div>
 				<input type="button" onclick="save()" value="บันทึก">
 			</td>
 				
@@ -165,6 +168,8 @@
             	 $("#detail").show();
             }
             
+           
+            
             // Default confirm(notfound) hide
 			$("#confirmButton2").hide();   		
 			
@@ -188,6 +193,23 @@
                 //$("#detail").show();
             }
             });
+            
+             //กดไม่พบ
+            $('#hasOwner').click(function(){
+            if($('#hasOwner').attr("value")=="yes"){
+                $("#owner_area").show();
+            }
+            });
+            //กดพบ
+            $('#noOwner').click(function(){
+            if($('#noOwner').attr("value")=="no"){
+               // $("#insert").show();
+                $("#owner_area").hide(); 
+
+                //$("#detail").show();
+            }
+            });
+            
             getUnconfirmedData();
             
 		  });
