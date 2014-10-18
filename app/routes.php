@@ -44,9 +44,9 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 
 Route::group(array('prefix' => 'user'), function()
 {
-	Route::get('create', 'UserController@getCreate');
-	Route::get('bulk','UserController@getCreateBulkUsers');
-	Route::post('create', 'UserController@postCreate');
+	//Route::get('create', 'UserController@getCreate');
+	//Route::get('bulk','UserController@getCreateBulkUsers');
+	//Route::post('create', 'UserController@postCreate');
 	Route::get('login', 'UserController@getLogin');
 	Route::post('login', 'UserController@postLogin');
 	Route::get('logout', 'UserController@getLogout');
@@ -54,5 +54,11 @@ Route::group(array('prefix' => 'user'), function()
 
 Route::get('/', function()
 {
-	return View::make('home');
+	if(Auth::check()){
+		return View::make('home');
+	}
+	else {
+		return View::make('user/login');
+	}	
+	
 });
