@@ -9,10 +9,11 @@
             <li>{{ $error }}</li>
         @endforeach
     </ul>
-    
+    <div class="container" style="width: 190px">	
  	{{ Form::text('username', null, array('class'=>'input-block-level', 'placeholder'=>'Username'))}} <p></p>
     {{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }} <p></p>
     {{ Form::submit('Login', array('class'=>'btn btn-large btn-primary btn-block'))}}
+    </div>
     </center>
 {{ Form::close() }}
 @stop

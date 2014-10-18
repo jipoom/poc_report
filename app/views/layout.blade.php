@@ -12,16 +12,16 @@
     <body>
         <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
 				
-						
+				<div class="container">			
 						<div class ="pull-right" >
-							
+							<h3 style="color: #000000">
 							@if(Auth::check())
 								{{Auth::user()->location->fullname}}
-							@endif	
-				
+							@endif
+							</h3>
 						</div>
 						
-						
+				</div>		
 					
         	<div class="container">		
         		<div class="collapse navbar-collapse navbar-ex1-collapse">
