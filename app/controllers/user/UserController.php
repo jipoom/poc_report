@@ -70,8 +70,11 @@ class UserController extends BaseController {
 		return Redirect::to('/')->with('message','You have logged out!!');		
 	}
 	public function getCreateBulkUsers(){
-		User::add('poploei','c11rqz','รจ.จ.เลย');
-
+		//User::add('popnakn','czxsly','รจ.จ.นครนายก');
+		$user = User::where('username','=','popnakn')->first();
+		$user->password = Hash::make('czxsly');
+		$user->save();
+		
 		//User::add('inctrad','bj46mv','สถานกักขังกลางจังหวัดตราด');
 	}
 
