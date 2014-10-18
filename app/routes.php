@@ -11,8 +11,8 @@
 |
 */
 Route::get('report/unconfirmedData/{date}','ReportController@getUnconfirmedData');
-Route::get('getunit/{itemId}','ReportController@getUnit');
-
+Route::get('report/getunit/{itemId}','ReportController@getUnit');
+Route::get('report/item/need_other','ReportController@checkItemName');
 Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
