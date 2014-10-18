@@ -142,6 +142,7 @@ class ReportController extends BaseController {
 					
 				$report = Report::where('item_id','=',Input::get('item'))
 				->where('found_date','=',date("Y-m-d", $timestamp))
+				->where('found_at_id','=',Input::get('before'))
 				->where('area_found','=',Input::get('area'))
 				->where('location_id','=',Auth::user()->location->id)->first();
 				
@@ -166,8 +167,20 @@ class ReportController extends BaseController {
 					$report -> area_found = Input::get('area');
 					$report -> location_id = Auth::user()->location->id;
 					$report -> ip_address = Request::getClientIp();
-					$report -> is_confirmed = 0;
-					$report -> item_owner = Input::get('owner');
+					$report -> is_confirmed = 0;	
+					$report -> note = Input::get('note');	
+					if(Input::get('item') == Item::where('name','=','อื่นๆ')->first()->id){
+						$report -> other_item = Input::get('other');
+					}
+					else{
+						$report -> other_item = "";
+					}				
+					if(Input::get('hasOwner') == "yes"){
+						$report -> item_owner = Input::get('owner');
+					}
+					else{
+						$report -> item_owner = "";
+					}
 					$report -> khet_id = Auth::user()->location->khet_id;
 					$report -> method_id = Input::get('method');
 					$report -> save();
@@ -196,7 +209,11 @@ class ReportController extends BaseController {
 		return View::make('report/unconfirmed_data',compact('unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 		
 	}
-	
+	public function checkItemName(){
+		if(Item::find(Input::get('itemId'))->name == "อื่นๆ")
+			return 1;
+		return 0; 
+	}
 	public function getUnit($itemId)
 	{
 		$unit = Item::find($itemId)->unit;	
@@ -220,6 +237,7 @@ class ReportController extends BaseController {
 		$date = Report::convertYearBtoC(Input::get('date'));	
 		$timestamp = strtotime($date);
 		$owner = Input::get('itemOwner');
+		$other = Input::get('itemOther');
 		//$result = Report::whereRaw('found_date = '.date("Y-m-d", $timestamp).' and ((is_confirm = 1 and location_id = '.Auth::user()->location->id.' and  item_id = '.$itemId.') or ( item_id = 0))');
 		
 		if(Input::get('itemId')==0){
@@ -238,6 +256,7 @@ class ReportController extends BaseController {
 				->where('item_id','=',$itemId)
 				->where('area_found','=',$area)
 				->where('item_owner','=',$owner)
+				->where('other_item','=',$other)
 				->get();
 				return count($result);
 			}

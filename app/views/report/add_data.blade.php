@@ -19,13 +19,14 @@
 		<tr>
 			<td>
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
-				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('qty','',array('id'=>'qty'))}} <label id ="unit"> เม็ด</label>  
+				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
 				<p>บริเวณที่พบ: {{Form::text('area','',array('id'=>'area'))}}  </p>
-				<p>{{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} ระบุผู้ครบครอง  {{ Form::radio('hasOwner', 'no', '',array('id'=>'noOwner')) }}  ไม่ระบุผู้ครอบครอง</p>
+				<p>{{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} ระบุผู้ครบครอง  {{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }}  ไม่ระบุผู้ครอบครอง</p>
 				<div id='owner_area' style="display: none">
 					<p>ผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
 				</div>
+				<p>หมายเหตุ: {{ Form::textarea('note', null, array('class'=>'form-control'))}}  </p>
 				<input type="button" onclick="save()" value="บันทึก">
 			</td>
 				
@@ -90,8 +91,9 @@
                 foundAt =  0;
                 area = '';
                 itemOwner = '';
+                itemOther = '';
                 // Update DB
-				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner) == true){
+				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner,itemOther) == true){
 					document.getElementById("infoForm").submit();
 				}
             }
@@ -111,6 +113,7 @@
                 itemName =  $('#item').attr("name");
                 area =  $('#area').val();
                 itemOwner = $('#owner').val();
+                itemOther = $('#other').val();
                 
   			 	// Check if user has selected foundAt
                 if($('#before').is(':checked')){
@@ -132,7 +135,7 @@
 			  		{
 				  		//check if a record exists bofore proceeding
 				  		
-				  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner) == true){
+				  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner,itemOther) == true){
 							document.getElementById("infoForm").submit();
 						}
 					}
@@ -148,10 +151,10 @@
 			var patt = /^(([0-9]+[.][0-9]+)|[0-9]+)$/;
 			return patt.test(str);
 		  }
-		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner){
+		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner,itemOther){
 		     	var result = $.ajax({
 		          url: "{{URL::to('report/exist/')}}",
-		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner},
+		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner,itemOther:itemOther},
 		          dataType:"text",
 		          async: false
 		          }).responseText;
@@ -213,11 +216,29 @@
             getUnconfirmedData();
             
 		  });
+		  
+		  function checkItemOther(itemId){
+		  	var result = $.ajax({
+		          url: "{{URL::to('report/item/need_other')}}",
+		          data : { itemId : itemId},
+		          dataType:"text",
+		          async: false
+		          }).responseText;
+		      	if(result=="1")
+					$("#other").show(); 
+				else
+		      		$("#other").hide();
+		      		// enable textbox
+		      	
+		  }
+		  
 		  // If users select a prohibited item then display the right unit
 		  $(function(){
 			   $('#item').change(function(e) {
 			   		var itemId = $("#item").val();
+					checkItemOther(itemId);
 
+					
 					if (window.XMLHttpRequest) {
 						// code for IE7+, Firefox, Chrome, Opera, Safari
 						xmlhttp = new XMLHttpRequest();
