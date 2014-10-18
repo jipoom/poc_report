@@ -124,10 +124,10 @@ class ReportController extends BaseController {
 				$report -> qty = 0;
 				$report -> category_id = 0;
 				$report -> found_date = date("Y-m-d", $timestamp);
-				$report -> area_found = Input::get('area');
+				$report -> area_id = 0;
 				$report -> location_id = Auth::user()->location->id;
 				$report -> ip_address = Request::getClientIp();
-				$report -> khet_id = 0;
+				$report -> khet_id = 0;	
 				$report -> is_confirmed = 1;
 				$report -> method_id = 0;
 				$report -> save();
@@ -141,9 +141,11 @@ class ReportController extends BaseController {
 	
 					
 				$report = Report::where('item_id','=',Input::get('item'))
+				
 				->where('found_date','=',date("Y-m-d", $timestamp))
 				->where('found_at_id','=',Input::get('before'))
-				->where('area_found','=',Input::get('area'))
+				->where('area_id','=',Input::get('area'))
+				->where('item_owner','=',Input::get('owner'))
 				->where('location_id','=',Auth::user()->location->id)->first();
 				
 				//Update
@@ -152,6 +154,7 @@ class ReportController extends BaseController {
 					$updatedReport = Report::find($report->id);
 					$updatedReport->qty = Input::get('qty');
 					$updatedReport->is_confirmed = 0;
+					$updatedReport->method_id=Input::get('method');
 					$updatedReport->ip_address = Request::getClientIp();		
 					$updatedReport->save();
 				}
@@ -164,7 +167,7 @@ class ReportController extends BaseController {
 					$report -> qty = Input::get('qty');
 					$report -> category_id = Item::find(Input::get('item'))->category_id;
 					$report -> found_date = date("Y-m-d", $timestamp);
-					$report -> area_found = Input::get('area');
+					$report -> area_id = Input::get('area');
 					$report -> location_id = Auth::user()->location->id;
 					$report -> ip_address = Request::getClientIp();
 					$report -> is_confirmed = 0;	
@@ -208,6 +211,10 @@ class ReportController extends BaseController {
 		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
 		return View::make('report/unconfirmed_data',compact('unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 		
+	}
+	public function loadAreaOption($foundAt){
+		$form = "บริเวณที่พบ: ".Form::select('area', Area::where('found_at_id','=',$foundAt)->lists('name','id'),"",array('id'=>'area'));
+		return $form;
 	}
 	public function checkItemName(){
 		if(Item::find(Input::get('itemId'))->name == "อื่นๆ")
@@ -254,7 +261,7 @@ class ReportController extends BaseController {
 				->where('found_date','=',date("Y-m-d", $timestamp))
 				->where('found_at_id','=',$foundAt)
 				->where('item_id','=',$itemId)
-				->where('area_found','=',$area)
+				->where('area_id','=',$area)
 				->where('item_owner','=',$owner)
 				->where('other_item','=',$other)
 				->get();

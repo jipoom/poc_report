@@ -21,8 +21,10 @@
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
-				<p>บริเวณที่พบ: {{Form::text('area','',array('id'=>'area'))}}  </p>
+				<div id='area_found'>
+				</div>
 				<p>{{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} ระบุผู้ครบครอง  {{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }}  ไม่ระบุผู้ครอบครอง</p>
+				
 				<div id='owner_area' style="display: none">
 					<p>ผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
 				</div>
@@ -164,6 +166,8 @@
 		      		return confirm("ข้อมูลได้ถูกใส่ลงในฐานข้อมูลแล้ว ท่านต้องการจะอัพเดทหรือไม่");
 		  }
 		  
+		  
+		  
 		  $(document).ready(function(){
             
             if($('#found').is(':checked')){
@@ -171,7 +175,22 @@
             	 $("#detail").show();
             }
             
-           
+            function loadAreaOptions(found_at_id){
+					
+				if (window.XMLHttpRequest) {
+					// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp = new XMLHttpRequest();
+				} else {// code for IE6, IE5
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						document.getElementById("area_found").innerHTML = xmlhttp.responseText;
+					}
+				}
+				xmlhttp.open("GET", "{{{ URL::to('report/area_option') }}}/"+found_at_id, true);
+				xmlhttp.send();
+            }
             
             // Default confirm(notfound) hide
 			$("#confirmButton2").hide();   		
@@ -210,6 +229,20 @@
                 $("#owner_area").hide(); 
 
                 //$("#detail").show();
+            }
+            });
+            
+            $('#before').click(function(){
+            if($('#before').attr("value")=="1"){
+                //load preentering options
+                loadAreaOptions(1);    
+            }
+            });
+            //กดพบ
+            $('#after').click(function(){
+            if($('#after').attr("value")=="2"){
+                //load postentering options
+                loadAreaOptions(2);
             }
             });
             

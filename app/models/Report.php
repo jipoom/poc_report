@@ -12,6 +12,10 @@ class Report extends Eloquent {
 	{
 		return $this->belongTo('Method','method_id');
 	}
+	public function area()
+	{
+		return $this->belongTo('Area','area_id');
+	}
 	public function found_at()
 	{
 		return $this->belongTo('FoundAt','found_at_id');
