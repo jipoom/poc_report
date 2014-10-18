@@ -127,6 +127,7 @@ class ReportController extends BaseController {
 				$report -> area_found = Input::get('area');
 				$report -> location_id = Auth::user()->location->id;
 				$report -> ip_address = Request::getClientIp();
+				$report -> khet_id = 0;
 				$report -> is_confirmed = 1;
 				$report -> method_id = 0;
 				$report -> save();
@@ -167,6 +168,7 @@ class ReportController extends BaseController {
 					$report -> ip_address = Request::getClientIp();
 					$report -> is_confirmed = 0;
 					$report -> item_owner = Input::get('owner');
+					$report -> khet_id = Auth::user()->location->khet_id;
 					$report -> method_id = Input::get('method');
 					$report -> save();
 				}
