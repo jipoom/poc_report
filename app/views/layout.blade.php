@@ -11,8 +11,8 @@
 	</head>
     <body>
         <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
-				<div class="container">
-						<h1>POC REPORT</h1>
+				
+						
 						<div class ="pull-right" >
 							
 							@if(Auth::check())
@@ -22,7 +22,7 @@
 						</div>
 						
 						
-					</div>
+					
         	<div class="container">		
         		<div class="collapse navbar-collapse navbar-ex1-collapse">
 						<ul class="nav navbar-nav">
