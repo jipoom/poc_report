@@ -19,11 +19,11 @@
 		<tr>
 			<td>
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
-				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty'))}} <label id ="unit"> เม็ด</label>  
+				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
 				<div id='area_found'>
 				</div>
-				<p>{{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} ระบุผู้ครบครอง  {{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }}  ไม่ระบุผู้ครอบครอง</p>
+				<p>{{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} ระบุผู้ครอบครอง  {{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }}  ไม่ระบุผู้ครอบครอง</p>
 				
 				<div id='owner_area' style="display: none">
 					<p>ผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  </p>

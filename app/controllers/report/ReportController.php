@@ -213,7 +213,7 @@ class ReportController extends BaseController {
 		
 	}
 	public function loadAreaOption($foundAt){
-		$form = "บริเวณที่พบ: ".Form::select('area', Area::where('found_at_id','=',$foundAt)->lists('name','id'),"",array('id'=>'area'));
+		$form = "บริเวณที่พบ: ".Form::select('area', Area::where('found_at_id','=',$foundAt)->orderBy('name','desc')->lists('name','id'),"",array('id'=>'area'));
 		return $form;
 	}
 	public function checkItemName(){
