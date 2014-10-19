@@ -292,14 +292,22 @@ class ReportController extends BaseController {
 		$date = Report::convertYearBtoC(Input::get('date'));	
 		$timestamp = strtotime($date);
 		$report = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp));
-
+		
 		//มี  report เก่า
 		if(count($report->get()) > 0)
 		{
-			$noteId = $report->first()->note_id;
-			$note = Note::find($noteId);
-			$note -> content = Input::get('note1');
-			$note -> save();
+			if($report->first()->note_id == 0){
+				$note = new Note;
+				$note->content = Input::get('note1');
+				$note->save();	
+			}
+			else{
+				$noteId = $report->first()->note_id;
+				$note = Note::find($noteId);
+				$note -> content = Input::get('note1');;
+				$note -> save();
+			}		
+			
 		}
 		//ไม่มี report เก่า
 		else{
