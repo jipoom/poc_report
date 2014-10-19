@@ -6,10 +6,16 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Area' => $baseDir . '/app/models/Area.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
+    'Category' => $baseDir . '/app/models/Category.php',
+    'DataController' => $baseDir . '/app/controllers/report/DataController.php',
     'DatabaseSeeder' => $baseDir . '/app/database/seeds/DatabaseSeeder.php',
+    'FoundAt' => $baseDir . '/app/models/FoundAt.php',
     'HomeController' => $baseDir . '/app/controllers/HomeController.php',
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
+    'Item' => $baseDir . '/app/models/Item.php',
+    'Khet' => $baseDir . '/app/models/Khet.php',
     'Location' => $baseDir . '/app/models/Location.php',
     'Maatwebsite\\Excel\\Classes\\Cache' => $vendorDir . '/maatwebsite/excel/src/Maatwebsite/Excel/Classes/Cache.php',
     'Maatwebsite\\Excel\\Classes\\FormatIdentifier' => $vendorDir . '/maatwebsite/excel/src/Maatwebsite/Excel/Classes/FormatIdentifier.php',
@@ -32,7 +38,11 @@ return array(
     'Maatwebsite\\Excel\\Readers\\LaravelExcelReader' => $vendorDir . '/maatwebsite/excel/src/Maatwebsite/Excel/Readers/LaravelExcelReader.php',
     'Maatwebsite\\Excel\\Writers\\CellWriter' => $vendorDir . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/CellWriter.php',
     'Maatwebsite\\Excel\\Writers\\LaravelExcelWriter' => $vendorDir . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/LaravelExcelWriter.php',
+    'Method' => $baseDir . '/app/models/Method.php',
+    'Note' => $baseDir . '/app/models/Note.php',
+    'Report' => $baseDir . '/app/models/Report.php',
     'ReportController' => $baseDir . '/app/controllers/report/ReportController.php',
+    'Role' => $baseDir . '/app/models/Role.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
     'Threat' => $baseDir . '/app/models/Threat.php',

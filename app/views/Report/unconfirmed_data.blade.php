@@ -11,7 +11,7 @@
 					สิ่งของต้องห้าม
 				</td>
 				<td>
-					วันที่
+					ผู้ครอบครอง
 				</td>
 				<td>
 					จำนวน 
@@ -29,16 +29,24 @@
 		@foreach($unconfirmInsideReport as $value)
 			<tr>			
 				<td>
-					{{Item::find($value->item_id)->name}}
+					@if($value->item_id==Item::where('name','=','อื่นๆ')->first()->id)
+						{{$value->other_item}}
+					@else
+						{{Item::find($value->item_id)->name}}
+					@endif
 				</td>	
 				<td>
-					{{Report::convertYearCtoB(date("d-m-Y", strtotime($value->found_date)))}}
+					@if($value->item_owner!='')
+						{{$value->item_owner}}
+					@else
+						ไม่พบ
+					@endif
 				</td>
 				<td>
 					{{$value->qty}} {{Item::find($value->item_id)->unit}}
 				</td>	
 				<td>
-					{{$value->area_found}}
+					{{Area::find($value->area_id)->name}}
 				</td>	
 				<td>
 					{{Method::find($value->method_id)->name}}  
@@ -60,7 +68,7 @@
 					สิ่งของต้องห้าม
 				</td>
 				<td>
-					วันที่
+					ผู้ครอบครอง
 				</td>
 				<td>
 					จำนวน 
@@ -79,16 +87,25 @@
 		@foreach($unconfirmOutsideReport as $value)
 			<tr>			
 				<td>
-					{{Item::find($value->item_id)->name}}
+					@if($value->item_id==Item::where('name','=','อื่นๆ')->first()->id)
+						{{$value->other_item}}
+					@else
+						{{Item::find($value->item_id)->name}}
+					@endif
 				</td>
 				<td>
-					{{Report::convertYearCtoB(date("d-m-Y", strtotime($value->found_date)))}}
+					@if($value->item_owner!='')
+						{{$value->item_owner}}
+					@else
+						ไม่พบ
+					@endif
+						
 				</td>
 				<td>
 					{{$value->qty}} {{Item::find($value->item_id)->unit}}
 				</td>
 				<td>
-					{{$value->area_found}}
+					{{Area::find($value->area_id)->name}}
 				</td>
 				<td>
 						{{Method::find($value->method_id)->name}}  
