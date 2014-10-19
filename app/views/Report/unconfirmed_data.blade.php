@@ -6,18 +6,23 @@
 	<!-- this button is showned when found is selected and hidden when not_found is selected-->
     
     @if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
-    	<div id="note_area1">
+    	<div id="note_area1" style="width: 500px">
     		<br />
-	    	<p>หมายเหตุ: {{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','limit' =>'50' ))}}  </p>
-			<input type="button" class="btn btn-success pull-right" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน">
+	    	หมายเหตุ: {{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
+			<br />
+			<input type="button" class="btn btn-success" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน">
+		
 		</div>
 	@endif
 	<!-- this button is showned when not_found is selected and hidden when found is selected-->
-	<div id = "note_area2" style="display: none">
+	<div id = "note_area2" style="display: none; width: 500px">
 		<br />
-		<p>หมายเหตุ: {{ Form::textarea('note2', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note2'))}}  </p>	
+		หมายเหตุ: {{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
+		<br />
 		<input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน">
+	
 	</div>
+	<hr />
 	
 	<section class="container" style="width: 90%;">
 	<!-- 
