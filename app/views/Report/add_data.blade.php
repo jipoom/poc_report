@@ -5,12 +5,14 @@
 @section("content")
 
 {{ Form::open(array('url'=>'report/add', 'class'=>'form-signup', 'id'=>'infoForm')) }}
-<p>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> </p>
 
-<p>วิธีการจู่โจม
-{{ Form::select('method', Method::getArray()) }}</p>
-
-<p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ  {{{ $errors->first('isFound', ':message') }}}</p>
+<br />
+<b>Step 1: &nbsp; &nbsp; </b>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
+<br /><br />
+<b>Step 2: &nbsp; &nbsp; </b>วิธีการจู่โจม {{ Form::select('method', Method::getArray()) }}
+<br /><br />
+<b>Step 3: &nbsp; &nbsp; </b>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบสิ่งของต้องห้าม  &nbsp; &nbsp; {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบสิ่งของต้องห้าม  {{{ $errors->first('isFound', ':message') }}}
+<br />
 <div id='showButton' style="display: none">
 <input type="button"  class="btn btn-default" onclick="needMoreDetail()" value="เพิ่มบันทึก">
 </div>
@@ -19,16 +21,17 @@
 		<tr>
 			<td style="padding: 20px">
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
+				<p><div id='area_found'>
+				</div></p>
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
-				<div id='area_found'>
-				</div>
-				<p>{{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} ระบุผู้ครอบครอง  {{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }}  ไม่ระบุผู้ครอบครอง</p>
+				
+				<p>{{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }} ไม่พบผู้ครอบครอง  {{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} พบผู้ครอบครอง          
 				
 				<div id='owner_area' style="display: none">
-					<p>ผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
+					ชื่อผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  
 				</div>
-				
+				</p>
 				<input type="button" class="btn btn-primary" onclick="save()" value="บันทึก">
 			</td>
 				
