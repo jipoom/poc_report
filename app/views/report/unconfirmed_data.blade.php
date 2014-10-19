@@ -145,8 +145,14 @@
 	@endif
 	<!-- this button is showned when found is selected and hidden when not_found is selected-->
     @if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
-		<input type="button" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน">
+    	<div id="note_area1">
+	    	<p>หมายเหตุ: {{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1'))}}  </p>
+			<input type="button" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน">
+		</div>
 	@endif
 	<!-- this button is showned when not_found is selected and hidden when found is selected-->
-	<input type="button" id ="confirmButton2" style="display: none" onclick="confirmForm()" value="ยืนยัน">
+	<div id = "note_area2" style="display: none">
+		<p>หมายเหตุ: {{ Form::textarea('note2', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note2'))}}  </p>	
+		<input type="button" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน">
+	</div>
 	{{ Form::close() }}

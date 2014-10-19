@@ -28,7 +28,7 @@
 				<div id='owner_area' style="display: none">
 					<p>ผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
 				</div>
-				<p>หมายเหตุ: {{ Form::textarea('note', null, array('class'=>'form-control'))}}  </p>
+				
 				<input type="button" class="btn btn-primary" onclick="save()" value="บันทึก">
 			</td>
 				
@@ -96,6 +96,8 @@
                 itemOther = '';
                 // Update DB
 				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner,itemOther) == true){
+					note = $('#note2').val();
+	             	$('#infoForm').append('<input type="hidden" name="note" value="'+note+'"/>');
 					document.getElementById("infoForm").submit();
 				}
             }
@@ -194,13 +196,16 @@
             
             // Default confirm(notfound) hide
 			$("#confirmButton2").hide();   		
-			
+			$("#note2").hide();   		
 			   
             //กดไม่พบ
             $('#not_found').click(function(){
             if($('#not_found').attr("value")=="no"){
-                $("#confirmButton2").show();
-                $("#confirmButton1").hide();
+                //$("#confirmButton2").show();
+                $("#note_area2").show();
+                $("#note_area1").hide();
+                //$("#note1").hide();   
+                //$("#confirmButton1").hide();
                 $("#showButton").hide();
                 $("#detail").hide();
             }
@@ -209,8 +214,11 @@
             $('#found').click(function(){
             if($('#found').attr("value")=="yes"){
                // $("#insert").show();
-                $("#confirmButton2").hide(); 
-                $("#confirmButton1").show();  
+               // $("#note1").show();  
+               // $("#confirmButton2").hide(); 
+               // $("#confirmButton1").show();  
+                $("#note_area2").hide();
+                $("#note_area1").show();
                 $("#showButton").show();
                 //$("#detail").show();
             }

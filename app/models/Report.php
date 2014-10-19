@@ -24,6 +24,10 @@ class Report extends Eloquent {
 	{
 		return $this->belongTo('Khet','khet_id');
 	}
+	public function note()
+	{
+		return $this->belongTo('Note','note_id');
+	}
 	public static function convertYearBtoC($date){
 		$cYear = substr($date,count($date)-5,4);
 		$dayMonth= substr($date,0,count($date)-5);

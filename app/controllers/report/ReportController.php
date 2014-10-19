@@ -113,9 +113,22 @@ class ReportController extends BaseController {
 			//Insert Data into DB set confirmation bit to 0
 			$date = Report::convertYearBtoC(Input::get('date'));
 			$timestamp = strtotime($date);
+			
 			if(Input::get('isFound') == "no")
 			{
+				//Get Note ID to be updated	
+				//$noteId = Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id)->first()->note_id;	
+				$oldReport = Report::where('found_date','=',date("Y-m-d", $timestamp))->where('is_confirmed','=',1)->where('location_id','=',Auth::user()->location->id)->first();
+				if(count($oldReport) > 0){
+					$noteId = $oldReport->note_id;
+				}
+				else{
+					$noteId = 0;
+				}
+				
 				//delete old data
+				
+				
 				Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id) -> delete();
 				//insert
 				$report = new Report;
@@ -130,6 +143,27 @@ class ReportController extends BaseController {
 				$report -> khet_id = 0;	
 				$report -> is_confirmed = 1;
 				$report -> method_id = 0;
+				$report -> item_owner = '';
+				$report -> other_item = '';
+				
+				//$oldReport = Report::where('found_date','=',date("Y-m-d", $timestamp))->where('is_confirmed','=',1)->where('location_id','=',Auth::user()->location->id)->first();
+				if($noteId != 0){
+					// Update	(กรณีเคยมีreport)
+					//echo $noteId;
+					$note = Note::find($noteId);
+					$note->content = Input::get('note');
+					$note->save();
+					$report -> note_id = $note->id;				
+				}
+				else{					
+					// Create new note	(กรณีไม่มีreport)
+					$note = new Note;
+					$note->content = Input::get('note');
+					$note->save();
+					$report -> note_id = $note->id;
+				}				
+				
+				
 				$report -> save();
 				//return to table page
 				return Redirect::to('');
@@ -137,8 +171,16 @@ class ReportController extends BaseController {
 			else
 			{
 				//Delete notfound data
+				//keep old noteID 
+				$oldReport = Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id)->first();
+				if(count($oldReport) > 0){
+					$noteId = $oldReport->note_id;
+				}
+				else{
+					$noteId = 0;
+				}
 				Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id)->where('item_id','=',0) -> delete();
-	
+				
 					
 				$report = Report::where('item_id','=',Input::get('item'))
 				
@@ -186,6 +228,7 @@ class ReportController extends BaseController {
 					}
 					$report -> khet_id = Auth::user()->location->khet_id;
 					$report -> method_id = Input::get('method');
+					$report -> note_id = $noteId;
 					$report -> save();
 				}
 					
@@ -209,7 +252,22 @@ class ReportController extends BaseController {
 		$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 		$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 		$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
-		return View::make('report/unconfirmed_data',compact('unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
+		$report = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->first();
+		if(count($report)>0){
+			if($report->note_id == 0){
+				$noteContent = '';
+			}
+			else{
+				$noteContent = Note::find($report->note_id)->content;
+			}	
+			
+		}
+		else{
+			$noteContent = '';
+		}
+		
+		//echo $noteContent;
+		return View::make('report/unconfirmed_data',compact('unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
 		
 	}
 	public function loadAreaOption($foundAt){
@@ -233,7 +291,25 @@ class ReportController extends BaseController {
 		//$location = Location::find(Auth::user()->location->id)->name;
 		$date = Report::convertYearBtoC(Input::get('date'));	
 		$timestamp = strtotime($date);
-		$affectedRows = Report::where('is_confirmed', '=', 0)->where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->update(array('is_confirmed' => 1));
+		$report = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp));
+
+		//มี  report เก่า
+		if(count($report->get()) > 0)
+		{
+			$noteId = $report->first()->note_id;
+			$note = Note::find($noteId);
+			$note -> content = Input::get('note1');
+			$note -> save();
+		}
+		//ไม่มี report เก่า
+		else{
+			$note = new Note;
+			$note->content = Input::get('note1');
+			$note->save();	
+		}
+		$affectedRows = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->update(array('is_confirmed' => 1,'note_id'=>$note->id));				
+					
+		
 		return Redirect::to('');
 	}
 	public function checkIfRecordExist()
