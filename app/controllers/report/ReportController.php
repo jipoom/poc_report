@@ -17,6 +17,9 @@ class ReportController extends BaseController {
 	public function showStandAlone(){
 		return View::make('report/poc_standalone');
 	}
+	public function showReport(){
+		return View::make('report/view_report');
+	}
 	public function showDashBoard(){
 		$date = Input::get('date');
 		if($date==null)
@@ -166,7 +169,7 @@ class ReportController extends BaseController {
 				
 				$report -> save();
 				//return to table page
-				return Redirect::to('');
+				return Redirect::to('report/view')->with('message','บันทึกรายงานเสร็จสมบูรณ์');
 				}
 			else
 			{
@@ -292,7 +295,6 @@ class ReportController extends BaseController {
 		$date = Report::convertYearBtoC(Input::get('date'));	
 		$timestamp = strtotime($date);
 		$report = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp));
-		
 		//มี  report เก่า
 		if(count($report->get()) > 0)
 		{
@@ -318,7 +320,7 @@ class ReportController extends BaseController {
 		$affectedRows = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->update(array('is_confirmed' => 1,'note_id'=>$note->id));				
 					
 		
-		return Redirect::to('');
+		return Redirect::to('report/view')->with('message','บันทึกรายงานเสร็จสมบูรณ์');
 	}
 	public function checkIfRecordExist()
 	{
