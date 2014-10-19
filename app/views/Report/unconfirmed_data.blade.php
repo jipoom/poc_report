@@ -139,7 +139,7 @@
 	@endif
 	</section>
 
-	{{ Form::close() }}
+
 	
 
 <!-- this button is showned when found is selected and hidden when not_found is selected-->
@@ -163,7 +163,7 @@
 		<b>Step 4: &nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
 	
 	</div>
-
+	{{ Form::close() }}
 <br />
 @section('scripts')
 <script>
