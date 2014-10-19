@@ -24,7 +24,7 @@
 				<p><div id='area_found'>
 				</div></p>
 				
-				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
+				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item','style' => 'width:200px')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
 				
 				<p>{{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }} ไม่พบผู้ครอบครอง  {{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} พบผู้ครอบครอง          
