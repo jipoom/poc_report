@@ -216,7 +216,6 @@ class ReportController extends BaseController {
 					$report -> location_id = Auth::user()->location->id;
 					$report -> ip_address = Request::getClientIp();
 					$report -> is_confirmed = 0;	
-					$report -> note = Input::get('note');	
 					if(Input::get('item') == Item::where('name','=','อื่นๆ')->first()->id){
 						$report -> other_item = Input::get('other');
 					}
@@ -412,7 +411,7 @@ class ReportController extends BaseController {
 								$report -> qty = Input::get('item_outside.'.$outside);	
 								$report -> category_id = Item::find($outside)->category_id;
 								$report -> found_date = date("Y-m-d", $timestamp);
-								$report -> note = Input::get('note');
+
 								$report -> location_id = Auth::user()->location->id;
 								$report -> ip_address = Request::getClientIp();
 								$report -> save();
@@ -430,7 +429,6 @@ class ReportController extends BaseController {
 								$report -> qty = Input::get('item_inside.'.$inside);	
 								$report -> category_id = Item::find($outside)->category_id;;
 								$report -> found_date = date("Y-m-d", $timestamp);
-								$report -> note = Input::get('note');
 								$report -> location_id = Auth::user()->location->id;
 								$report -> ip_address = Request::getClientIp();
 								$report -> save();
