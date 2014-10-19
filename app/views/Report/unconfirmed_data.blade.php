@@ -3,27 +3,6 @@
 	<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 	<!-- ./ csrf token -->
 	
-	<!-- this button is showned when found is selected and hidden when not_found is selected-->
-    
-    @if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
-    	<div id="note_area1" style="width: 500px">
-    		<br />
-	    	หมายเหตุ: {{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
-			<br />
-			<input type="button" class="btn btn-success" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน">
-		
-		</div>
-	@endif
-	<!-- this button is showned when not_found is selected and hidden when found is selected-->
-	<div id = "note_area2" style="display: none; width: 500px">
-		<br />
-		หมายเหตุ: {{ Form::textarea('note2', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note2','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
-		<br />
-		<input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน">
-	
-	</div>
-	<hr />
-	
 	<section class="container" style="width: 90%;">
 	<!-- 
 	<input type="search" class="light-table-filter" data-table="order-table" placeholder="Filter">
@@ -34,23 +13,24 @@
 	<table class="order-table table" border="1px" bordercolor="#cfcfcf">
 		<thead>
 			<tr>			
-				<th style="width: 38%">
+				<th style="width: 36%">
 					สิ่งของต้องห้าม
 				</th>
+				
 				<th style="width: 7%">
 					จำนวน 
 				</th>
-				<th style="width: 14%">
+				<th style="width: 13%">
 					ผู้ครอบครอง
 				</th>	
-				<th style="width: 25%">
+				<th style="width: 23%">
 					บริเวณที่พบ 
 				</th>
-				<th style="width: 10%">
+				<th style="width: 9%">
 					วิธีการ 
 				</th>
-				<th style="width: 6%">
-					Action 
+				<th style="width: 12%">
+					ต้องการลบ?
 				</th>
 			</tr>
 			</thead>
@@ -98,24 +78,24 @@
 	<table class="order-table table" border="1px" bordercolor="#cfcfcf">
 		<thead>
 		<tr>			
-				<th style="width: 38%">
+				<th style="width: 36%">
 					สิ่งของต้องห้าม
 				</th>
 				
 				<th style="width: 7%">
 					จำนวน 
 				</th>
-				<th style="width: 14%">
+				<th style="width: 13%">
 					ผู้ครอบครอง
 				</th>	
-				<th style="width: 25%">
+				<th style="width: 23%">
 					บริเวณที่พบ 
 				</th>
-				<th style="width: 10%">
+				<th style="width: 9%">
 					วิธีการ 
 				</th>
-				<th style="width: 6%">
-					Action 
+				<th style="width: 12%">
+					ต้องการลบ?
 				</th>
 				
 			</tr>
@@ -158,52 +138,33 @@
 	</table>
 	@endif
 	</section>
-	@if(count($unconfirmNotfound)>0)
-	ไม่พบ
-	<table border="1" style="width:100%">
-		<tr>			
-				<td>
-					สิ่งของต้องห้าม
-				</td>
-				<td>
-					วันที่
-				</td>
-				<td>
-					จำนวน 
-				</td>
-				<td>
-					บริเวณที่พบ 
-				</td>	
-				<td>
-					Action 
-				</td>
-			</tr>
-		@foreach($unconfirmNotfound as $value)
-			<tr>			
-				<td>
-					{{Item::find($value->item_id)->name}}
-				</td>
-				<td>
-					
-					{{Report::convertYearCtoB(date("d-m-Y", strtotime($value->found_date)))}}
-				</td>	
-				<td>
-					{{$value->qty}} {{Item::find($value->item_id)->unit}}
-				</td>
-				<td>
-					{{$value->area_found}}
-				</td>
-				<td>
-					{{ HTML::link(URL::to('report/delete/'.$value->id.'/'.$value->found_date), 'Remove')}}
-				</td>
-			</tr>
-		@endforeach
-	</table>
-	@endif
-	
+
 	{{ Form::close() }}
 	
 
+<!-- this button is showned when found is selected and hidden when not_found is selected-->
+    
+    @if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
+    	<div id="note_area1" style="width: 500px">
+
+	    	หมายเหตุ <font size="2px"> ( กรอกข้อมูลที่จำเป็นเท่านั้น )</font> 
+	    	{{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
+			<br />
+			<b>Step 4: &nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
+		
+		</div>
+	@endif
+	<!-- this button is showned when not_found is selected and hidden when found is selected-->
+	<div id = "note_area2" style="display: none; width: 500px">
+		<br />
+		หมายเหตุ  <font size="2px"> ( กรอกข้อมูลที่จำเป็นเท่านั้น )</font>  
+		{{ Form::textarea('note2', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note2','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
+		<br />
+		<b>Step 4: &nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
+	
+	</div>
+
+<br />
 @section('scripts')
 <script>
 (function(document) {
