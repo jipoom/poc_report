@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title> @section('title')
-			POC
+			รายงานการจู่โจมตรวจค้น
 			@show </title>
 		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
 		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">

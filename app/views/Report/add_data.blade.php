@@ -12,12 +12,12 @@
 
 <p>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบ  {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบ  {{{ $errors->first('isFound', ':message') }}}</p>
 <div id='showButton' style="display: none">
-<input type="button" onclick="needMoreDetail()" value="เพิ่มบันทึก">
+<input type="button"  class="btn btn-default" onclick="needMoreDetail()" value="เพิ่มบันทึก">
 </div>
 	<div id='detail' style="display: none">
 	<table border="1" style="width:100%">
 		<tr>
-			<td>
+			<td style="padding: 20px">
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
 				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
@@ -29,7 +29,7 @@
 					<p>ผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  </p>
 				</div>
 				<p>หมายเหตุ: {{ Form::textarea('note', null, array('class'=>'form-control'))}}  </p>
-				<input type="button" onclick="save()" value="บันทึก">
+				<input type="button" class="btn btn-primary" onclick="save()" value="บันทึก">
 			</td>
 				
 		</tr>
