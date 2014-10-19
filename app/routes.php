@@ -30,13 +30,11 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::post('add', 'ReportController@postAddData');
 	Route::get('delete/{id}/{foundDate}', 'ReportController@deleteData');
 	Route::post('confirm', array('before' => 'csrf', 'uses' => 'ReportController@postConfirm'));
-	
+	Route::get('view', 'ReportController@showReport');
 	Route::get('exist', 'ReportController@checkIfRecordExist');
 	
 	//Route::get('create', 'ReportController@getCreate');
 	//Route::post('create', 'ReportController@postCreate');
-	Route::get('view', 'ReportController@getView');
-	
 	
 	Route::get('export', 'ReportController@export');
 	Route::get('getData/{startDate}/{endDate}/{location_id}/{found_at}', 'ReportController@getData');

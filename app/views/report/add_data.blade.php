@@ -13,9 +13,7 @@
 <br /><br />
 <b>Step 3: &nbsp; &nbsp; </b>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบสิ่งของต้องห้าม  &nbsp; &nbsp; {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบสิ่งของต้องห้าม  {{{ $errors->first('isFound', ':message') }}}
 <br />
-<div id='showButton' style="display: none">
-<input type="button"  class="btn btn-default" onclick="needMoreDetail()" value="เพิ่มบันทึก">
-</div>
+
 	<div id='detail' style="display: none">
 	<table border="1" style="width:100%">
 		<tr>
@@ -169,7 +167,7 @@
 		      	if(result=="0")
 		      		return true;
 		      	else
-		      		return confirm("ข้อมูลได้ถูกใส่ลงในฐานข้อมูลแล้ว ท่านต้องการจะอัพเดทหรือไม่");
+		      		return confirm("รายงานผลการจู่โจมตรวจค้นในวันที่คุณเลือกได้ถูกบันทึกแล้ว ต้องการแก้ไขหรือไม่");
 		  }
 		  
 		  
@@ -177,7 +175,7 @@
 		  $(document).ready(function(){
             
             if($('#found').is(':checked')){
-            	 $("#showButton").show();
+            	 //$("#showButton").show();
             	 $("#detail").show();
             }
             
@@ -206,11 +204,12 @@
             $('#not_found').click(function(){
             if($('#not_found').attr("value")=="no"){
                 //$("#confirmButton2").show();
+                
                 $("#note_area2").show();
                 $("#note_area1").hide();
                 //$("#note1").hide();   
                 //$("#confirmButton1").hide();
-                $("#showButton").hide();
+               // $("#showButton").hide();
                 $("#detail").hide();
             }
             });
@@ -220,10 +219,12 @@
                // $("#insert").show();
                // $("#note1").show();  
                // $("#confirmButton2").hide(); 
-               // $("#confirmButton1").show();  
+               // $("#confirmButton1").show(); 
+                $("#insert").hide();
+                $("#detail").show(); 
                 $("#note_area2").hide();
                 $("#note_area1").show();
-                $("#showButton").show();
+               // $("#showButton").show();
                 //$("#detail").show();
             }
             });

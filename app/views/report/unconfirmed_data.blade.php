@@ -17,7 +17,7 @@
 	<!-- this button is showned when not_found is selected and hidden when found is selected-->
 	<div id = "note_area2" style="display: none; width: 500px">
 		<br />
-		หมายเหตุ: {{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
+		หมายเหตุ: {{ Form::textarea('note2', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note2','rows'=> '3', 'cols' => '5', 'limit' =>'50' ))}} 
 		<br />
 		<input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน">
 	
