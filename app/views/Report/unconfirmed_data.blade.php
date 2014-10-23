@@ -23,10 +23,10 @@
 				<th style="width: 13%">
 					ผู้ครอบครอง
 				</th>	
-				<th style="width: 23%">
+				<th style="width: 18%">
 					บริเวณที่พบ 
 				</th>
-				<th style="width: 9%">
+				<th style="width: 14%">
 					วิธีการ 
 				</th>
 				<th style="width: 12%">
@@ -56,10 +56,19 @@
 					@endif
 				</td>
 				<td>
-					{{Area::find($value->area_id)->name}}
+					@if($value->area_id == 37 || $value->area_id == 38)
+						{{$value->other_area}}
+					@else
+						{{Area::find($value->area_id)->name}}
+					@endif
 				</td>	
 				<td>
-					{{Method::find($value->method_id)->name}}  
+					@if($value->method_id==1)
+						{{Method::find($value->method_id)->name}}  
+					@else
+						{{Method::find($value->method_id)->name}} {{SpecialMethod::find($value->special_method_id)->name}}  
+					@endif
+					
 				</td>			
 				<td>
 					{{ HTML::link(URL::to('report/delete/'.$value->id.'/'.$value->found_date), 'Remove')}}
@@ -88,10 +97,10 @@
 				<th style="width: 13%">
 					ผู้ครอบครอง
 				</th>	
-				<th style="width: 23%">
+				<th style="width: 18%">
 					บริเวณที่พบ 
 				</th>
-				<th style="width: 9%">
+				<th style="width: 14%">
 					วิธีการ 
 				</th>
 				<th style="width: 12%">
@@ -123,10 +132,19 @@
 				</td>
 				
 				<td>
-					{{Area::find($value->area_id)->name}}
+					@if($value->area_id == 37 || $value->area_id == 38)
+						{{$value->other_area}}
+					@else
+						{{Area::find($value->area_id)->name}}
+					@endif
+					
 				</td>
 				<td>
+					@if($value->method_id==1)
 						{{Method::find($value->method_id)->name}}  
+					@else
+						{{Method::find($value->method_id)->name}} {{SpecialMethod::find($value->special_method_id)->name}}  
+					@endif
 				</td>
 				<td>
 					{{ HTML::link(URL::to('report/delete/'.$value->id.'/'.$value->found_date), 'Remove')}}
