@@ -97,8 +97,10 @@
                 itemOwner = '';
                 itemOther = '';
                 areaOther = '';
+                specialId = '';
+                methodId = '';
                 // Update DB
-				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther) == true){
+				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther,methodId,specialId) == true){
 					note = $('#note2').val();
 	             	$('#infoForm').append('<input type="hidden" name="note" value="'+note+'"/>');
 					document.getElementById("infoForm").submit();
@@ -122,6 +124,8 @@
                 itemOwner = $('#owner').val();
                 itemOther = $('#other').val();
                 areaOther = $('#other_area').val();
+                methodId = $('#method').val();
+                specialId = $('#special_method').val();
   			 	// Check if user has selected foundAt
                 if($('#before').is(':checked')){
 	            	isPassed1 = true;
@@ -154,7 +158,8 @@
 				  		if(testOther() == true){
 					  		if(testOtherArea()==true)
 					  		{
-						  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther) == true){
+						  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther,methodId,specialId) == true){
+									
 									document.getElementById("infoForm").submit();
 								}
 							}
@@ -191,10 +196,10 @@
 			return patt.test(str);
 		  }
 		  
-		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther){
+		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther,methodId,specialId){
 		     	var result = $.ajax({
 		          url: "{{URL::to('report/exist/')}}",
-		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner,itemOther:itemOther,areaOther:areaOther},
+		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner,itemOther:itemOther,areaOther:areaOther,methodId:methodId,specialId:specialId},
 		          dataType:"text",
 		          async: false
 		          }).responseText;
@@ -320,15 +325,18 @@
 		  
 		   $(function(){
 			   $('#method').change(function(e) {
+			   
 			   	 var methodId = $("#method").val();
-								
+				 				
 				 var result = $.ajax({
 		          url: "{{URL::to('report/method/')}}"+"/"+methodId,
 		          dataType:"text",
 		          async: false
 		          }).responseText;
 		      	if(result=="0")
+		      	{
 		      		$('#special_method').hide();
+		      	}
 		      	else
 		      		$('#special_method').show();
 			

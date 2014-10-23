@@ -185,17 +185,32 @@ class ReportController extends BaseController {
 					$noteId = 0;
 				}
 				Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id)->where('item_id','=',0) -> delete();
-				
-					
-				$report = Report::where('item_id','=',Input::get('item'))
-				
-				->where('found_date','=',date("Y-m-d", $timestamp))
-				->where('found_at_id','=',Input::get('before'))
-				->where('item_owner','=',Input::get('owner'))
-				->where('area_id','=',Input::get('area'))
-				->where('other_item','=',Input::get('other'))
-				->where('other_area','=',Input::get('other_area'))
-				->where('location_id','=',Auth::user()->location->id)->first();
+				//If special method
+				if(Input::get('method')==2)	
+				{
+					$report = Report::where('item_id','=',Input::get('item'))
+					->where('found_date','=',date("Y-m-d", $timestamp))
+					->where('found_at_id','=',Input::get('before'))
+					->where('item_owner','=',Input::get('owner'))
+					->where('area_id','=',Input::get('area'))
+					->where('other_item','=',Input::get('other'))
+					->where('other_area','=',Input::get('other_area'))
+					->where('method_id','=',Input::get('method'))
+					->where('special_method_id','=',Input::get('special_method'))
+					->where('location_id','=',Auth::user()->location->id)->first();
+				}
+				//If normal method
+				else if(Input::get('method')==1){
+					$report = Report::where('item_id','=',Input::get('item'))
+					->where('found_date','=',date("Y-m-d", $timestamp))
+					->where('found_at_id','=',Input::get('before'))
+					->where('item_owner','=',Input::get('owner'))
+					->where('area_id','=',Input::get('area'))
+					->where('other_item','=',Input::get('other'))
+					->where('other_area','=',Input::get('other_area'))
+					->where('method_id','=',Input::get('method'))
+					->where('location_id','=',Auth::user()->location->id)->first();
+				}
 				
 				//Update
 				if(count($report) > 0)
@@ -358,6 +373,8 @@ class ReportController extends BaseController {
 	public function checkIfRecordExist()
 	{
 	    $itemId = Input::get('itemId');
+		$methodId= Input::get('methodId');
+		$specialId = Input::get('specialId');
 		$foundAt = Input::get('foundAt');
 		$area = Input::get('area');
 		$date = Report::convertYearBtoC(Input::get('date'));	
@@ -373,10 +390,10 @@ class ReportController extends BaseController {
 		}
 		else
 		{
-			$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',$timestamp)->where('item_id','=',0)->get();
+			$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->where('item_id','=',0)->get();
 			if(count($result) > 0)
-				return count($result);
-			else {
+				return 1;
+			else if($methodId==2){
 				$result = Report::where('location_id','=',Auth::user()->location->id)
 				->where('found_date','=',date("Y-m-d", $timestamp))
 				->where('found_at_id','=',$foundAt)
@@ -385,6 +402,21 @@ class ReportController extends BaseController {
 				->where('item_owner','=',$owner)
 				->where('other_item','=',$other)
 				->where('other_area','=',$otherArea)
+				->where('method_id','=',$methodId)
+				->where('special_method_id','=',$specialId)
+				->get();
+				return count($result);
+			}
+			else if($methodId==1){
+				$result = Report::where('location_id','=',Auth::user()->location->id)
+				->where('found_date','=',date("Y-m-d", $timestamp))
+				->where('found_at_id','=',$foundAt)
+				->where('item_id','=',$itemId)
+				->where('area_id','=',$area)
+				->where('item_owner','=',$owner)
+				->where('other_item','=',$other)
+				->where('other_area','=',$otherArea)
+				->where('method_id','=',$methodId)
 				->get();
 				return count($result);
 			}
