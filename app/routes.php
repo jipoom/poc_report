@@ -13,6 +13,8 @@
 Route::get('report/unconfirmedData/{date}','ReportController@getUnconfirmedData');
 Route::get('report/getunit/{itemId}','ReportController@getUnit');
 Route::get('report/item/need_other','ReportController@checkItemName');
+Route::get('report/method/{methodId}','ReportController@checkMethod');
+Route::get('report/area/need_other','ReportController@checkAreaName');
 Route::get('report/area_option/{found_at_id}','ReportController@loadAreaOption');
 Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {

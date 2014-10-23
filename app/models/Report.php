@@ -24,6 +24,10 @@ class Report extends Eloquent {
 	{
 		return $this->belongTo('Khet','khet_id');
 	}
+	public function specialMethod()
+	{
+		return $this->belongTo('special_method','special_method_id');
+	}
 	public function note()
 	{
 		return $this->belongTo('Note','note_id');

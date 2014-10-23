@@ -148,6 +148,8 @@ class ReportController extends BaseController {
 				$report -> method_id = 0;
 				$report -> item_owner = '';
 				$report -> other_item = '';
+				$report -> other_area = '';
+				$report -> special_method_id =0;
 				
 				//$oldReport = Report::where('found_date','=',date("Y-m-d", $timestamp))->where('is_confirmed','=',1)->where('location_id','=',Auth::user()->location->id)->first();
 				if($noteId != 0){
@@ -189,8 +191,10 @@ class ReportController extends BaseController {
 				
 				->where('found_date','=',date("Y-m-d", $timestamp))
 				->where('found_at_id','=',Input::get('before'))
-				->where('area_id','=',Input::get('area'))
 				->where('item_owner','=',Input::get('owner'))
+				->where('area_id','=',Input::get('area'))
+				->where('other_item','=',Input::get('other'))
+				->where('other_area','=',Input::get('other_area'))
 				->where('location_id','=',Auth::user()->location->id)->first();
 				
 				//Update
@@ -215,7 +219,13 @@ class ReportController extends BaseController {
 					$report -> area_id = Input::get('area');
 					$report -> location_id = Auth::user()->location->id;
 					$report -> ip_address = Request::getClientIp();
-					$report -> is_confirmed = 0;	
+					$report -> is_confirmed = 0;
+					if(Input::get('method')==2){
+						$report -> special_method_id =Input::get('special_method');
+					}
+					else{
+						$report -> special_method_id =0;
+					}
 					if(Input::get('item') == Item::where('name','=','อื่นๆ')->first()->id){
 						$report -> other_item = Input::get('other');
 					}
@@ -227,6 +237,13 @@ class ReportController extends BaseController {
 					}
 					else{
 						$report -> item_owner = "";
+					}
+					// check if area = other
+					if(Input::get('area') != 37 && Input::get('area') != 38){
+						$report -> item_owner = "";							
+					}
+					else if(Input::get('area') == 37 || Input::get('area') == 38){
+						$report -> other_area = Input::get('other_area');
 					}
 					$report -> khet_id = Auth::user()->location->khet_id;
 					$report -> method_id = Input::get('method');
@@ -273,8 +290,25 @@ class ReportController extends BaseController {
 		
 	}
 	public function loadAreaOption($foundAt){
-		$form = "บริเวณที่พบ: ".Form::select('area', Area::where('found_at_id','=',$foundAt)->orderBy('name','desc')->lists('name','id'),"",array('id'=>'area'));
-		return $form;
+		//$form = "บริเวณที่พบ: ".Form::select('area', Area::where('found_at_id','=',$foundAt)->lists('name','id'),"",array('id'=>'area'));
+		//return $form;
+		echo "<select name='area' id='area' onChange=\"checkAreaOther(this.value)\">";
+             $result=Area::where('found_at_id','=',$foundAt)->get();
+             foreach($result as $area)
+                  echo "<option value='$area->id' >$area->name</option>" ;
+		echo "</select>\n";
+	}
+	public function checkAreaName(){
+		if(Area::find(Input::get('areaId'))->name == "อื่นๆ")
+			return 1;
+		return 0; 
+	}
+	public function checkMethod($method){
+		if($method==1)
+			return 0;
+		else if ($method==2){
+			return 1;
+		} 
 	}
 	public function checkItemName(){
 		if(Item::find(Input::get('itemId'))->name == "อื่นๆ")
@@ -330,6 +364,7 @@ class ReportController extends BaseController {
 		$timestamp = strtotime($date);
 		$owner = Input::get('itemOwner');
 		$other = Input::get('itemOther');
+		$otherArea = Input::get('areaOther');
 		//$result = Report::whereRaw('found_date = '.date("Y-m-d", $timestamp).' and ((is_confirm = 1 and location_id = '.Auth::user()->location->id.' and  item_id = '.$itemId.') or ( item_id = 0))');
 		
 		if(Input::get('itemId')==0){
@@ -338,7 +373,7 @@ class ReportController extends BaseController {
 		}
 		else
 		{
-			$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->where('item_id','=',0)->get();
+			$result = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',$timestamp)->where('item_id','=',0)->get();
 			if(count($result) > 0)
 				return count($result);
 			else {
@@ -349,6 +384,7 @@ class ReportController extends BaseController {
 				->where('area_id','=',$area)
 				->where('item_owner','=',$owner)
 				->where('other_item','=',$other)
+				->where('other_area','=',$otherArea)
 				->get();
 				return count($result);
 			}

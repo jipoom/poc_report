@@ -9,7 +9,7 @@
 <br />
 <b>Step 1: &nbsp; &nbsp; </b>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
 <br /><br />
-<b>Step 2: &nbsp; &nbsp; </b>วิธีการจู่โจม {{ Form::select('method', Method::getArray()) }}
+<b>Step 2: &nbsp; &nbsp; </b>วิธีการจู่โจม {{ Form::select('method', Method::getArray(),"", array('id' => 'method')) }}{{ Form::select('special_method', SpecialMethod::all()->lists('name','id'),"",array('id'=>'special_method','style'=>'display: none')) }}
 <br /><br />
 <b>Step 3: &nbsp; &nbsp; </b>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบสิ่งของต้องห้าม  &nbsp; &nbsp; {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบสิ่งของต้องห้าม  {{{ $errors->first('isFound', ':message') }}}
 <br />
@@ -20,15 +20,15 @@
 			<td style="padding: 20px">
 				<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
 				<p><div id='area_found'>
-				</div></p>
-				
-				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item','style' => 'width:200px')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
+				</div>
+				{{Form::text('other_area','',array('id'=>'other_area','placeholder'=>'โปรดระบุ', 'style'=>'display: none','maxlength' =>'50'))}}</p>
+				<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item','style' => 'width:200px')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none','maxlength' =>'50'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
 				 {{$errors->first('qty', ':message')}}</p>
 				
-				<p>{{ Form::radio('hasOwner', 'no', 'true',array('id'=>'noOwner')) }} ไม่พบผู้ครอบครอง  {{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} พบผู้ครอบครอง          
+				<p>{{ Form::radio('hasOwner', 'no', '',array('id'=>'noOwner')) }} ไม่พบผู้ครอบครอง  {{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} พบผู้ครอบครอง          
 				
 				<div id='owner_area' style="display: none">
-					ชื่อผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner'))}}  
+					ชื่อผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner','maxlength' =>'50'))}}  
 				</div>
 				</p>
 				<input type="button" class="btn btn-primary" onclick="save()" value="บันทึก">
@@ -96,8 +96,9 @@
                 area = '';
                 itemOwner = '';
                 itemOther = '';
+                areaOther = '';
                 // Update DB
-				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner,itemOther) == true){
+				if(checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther) == true){
 					note = $('#note2').val();
 	             	$('#infoForm').append('<input type="hidden" name="note" value="'+note+'"/>');
 					document.getElementById("infoForm").submit();
@@ -120,29 +121,51 @@
                 area =  $('#area').val();
                 itemOwner = $('#owner').val();
                 itemOther = $('#other').val();
-                
+                areaOther = $('#other_area').val();
   			 	// Check if user has selected foundAt
                 if($('#before').is(':checked')){
-	            	isPassed = true;
+	            	isPassed1 = true;
 	            	foundAt = $('#before').attr("value");
 	            }
 	            else if($('#after').is(':checked')){
-	            	isPassed = true;
+	            	isPassed1 = true;
 	            	foundAt = $('#after').attr("value");
 	            }
 	            else{
-	            	isPassed = false;
+	            	isPassed1 = false;
 				 	alert('กรุณาเลือก สถานที่พบเจอสิ่งของต้องห้าม')
-				} 
+				}
+				if($('#hasOwner').is(':checked')){
+	            	isPassed2 = true;
+	            } 
+	            else if($('#noOwner').is(':checked')){
+	            	isPassed2 = true;
+	            }
+	            else {
+	            	isPassed2 = false;
+	            	alert('กรุณาเลือกว่าสิ่งของต้องห้ามมีผู้ครอบครองหรือไม่')
+	            }
 		  		//if above conditions hold
-		  		if(isPassed == true)
+		  		if(isPassed1 == true && isPassed2 == true)
 		  		{
 			  		if(testQty() == true)
 			  		{
 				  		//check if a record exists bofore proceeding
-				  		
-				  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner,itemOther) == true){
-							document.getElementById("infoForm").submit();
+				  		if(testOther() == true){
+					  		if(testOtherArea()==true)
+					  		{
+						  		if(checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther) == true){
+									document.getElementById("infoForm").submit();
+								}
+							}
+							else
+							{
+								alert('กรุณากรอกบริเวณที่พบสิ่งของต้องห้ามให้ถูกต้อง')
+							}
+						}
+						else
+						{
+							alert('กรุณากรอกชนิดสิ่งของต้องห้ามให้ถูกต้อง')
 						}
 					}
 					else
@@ -157,17 +180,28 @@
 			var patt = /^(([0-9]+[.][0-9]+)|[0-9]+)$/;
 			return patt.test(str);
 		  }
-		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,itemOwner,itemOther){
+		  function testOther(){
+		  	var str = $('#other').val();;
+			var patt = /^[a-zA-Zก-๙]*$/;
+			return patt.test(str);
+		  }
+		   function testOtherArea(){
+		  	var str = $('#other_area').val();;
+			var patt = /^[a-zA-Zก-๙]*$/;
+			return patt.test(str);
+		  }
+		  
+		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther){
 		     	var result = $.ajax({
 		          url: "{{URL::to('report/exist/')}}",
-		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner,itemOther:itemOther},
+		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner,itemOther:itemOther,areaOther:areaOther},
 		          dataType:"text",
 		          async: false
 		          }).responseText;
 		      	if(result=="0")
 		      		return true;
 		      	else
-		      		return confirm("รายงานผลการจู่โจมตรวจค้นในวันที่คุณเลือกได้ถูกบันทึกแล้ว ต้องการแก้ไขหรือไม่");
+		      		return confirm("ต้องการลบข้อมูลเก่าแล้วบันทึกใหม่ข้อมูลใหม่ทดแทนหรือไม่");
 		  }
 		  
 		  
@@ -232,6 +266,7 @@
              //กดไม่พบ
             $('#hasOwner').click(function(){
             if($('#hasOwner').attr("value")=="yes"){
+                $("#owner").val('');
                 $("#owner_area").show();
             }
             });
@@ -248,6 +283,7 @@
             $('#before').click(function(){
             if($('#before').attr("value")=="1"){
                 //load preentering options
+                $("#other_area").hide(); 
                 loadAreaOptions(1);    
             }
             });
@@ -255,6 +291,7 @@
             $('#after').click(function(){
             if($('#after').attr("value")=="2"){
                 //load postentering options
+                $("#other_area").hide(); 
                 loadAreaOptions(2);
             }
             });
@@ -271,9 +308,49 @@
 		          async: false
 		          }).responseText;
 		      	if(result=="1")
+		      	{
+		      		$("#other").val('');
 					$("#other").show(); 
+				}
 				else
 		      		$("#other").hide();
+		      		// enable textbox
+		      	
+		  }
+		  
+		   $(function(){
+			   $('#method').change(function(e) {
+			   	 var methodId = $("#method").val();
+								
+				 var result = $.ajax({
+		          url: "{{URL::to('report/method/')}}"+"/"+methodId,
+		          dataType:"text",
+		          async: false
+		          }).responseText;
+		      	if(result=="0")
+		      		$('#special_method').hide();
+		      	else
+		      		$('#special_method').show();
+			
+			
+			   });
+			   
+			});
+		  
+		   function checkAreaOther(areaId){
+		  	var result = $.ajax({
+		          url: "{{URL::to('report/area/need_other')}}",
+		          data : { areaId : areaId},
+		          dataType:"text",
+		          async: false
+		          }).responseText;
+		      	if(result=="1")
+		      	{
+					$("#other_area").val('');
+					$("#other_area").show(); 
+				}
+				else
+		      		$("#other_area").hide();
 		      		// enable textbox
 		      	
 		  }
@@ -314,16 +391,11 @@
         + (d.getFullYear() + 543);
 
 				// Datepicker
-		    $("#found_date").datepicker({ dateFormat: 'dd-mm-yy', isBuddhist: true, defaultDate: toDay, dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+		    $("#found_date").datepicker({ dateFormat: 'dd-mm-yy', isBuddhist: true, maxDate:0, dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
               dayNamesMin: ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'],
               monthNames: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
               monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
-			  $("#datepicker-th-2").datepicker({ changeMonth: true, changeYear: true,dateFormat: 'dd/mm/yy', isBuddhist: true, defaultDate: toDay,dayNames: ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'],
-              dayNamesMin: ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'],
-              monthNames: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
-              monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
-			  $("#datepicker-en").datepicker({ dateFormat: 'dd/mm/yy'});
-			  $("#inline").datepicker({ dateFormat: 'dd/mm/yy', inline: true });
+			 
 			});
 
 		  </script>
