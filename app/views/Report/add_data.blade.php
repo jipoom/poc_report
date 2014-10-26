@@ -31,7 +31,7 @@
 					ชื่อผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner','maxlength' =>'50'))}}  
 				</div>
 				</p>
-				<input type="button" class="btn btn-primary" onclick="save()" value="บันทึก">
+				<input type="button" class="btn btn-primary" onclick="save()" value="เพิ่มรายการ">
 			</td>
 				
 		</tr>
@@ -206,7 +206,7 @@
 		      	if(result=="0")
 		      		return true;
 		      	else
-		      		return confirm("ต้องการลบข้อมูลเก่าแล้วบันทึกใหม่ข้อมูลใหม่ทดแทนหรือไม่");
+		      		return alert("ไม่สามารถกรอกข้อมูลได้ เนื่องจากข้อมูลได้ถูกบันทึกเรียบร้อยแล้ว");
 		  }
 		  
 		  
