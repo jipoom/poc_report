@@ -17,10 +17,8 @@ class ReportController extends BaseController {
 	public function showStandAlone(){
 		return View::make('report/poc_standalone');
 	}
-	public function showReport(){
-		return View::make('report/view_report');
-	}
-	public function getReport($startDate=null,$endDate=null){
+	public function showReport($startDate=null,$endDate=null){
+		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 		if($startDate==null || $endDate == null)
 		{
 			$startDate=date('Y-m-d',strtotime("-1 days"));
@@ -31,7 +29,9 @@ class ReportController extends BaseController {
 			$endDate = Report::convertYearBtoC($endDate);
 		}
 		$table = Report::generateReportRow(Auth::user()->location->id,$startDate,$endDate);
-		return View::make('table/get_report_table',compact('table'));
+		$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
+		$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
+		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate'));
 	}
 	public function showDashBoard(){
 		$date = Input::get('date');

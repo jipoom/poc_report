@@ -81,7 +81,7 @@ class Report extends Eloquent {
 		 //Don't forget to check not found item
 		 $allItems = Item::where('id','<>',0)->get();
 		 $itemFound = array();
-		 $itemFound = array_add($itemFound, 'เขต', Auth::user()->location->khet_id);
+		 $itemFound = array_add($itemFound, 'เขต', Khet::find(Auth::user()->location->khet_id)->name);
 		 $itemFound = array_add($itemFound, 'เรือนจำ', Auth::user()->location->name);
 		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีปกติ', $normalInspectCount);
 		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีพิเศษ', $specialInspectCount);
