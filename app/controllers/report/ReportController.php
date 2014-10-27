@@ -20,6 +20,19 @@ class ReportController extends BaseController {
 	public function showReport(){
 		return View::make('report/view_report');
 	}
+	public function getReport($startDate=null,$endDate=null){
+		if($startDate==null || $endDate == null)
+		{
+			$startDate=date('Y-m-d',strtotime("-1 days"));
+			$endDate = $startDate;
+		}	
+		else{
+			$startDate = Report::convertYearBtoC($startDate);
+			$endDate = Report::convertYearBtoC($endDate);
+		}
+		$table = Report::generateReportRow(Auth::user()->location->id,$startDate,$endDate);
+		return View::make('table/get_report_table',compact('table'));
+	}
 	public function showDashBoard(){
 		$date = Input::get('date');
 		if($date==null)
@@ -116,7 +129,11 @@ class ReportController extends BaseController {
 			//Insert Data into DB set confirmation bit to 0
 			$date = Report::convertYearBtoC(Input::get('date'));
 			$timestamp = strtotime($date);
-			
+			$result = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
+			if(count($result) > 0){
+					return App::abort(404);
+			}
+			else {
 			if(Input::get('isFound') == "no")
 			{
 				//Get Note ID to be updated	
@@ -143,13 +160,18 @@ class ReportController extends BaseController {
 				$report -> area_id = 0;
 				$report -> location_id = Auth::user()->location->id;
 				$report -> ip_address = Request::getClientIp();
-				$report -> khet_id = 0;	
+				$report -> khet_id = Auth::user()->location->khet_id;	
 				$report -> is_confirmed = 1;
-				$report -> method_id = 0;
+				$report -> method_id = Input::get('method');
 				$report -> item_owner = '';
 				$report -> other_item = '';
 				$report -> other_area = '';
-				$report -> special_method_id =0;
+				if(Input::get('method')==2){
+					$report -> special_method_id =Input::get('special_method');
+				}
+				else{
+					$report -> special_method_id =0;
+				}
 				
 				//$oldReport = Report::where('found_date','=',date("Y-m-d", $timestamp))->where('is_confirmed','=',1)->where('location_id','=',Auth::user()->location->id)->first();
 				if($noteId != 0){
@@ -186,93 +208,88 @@ class ReportController extends BaseController {
 				}
 				//Delete if not found was selected
 				//Report::where('found_date','=',date("Y-m-d", $timestamp))->where('location_id','=',Auth::user()->location->id)->where('item_id','=',0) -> delete();
-				$result = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
-				if(count($result) > 0){
-					return App::abort(404);
+				//If special method
+				if(Input::get('method')==2)	
+				{
+					$report = Report::where('item_id','=',Input::get('item'))
+							->where('found_date','=',date("Y-m-d", $timestamp))
+							->where('found_at_id','=',Input::get('before'))
+							->where('item_owner','=',Input::get('owner'))
+							->where('area_id','=',Input::get('area'))
+							->where('other_item','=',Input::get('other'))
+							->where('other_area','=',Input::get('other_area'))
+							->where('method_id','=',Input::get('method'))
+							->where('special_method_id','=',Input::get('special_method'))
+							->where('location_id','=',Auth::user()->location->id)->first();
 				}
+				//If normal method
+				else if(Input::get('method')==1)
+				{
+					$report = Report::where('item_id','=',Input::get('item'))
+							->where('found_date','=',date("Y-m-d", $timestamp))
+							->where('found_at_id','=',Input::get('before'))
+							->where('item_owner','=',Input::get('owner'))
+							->where('area_id','=',Input::get('area'))
+							->where('other_item','=',Input::get('other'))
+							->where('other_area','=',Input::get('other_area'))
+							->where('method_id','=',Input::get('method'))
+							->where('location_id','=',Auth::user()->location->id)->first();
+				}
+					
+				//Update
+				if(count($report) > 0)
+				{
+					$updatedReport = Report::find($report->id);
+					$updatedReport->qty = Input::get('qty');
+					$updatedReport->is_confirmed = 0;
+					$updatedReport->method_id=Input::get('method');
+					$updatedReport->ip_address = Request::getClientIp();		
+					$updatedReport->save();
+				}
+				//Insert
 				else
 				{
-					//If special method
-					if(Input::get('method')==2)	
-					{
-						$report = Report::where('item_id','=',Input::get('item'))
-						->where('found_date','=',date("Y-m-d", $timestamp))
-						->where('found_at_id','=',Input::get('before'))
-						->where('item_owner','=',Input::get('owner'))
-						->where('area_id','=',Input::get('area'))
-						->where('other_item','=',Input::get('other'))
-						->where('other_area','=',Input::get('other_area'))
-						->where('method_id','=',Input::get('method'))
-						->where('special_method_id','=',Input::get('special_method'))
-						->where('location_id','=',Auth::user()->location->id)->first();
+					$report = new Report;
+					$report -> item_id = Input::get('item');
+					$report -> found_at_id =Input::get('before');
+					$report -> qty = Input::get('qty');
+					$report -> category_id = Item::find(Input::get('item'))->category_id;
+					$report -> found_date = date("Y-m-d", $timestamp);
+					$report -> area_id = Input::get('area');
+					$report -> location_id = Auth::user()->location->id;
+					$report -> ip_address = Request::getClientIp();
+					$report -> is_confirmed = 0;
+					if(Input::get('method')==2){
+						$report -> special_method_id =Input::get('special_method');
 					}
-					//If normal method
-					else if(Input::get('method')==1){
-						$report = Report::where('item_id','=',Input::get('item'))
-						->where('found_date','=',date("Y-m-d", $timestamp))
-						->where('found_at_id','=',Input::get('before'))
-						->where('item_owner','=',Input::get('owner'))
-						->where('area_id','=',Input::get('area'))
-						->where('other_item','=',Input::get('other'))
-						->where('other_area','=',Input::get('other_area'))
-						->where('method_id','=',Input::get('method'))
-						->where('location_id','=',Auth::user()->location->id)->first();
+					else{
+						$report -> special_method_id =0;
 					}
-					
-					//Update
-					if(count($report) > 0)
-					{
-						$updatedReport = Report::find($report->id);
-						$updatedReport->qty = Input::get('qty');
-						$updatedReport->is_confirmed = 0;
-						$updatedReport->method_id=Input::get('method');
-						$updatedReport->ip_address = Request::getClientIp();		
-						$updatedReport->save();
+					if(Input::get('item') == Item::where('name','=','อื่นๆ')->first()->id){
+						$report -> other_item = Input::get('other' );
+						}
+					else{
+						$report -> other_item = "";
 					}
-					//Insert
-					else
-					{
-						$report = new Report;
-						$report -> item_id = Input::get('item');
-						$report -> found_at_id =Input::get('before');
-						$report -> qty = Input::get('qty');
-						$report -> category_id = Item::find(Input::get('item'))->category_id;
-						$report -> found_date = date("Y-m-d", $timestamp);
-						$report -> area_id = Input::get('area');
-						$report -> location_id = Auth::user()->location->id;
-						$report -> ip_address = Request::getClientIp();
-						$report -> is_confirmed = 0;
-						if(Input::get('method')==2){
-							$report -> special_method_id =Input::get('special_method');
-						}
-						else{
-							$report -> special_method_id =0;
-						}
-						if(Input::get('item') == Item::where('name','=','อื่นๆ')->first()->id){
-							$report -> other_item = Input::get('other');
-						}
-						else{
-							$report -> other_item = "";
-						}				
-						if(Input::get('hasOwner') == "yes"){
-							$report -> item_owner = Input::get('owner');
-						}
-						else{
-							$report -> item_owner = "";
-						}
-						// check if area = other
-						if(Input::get('area') != 37 && Input::get('area') != 38){
-							$report -> other_area = "";							
-						}
-						else if(Input::get('area') == 37 || Input::get('area') == 38){
-							$report -> other_area = Input::get('other_area');
-						}
-						$report -> khet_id = Auth::user()->location->khet_id;
-						$report -> method_id = Input::get('method');
-						$report -> note_id = $noteId;
-						$report -> save();
+					if(Input::get('hasOwner') == "yes"){
+						$report -> item_owner = Input::get('owner');
 					}
-				}					
+					else{
+						$report -> item_owner = "";
+					}
+					// check if area = other
+					if(Input::get('area') != 37 && Input::get('area') != 38){
+						$report -> other_area = "";
+					}
+					else if(Input::get('area') == 37 || Input::get('area') == 38){
+						$report -> other_area = Input::get('other_area');
+					}
+					$report -> khet_id = Auth::user()->location->khet_id;
+					$report -> method_id = Input::get('method');
+					$report -> note_id = $noteId;
+					$report -> save();
+					}
+				}
 				//Get Unconfirm Report
 				$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->where('found_date','=',date("Y-m-d", $timestamp))->get();
 				$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->where('found_date','=',date("Y-m-d", $timestamp))->get();
@@ -280,8 +297,7 @@ class ReportController extends BaseController {
 				//return Redirect::make('report/add_data',compact('location','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','date'));
 				return Redirect::to('report/add')->withInput(array('date' => Input::get('date'), 'isFound' => Input::get('isFound')));
 			}
-		}
-
+		}		
 		else{
 			return Redirect::to('report/add')->withInput()->withErrors($validator);	
 		}

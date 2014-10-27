@@ -22,7 +22,6 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('stand_alone', 'ReportController@showStandAlone');
 	Route::get('dashboard', 'ReportController@showDashBoard');
 	Route::get('hdashboard', 'ReportController@showHDashBoard');
-	
 	//อธิบดี
 	Route::get('map', 'ReportController@showPOC');
 	Route::get('overall', 'ReportController@showOverall');
@@ -33,6 +32,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('delete/{id}/{foundDate}', 'ReportController@deleteData');
 	Route::post('confirm', array('before' => 'csrf', 'uses' => 'ReportController@postConfirm'));
 	Route::get('view', 'ReportController@showReport');
+	Route::get('get_table/{startDate?}/{endDate?}', 'ReportController@getReport');
 	Route::get('exist', 'ReportController@checkIfRecordExist');
 	
 	//Route::get('create', 'ReportController@getCreate');

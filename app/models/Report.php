@@ -45,23 +45,48 @@ class Report extends Eloquent {
 		return $dayMonth.$bYear;
 	} 
 	public static function generateReportRow($locationId,$startDate,$endDate){
-		 $location_id = 2;
+		 $location_id = $locationId;
 		 $startDate= date("Y-m-d", strtotime($startDate));	
 		 $endDate= date("Y-m-d", strtotime($endDate));	
 		 $transaction = DB::table('report')->select('item_id', DB::raw('SUM(qty) as sum'))
 		 ->where('found_date','>=',$startDate)
 		 ->where('found_date','<=',$endDate)
 		 ->where('location_id','=',$location_id)
+		 ->where('is_confirmed','=',1)
 		 ->groupBy('item_id')
 		 ->get();
-		 $inspectCount = Report::where('found_date','>=',$startDate)
-		 ->where('found_date','<=',$endDate)
-		 ->groupBy('location_id')
-		 ->get();
+		 
+		 
+		 $normalInspectCount = Report::select(DB::raw('COUNT(*) as total'))
+                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and method_id = 1) AS T'))
+                ->where('found_date','>=',$startDate)
+		 		->where('found_date','<=',$endDate)
+                ->first()->total;
+		 $specialInspectCount = Report::select(DB::raw('COUNT(*) as total'))
+                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and method_id = 2) AS T'))
+                ->where('found_date','>=',$startDate)
+		 		->where('found_date','<=',$endDate)
+                ->first()->total;
+                
+		$notFoundCount = Report::select(DB::raw('COUNT(*) as total'))
+                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and item_id = 0) AS T'))
+                ->where('found_date','>=',$startDate)
+		 		->where('found_date','<=',$endDate)
+                ->first()->total;
+		$foundCount = Report::select(DB::raw('COUNT(*) as total'))
+                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and item_id <> 0) AS T'))
+                ->where('found_date','>=',$startDate)
+		 		->where('found_date','<=',$endDate)
+                ->first()->total;
 		 //Don't forget to check not found item
 		 $allItems = Item::where('id','<>',0)->get();
 		 $itemFound = array();
-		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจม', count($inspectCount));
+		 $itemFound = array_add($itemFound, 'เขต', Auth::user()->location->khet_id);
+		 $itemFound = array_add($itemFound, 'เรือนจำ', Auth::user()->location->name);
+		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีปกติ', $normalInspectCount);
+		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีพิเศษ', $specialInspectCount);
+		 $itemFound = array_add($itemFound, 'ไม่พบ', $notFoundCount);
+		 $itemFound = array_add($itemFound, 'พบ', $foundCount);
 		 foreach($allItems as $item)
 		 {
 			 $match = false;	
