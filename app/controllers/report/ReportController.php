@@ -17,7 +17,7 @@ class ReportController extends BaseController {
 	public function showStandAlone(){
 		return View::make('report/poc_standalone');
 	}
-	public function showReport($startDate=null,$endDate=null){
+	public function getReport($startDate=null,$endDate=null){
 		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 		if($startDate==null || $endDate == null)
 		{
@@ -33,6 +33,23 @@ class ReportController extends BaseController {
 		$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate'));
 	}
+	public function postReport(){
+		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
+		if(Input::get('startDate')==null || Input::get('endDate') == null)
+		{
+			$startDate=date('Y-m-d',strtotime("-1 days"));
+			$endDate = $startDate;
+		}	
+		else{
+			$startDate = Report::convertYearBtoC(Input::get('startDate'));
+			$endDate = Report::convertYearBtoC(Input::get('endDate'));
+		}
+		$table = Report::generateReportRow(Auth::user()->location->id,$startDate,$endDate);
+		$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
+		$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
+		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate'));
+	}
+
 	public function showDashBoard(){
 		$date = Input::get('date');
 		if($date==null)
@@ -393,7 +410,7 @@ class ReportController extends BaseController {
 		$affectedRows = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',date("Y-m-d", $timestamp))->update(array('is_confirmed' => 1,'note_id'=>$note->id));				
 					
 		
-		return Redirect::to('report/view')->with('message','บันทึกรายงานเสร็จสมบูรณ์');
+		return Redirect::to('report/view/'.Input::get('date').'/'.Input::get('date'))->with('message','บันทึกรายงานเสร็จสมบูรณ์');
 	}
 	public function checkIfRecordExist()
 	{
