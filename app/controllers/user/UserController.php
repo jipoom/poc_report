@@ -71,11 +71,11 @@ class UserController extends BaseController {
 	}
 	public function getCreateBulkUsers(){
 		//User::add('popnakn','czxsly','รจ.จ.นครนายก');
-		$user = User::where('username','=','popnakn')->first();
-		$user->password = Hash::make('czxsly');
-		$user->save();
+		//$user = User::where('username','=','popnakn')->first();
+		//$user->password = Hash::make('czxsly');
+		//$user->save();
 		
-		//User::add('inctrad','bj46mv','สถานกักขังกลางจังหวัดตราด');
+		User::add('ircnakt','k79yhx','สก.นครปฐม');
 	}
 
 }

@@ -412,6 +412,16 @@ class ReportController extends BaseController {
 		
 		return Redirect::to('report/view/'.Input::get('date').'/'.Input::get('date'))->with('message','บันทึกรายงานเสร็จสมบูรณ์');
 	}
+
+	public function modifyReport(){
+		
+		$report = Report::all();
+		foreach($report as $r){
+			$r->khet_id = location::find($r->location_id)->khet_id;
+			$r->save();
+		}
+	}
+
 	public function checkIfRecordExist()
 	{
 	    $itemId = Input::get('itemId');

@@ -10,6 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+//Route::get('report/mody','ReportController@modifyReport');
 Route::get('report/unconfirmedData/{date}','ReportController@getUnconfirmedData');
 Route::get('report/getunit/{itemId}','ReportController@getUnit');
 Route::get('report/item/need_other','ReportController@checkItemName');
