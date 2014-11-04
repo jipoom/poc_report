@@ -151,7 +151,8 @@ table {
 	border-spacing: 0
 }
 td, th {
-	padding: 0
+	padding: 0;
+	margin: 0;
 }
 @media print {
 	* {
@@ -5191,4 +5192,23 @@ button.close {
 	}
 }
 
+
+th.rotate {
+  /* Something you can count on */
+  height: 140px;
+  white-space: nowrap;
+}
+
+th.rotate > div {
+  transform: 
+    /* Magic Numbers */
+    translate(0px, 0px)
+    /* 45 is really 360 - 45 */
+    rotate(270deg);
+  width: 14px;
+}
+th.rotate > div > span {
+
+  padding: 5px 10px;
+}
 
