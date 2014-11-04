@@ -4,12 +4,7 @@
 @stop
 @section("content")
 
-<h4>แสดงรายงาน</h4>
-{{ Form::open(array('url'=>'report/view', 'class'=>'form-signup', 'id'=>'infoForm')) }}
-ตั้งแต่: <input type="text" id="startDate" name="startDate" readonly="true"value="{{Input::old('startDate',(isset($startDate))? $startDate : date('d-m').'-'.$buddhistYear)}}"> 	
-ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
-{{ Form::submit() }}
-{{ Form::close() }}
+<h4>ตารางแสดงสรุปรายงาน</h4>
 
 <table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;">
 			<thead>
@@ -28,12 +23,12 @@
 					<th class="rotate" rowspan="2"><div><span>สุราหรือของมึนเมา</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>อุปกรณ์สำหรับเล่นการพนัน</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>เครื่องมืออันเป็นอุปกรณ์ในการหลบหนี</span></div></th>
-					<th class="rotate" rowspan="2"><div><span>อาวุธ เครื่องกระสุนปืน วัตถุระเบิด ดอกไม้เพลิง และสิ่งเทียมอาวุธปืน</span></div></th>
+					<th class="rotate" rowspan="2"><div><span>อาวุธ เครื่องกระสุนปืน วัตถุระเบิด <br /> ดอกไม้เพลิง และสิ่งเทียมอาวุธปืน</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>อาวุธดัดแปลง เหล็กแหลม</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>ของเน่าเสีย หรือของมีพิษต่อร่างกาย</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>น้ำมันเชื้อเพลิง</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>สัตว์มีชีวิต</span></div></th>
-					<th colspan="7"><center>เครื่องคอมพิวเตอร์ โทรศัพท์มือถือ หรือเครื่องมือสื่สารอื่น รวมทั้งอุปกรณ์สำหรับสิ่งของดังกล่าว</center></th>
+					<th colspan="7"><center>เครื่องคอมพิวเตอร์ โทรศัพท์มือถือ หรือเครื่องมือสื่อสารอื่น รวมทั้งอุปกรณ์สำหรับสิ่งของดังกล่าว</center></th>
 					<th rowspan="2">วัตถุ เอกสารหรือสิ่งพิมพ์ซึ่งอาจก่อให้เกิดความไม่สงบเรียบร้อย หรือเสื่อมต่อศีลธรรมอันดีของประชาชน</th>
 					<th rowspan="2">อื่นๆ</th>
 				</tr>
@@ -70,7 +65,13 @@
 				</tr>
 			</thead>
 		</table>
-
+	<div class="pull-right">
+	{{ Form::open(array('url'=>'report/view', 'class'=>'form-signup', 'id'=>'infoForm')) }}
+	เลือกดูรายงาน ตั้งแต่ <input type="text" id="startDate" name="startDate" readonly="true"value="{{Input::old('startDate',(isset($startDate))? $startDate : date('d-m').'-'.$buddhistYear)}}"> 	
+	ถึง <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
+	{{ Form::submit() }}
+	{{ Form::close() }}
+	</div>
 	
 @stop
 @section('scripts')
