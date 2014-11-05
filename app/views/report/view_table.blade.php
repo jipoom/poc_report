@@ -15,6 +15,7 @@
 			<thead>
 					
 				<tr>
+					<th rowspan="3">วันที่ทำการจู่โจม</th>
 					<th class="rotate" rowspan="3"><div><span>เขต</span></div></th>
 					<th rowspan="3">เรือนจำ/ทัณฑสถาน</th>
 					<th class="rotate" rowspan="3"><div><span>จำนวนครั้งที่มีการจู่โจมกรณีปกติ</span></div></th>
@@ -55,9 +56,10 @@
 					<th class="rotate"><div><span>อุปกรณ์ชาร์จแบตเตอรี่</span></div></th>
 					
 				</tr>
-				<tr>
-					@foreach($table as $item)
-						
+				
+					@foreach($table as $transaction)
+						<tr>
+						@foreach($transaction as $item)
 						<td>
 							@if($item == '0')
 								-
@@ -65,9 +67,11 @@
 								{{$item}}
 							@endif	
 							
-							</td>
+						</td>
+						@endforeach	
+						</tr>
 					@endforeach
-				</tr>
+				
 			</thead>
 		</table>
 

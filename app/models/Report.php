@@ -44,7 +44,10 @@ class Report extends Eloquent {
 		$bYear = $bYear+543;
 		return $dayMonth.$bYear;
 	} 
-	public static function generateReportRow($locationId,$startDate,$endDate){
+	public static function getReport($locationId,$foundDate){
+		
+	}
+	public static function getTotal($locationId,$startDate,$endDate){
 		 $location_id = $locationId;
 		 $startDate= date("Y-m-d", strtotime($startDate));	
 		 $endDate= date("Y-m-d", strtotime($endDate));	
@@ -81,6 +84,7 @@ class Report extends Eloquent {
 		 //Don't forget to check not found item
 		 $allItems = Item::where('id','<>',0)->get();
 		 $itemFound = array();
+		 $itemFound = array_add($itemFound, 'วันที่', 'สรุปยอด');
 		 $itemFound = array_add($itemFound, 'เขต', Khet::find(Auth::user()->location->khet_id)->name);
 		 $itemFound = array_add($itemFound, 'เรือนจำ', Auth::user()->location->name);
 		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีปกติ', $normalInspectCount);
@@ -108,8 +112,84 @@ class Report extends Eloquent {
 				//echo $item->id."<br>";
 			 }
 		 }
+
 		 return $itemFound;
 	}
+	public static function generateReportRow($locationId,$startDate,$endDate){	
+		 $firstDate = $startDate;
+		 $startDate= date("Y-m-d", strtotime($startDate));		
+		 $endDate= date("Y-m-d", strtotime($endDate));	
+		 $i=0;
+		 $reportTotal = array();		
+		 while(strtotime($startDate) <= strtotime($endDate))
+		 {
+					
+			 $transaction = DB::table('report')->select('item_id', DB::raw('SUM(qty) as sum'))
+			 ->where('found_date','=',$startDate)
+			 ->where('location_id','=',$locationId)
+			 ->where('is_confirmed','=',1)
+			 ->groupBy('item_id')
+			 ->get();
+			 
+			 if(count($transaction)>0)
+			 {
+			 	$normalInspectCount = Report::select(DB::raw('COUNT(*) as total'))
+                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and method_id = 1) AS T'))
+                ->where('found_date','=',$startDate)
+                ->first()->total;
+				 $specialInspectCount = Report::select(DB::raw('COUNT(*) as total'))
+	                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and method_id = 2) AS T'))
+	                ->where('found_date','=',$startDate)
+	                ->first()->total;
+	                
+				$notFoundCount = Report::select(DB::raw('COUNT(*) as total'))
+	                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and item_id = 0) AS T'))
+	                ->where('found_date','=',$startDate)
+	                ->first()->total;
+				$foundCount = Report::select(DB::raw('COUNT(*) as total'))
+	                ->from(DB::raw('(SELECT distinct(found_date) FROM report where location_id = '.$locationId.' and item_id <> 0) AS T'))
+	                ->where('found_date','=',$startDate)
+	                ->first()->total;
+			     $allItems = Item::where('id','<>',0)->get();
+				 $itemFound = array();
+				 $itemFound = array_add($itemFound, 'วันที่', Report::convertYearCtoB(date('d-m-Y', strtotime($startDate))));
+				 $itemFound = array_add($itemFound, 'เขต', Khet::find(Auth::user()->location->khet_id)->name);
+				 $itemFound = array_add($itemFound, 'เรือนจำ', Auth::user()->location->name);
+				 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีปกติ', $normalInspectCount);
+				 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีพิเศษ', $specialInspectCount);
+				 $itemFound = array_add($itemFound, 'ไม่พบ', $notFoundCount);
+				 $itemFound = array_add($itemFound, 'พบ', $foundCount);
+				 foreach($allItems as $item)
+				 {
+					 $match = false;	
+					 foreach($transaction as $t){
+						if($t->item_id == $item->id){
+							$itemFound = array_add($itemFound, $t->item_id, $t->sum);
+							//echo "match...";
+							//echo $item->name."...";
+							//echo $t->sum."...";
+							//echo $item->id."<br>";
+							$match = true;
+							break;
+						}						
+					 }
+					 if(!$match){
+					 	$itemFound = array_add($itemFound, $item->id, 0);
+						//echo "not match...";
+						//echo $item->name."...";
+						//echo $item->id."<br>";
+					 }
+				 }
+				 $reportTotal = array_add($reportTotal,$startDate,$itemFound);
+			 }	
+			$startDate = date('Y-m-d', strtotime($startDate . " +1 day"));
+			$i++;	
+			
+			}
+			$total = Report::getTotal($locationId, $firstDate, $endDate);
+			$reportTotal = array_add($reportTotal,'รวม',$total);
+			return $reportTotal;	
+		}
 }
 
 ?>
