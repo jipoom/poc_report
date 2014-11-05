@@ -44,9 +44,6 @@ class Report extends Eloquent {
 		$bYear = $bYear+543;
 		return $dayMonth.$bYear;
 	} 
-	public static function getReport($locationId,$foundDate){
-		
-	}
 	public static function getTotal($locationId,$startDate,$endDate){
 		 $location_id = $locationId;
 		 $startDate= date("Y-m-d", strtotime($startDate));	
