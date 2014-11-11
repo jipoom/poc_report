@@ -24,6 +24,8 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('dashboard', 'ReportController@showDashBoard');
 	Route::get('hdashboard', 'ReportController@showHDashBoard');
 	//อธิบดี
+	Route::post('view_all', 'ReportController@postAdminReport');
+	Route::get('view_all/{startDate?}/{endDate?}', 'ReportController@getAdminReport');
 	Route::get('map', 'ReportController@showPOC');
 	Route::get('overall', 'ReportController@showOverall');
 	

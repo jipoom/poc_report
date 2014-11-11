@@ -46,6 +46,7 @@ class Report extends Eloquent {
 	} 
 	public static function getTotal($locationId,$startDate,$endDate){
 		 $location_id = $locationId;
+		 $khetId = Location::find($locationId)->khet_id;
 		 $startDate= date("Y-m-d", strtotime($startDate));	
 		 $endDate= date("Y-m-d", strtotime($endDate));	
 		 $transaction = DB::table('report')->select('item_id', DB::raw('SUM(qty) as sum'))
@@ -82,8 +83,8 @@ class Report extends Eloquent {
 		 $allItems = Item::where('id','<>',0)->get();
 		 $itemFound = array();
 		 $itemFound = array_add($itemFound, 'วันที่', 'สรุปยอด');
-		 $itemFound = array_add($itemFound, 'เขต', Khet::find(Auth::user()->location->khet_id)->name);
-		 $itemFound = array_add($itemFound, 'เรือนจำ', Auth::user()->location->name);
+		 $itemFound = array_add($itemFound, 'เขต', Khet::find($khetId)->name);
+		 $itemFound = array_add($itemFound, 'เรือนจำ', Location::find($locationId)->name);
 		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีปกติ', $normalInspectCount);
 		 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีพิเศษ', $specialInspectCount);
 		 $itemFound = array_add($itemFound, 'ไม่พบ', $notFoundCount);
@@ -112,8 +113,9 @@ class Report extends Eloquent {
 
 		 return $itemFound;
 	}
-	public static function generateReportRow($locationId,$startDate,$endDate){	
+	public static function generateReportRow($locationId,$startDate,$endDate){
 		 $firstDate = $startDate;
+		 $khetId = Location::find($locationId)->khet_id;
 		 $startDate= date("Y-m-d", strtotime($startDate));		
 		 $endDate= date("Y-m-d", strtotime($endDate));	
 		 $i=0;
@@ -150,8 +152,8 @@ class Report extends Eloquent {
 			     $allItems = Item::where('id','<>',0)->get();
 				 $itemFound = array();
 				 $itemFound = array_add($itemFound, 'วันที่', Report::convertYearCtoB(date('d-m-Y', strtotime($startDate))));
-				 $itemFound = array_add($itemFound, 'เขต', Khet::find(Auth::user()->location->khet_id)->name);
-				 $itemFound = array_add($itemFound, 'เรือนจำ', Auth::user()->location->name);
+				 $itemFound = array_add($itemFound, 'เขต', Khet::find($khetId)->name);
+				 $itemFound = array_add($itemFound, 'เรือนจำ', Location::find($locationId)->name);
 				 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีปกติ', $normalInspectCount);
 				 $itemFound = array_add($itemFound, 'จำนวนครั้งการจู่โจมกรณีพิเศษ', $specialInspectCount);
 				 $itemFound = array_add($itemFound, 'ไม่พบ', $notFoundCount);
@@ -183,8 +185,9 @@ class Report extends Eloquent {
 			$i++;	
 			
 			}
-			$total = Report::getTotal($locationId, $firstDate, $endDate);
-			$reportTotal = array_add($reportTotal,'รวม',$total);
+		
+			//$total = Report::getTotal($locationId, $firstDate, $endDate);
+			//$reportTotal = array_add($reportTotal,'รวม',$total);
 			return $reportTotal;	
 		}
 }
