@@ -58,7 +58,12 @@ class ReportController extends BaseController {
 		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate'));
 	}
 	public function getAdminReport($startDate=null,$endDate=null){
-		if(Auth::user()->role_id !=3 )
+		$table = ReportSummary::all();
+		$a = 'a';
+		foreach ($table as $t){
+			echo $t->$a;
+		}	
+		/*if(Auth::user()->role_id !=3 )
 		{	
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			if($startDate==null || $endDate == null)
@@ -84,7 +89,7 @@ class ReportController extends BaseController {
 		}
 		else {
 			echo "permission denied";
-		}
+		}*/
 	}
 	public function postAdminReport(){
 		if(Auth::user()->role_id !=3 )
