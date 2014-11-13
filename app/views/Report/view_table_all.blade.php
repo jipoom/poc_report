@@ -6,8 +6,17 @@
 
 <h4>ตารางแสดงสรุปรายงาน</h4>
 {{ Form::open(array('url'=>'report/view_all', 'class'=>'form-signup', 'id'=>'infoForm')) }}
+<p>
 ตั้งแต่: <input type="text" id="startDate" name="startDate" readonly="true"value="{{Input::old('startDate',(isset($startDate))? $startDate : date('d-m').'-'.$buddhistYear)}}"> 	
 ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
+</p>
+<p>
+ระบุเขต: {{ Form::select('khet_id', Khet::getArray(),"",array('id'=>'khet_id')) }}
+</p>
+<p>
+<div id='location'>
+</div>
+</p>
 {{ Form::submit() }}
 {{ Form::close() }}
 
@@ -135,6 +144,24 @@
 @stop
 @section('scripts')
 <script>
+	 $( "#khet_id" ).change(function() {
+	   	loadLocation($( "#khet_id" ).val());
+	 });
+	 function loadLocation(khetId){
+	 	if (window.XMLHttpRequest) {
+					// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp = new XMLHttpRequest();
+				} else {// code for IE6, IE5
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						document.getElementById("location").innerHTML = xmlhttp.responseText;
+					}
+				}
+				xmlhttp.open("GET", "{{{ URL::to('report/loadLocation') }}}/"+khetId, true);
+				xmlhttp.send();
+	 }
 	 $(function () {
 		    /*var d = new Date();
 		    var toDay = d.getDate() + '/'
@@ -181,6 +208,8 @@
              	 monthNames: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
              	 monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
 			});
+			
+			
 
 </script>
 @stop

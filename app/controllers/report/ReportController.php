@@ -129,9 +129,28 @@ class ReportController extends BaseController {
 			}*/
 			$startDate= date("Y-m-d", strtotime($startDate));	
 			$endDate= date("Y-m-d", strtotime($endDate));	
-			$table = ReportSummary::where('found_date','>=',$startDate)
-			->where('found_date','<=',$endDate)
-			->get();
+			if(Input::get('khet_id') == 0)
+			{
+				$table = ReportSummary::where('found_date','>=',$startDate)
+				->where('found_date','<=',$endDate)
+				->get();
+			}
+			else{
+				if(Input::get('location_id') == 0)
+				{
+					$table = ReportSummary::where('found_date','>=',$startDate)
+					->where('found_date','<=',$endDate)
+					->where('khet_id','=',Input::get('khet_id'))
+					->get();
+				}
+				else{
+					$table = ReportSummary::where('found_date','>=',$startDate)
+					->where('found_date','<=',$endDate)
+					->where('location_id','=',Input::get('location_id'))
+					->get();
+				}
+				
+			}
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate'));
@@ -444,6 +463,18 @@ class ReportController extends BaseController {
              $result=Area::where('found_at_id','=',$foundAt)->get();
              foreach($result as $area)
                   echo "<option value='$area->id' >$area->name</option>" ;
+		echo "</select>\n";
+	}
+	public function loadLocation($khetId){
+		if($khetId==0){
+			return null;
+		}
+		echo "เลือกเรือนจำ: "	;
+		echo "<select name='location_id' id='location_id'>";
+             $result=Location::where('khet_id','=',$khetId)->get();
+			 echo "<option value='0' >แสดงทั้งหมด</option>" ;
+             foreach($result as $location)
+                  echo "<option value='$location->id' >$location->name</option>" ;
 		echo "</select>\n";
 	}
 	public function checkAreaName(){
