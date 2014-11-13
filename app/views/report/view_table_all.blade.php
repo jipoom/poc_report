@@ -1,11 +1,13 @@
 @extends("layout")
 @section('styles')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">
+
 @stop
 @section("content")
 
 <h4>ตารางแสดงสรุปรายงาน</h4>
-{{ Form::open(array('url'=>'report/view', 'class'=>'form-signup', 'id'=>'infoForm')) }}
+{{ Form::open(array('url'=>'report/view_all', 'class'=>'form-signup', 'id'=>'infoForm')) }}
 ตั้งแต่: <input type="text" id="startDate" name="startDate" readonly="true"value="{{Input::old('startDate',(isset($startDate))? $startDate : date('d-m').'-'.$buddhistYear)}}"> 	
 ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
 {{ Form::submit() }}
@@ -56,7 +58,6 @@
 					<th class="rotate"><div><span>อุปกรณ์ชาร์จแบตเตอรี่</span></div></th>
 					
 				</tr>
-				
 					@foreach($table as $transaction)
 						<tr>
 							<td>{{$transaction->found_date}}</td>
@@ -128,19 +129,34 @@
 							@endif
 						</tr>
 					@endforeach
-					<tr>
-						@foreach($total as $t)
-						<td>
-							{{($t=='0')? '-' : $t}}
-						</td>
-						@endforeach
-					</tr>
+				
 			</thead>
 		</table>
+		
 
-	
 @stop
 @section('scripts')
+<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+		var oTable;
+		$(document).ready(function() {
+			oTable = $('#summary').dataTable( {
+				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				"sPaginationType": "bootstrap",
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"aaSorting": [[ 1, "desc" ]],
+				"bProcessing": false,
+		        "bServerSide": true,
+		        "sAjaxSource": "{{ URL::to('admin/comments/data/') }}"+"/"+"{{$post}}",
+		        "fnDrawCallback": function ( oSettings ) {
+	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+	     		}
+			});
+		
+		});
+</script>
 <script>
 	 $(function () {
 		    /*var d = new Date();

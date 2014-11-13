@@ -28,14 +28,22 @@ class ReportController extends BaseController {
 			$startDate = Report::convertYearBtoC($startDate);
 			$endDate = Report::convertYearBtoC($endDate);
 		}
-		$table = Report::generateReportRow(Auth::user()->location->id,$startDate,$endDate);
+		/*$table = Report::generateReportRow(Auth::user()->location->id,$startDate,$endDate);
 		// get summary
 		$total = Report::getTotal(Auth::user()->location->id, $startDate, $endDate);
-		$table = array_add($table,'รวม',$total);
+		$table = array_add($table,'รวม',$total);*/
+		$startDate= date("Y-m-d", strtotime($startDate));	
+		$endDate= date("Y-m-d", strtotime($endDate));	
+		$table = ReportSummary::where('found_date','>=',$startDate)
+		->where('found_date','<=',$endDate)
+		->where('location_id','=',Auth::user()->location->id)
+		->get();
+		
+		$total = Report::getTotal(Auth::user()->location->id, $startDate, $endDate);
 		
 		$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 		$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
-		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate'));
+		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate','total'));
 	}
 	public function postReport(){
 		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
@@ -48,22 +56,24 @@ class ReportController extends BaseController {
 			$startDate = Report::convertYearBtoC(Input::get('startDate'));
 			$endDate = Report::convertYearBtoC(Input::get('endDate'));
 		}
-		$table = Report::generateReportRow(Auth::user()->location->id,$startDate,$endDate);
+		/*$table = Report::generateReportRow(Auth::user()->location->id,$startDate,$endDate);
 		// get summary
 		$total = Report::getTotal(Auth::user()->location->id, $startDate, $endDate);
 		$table = array_add($table,'รวม',$total);
-		
+		*/
+		$startDate= date("Y-m-d", strtotime($startDate));	
+		$endDate= date("Y-m-d", strtotime($endDate));	
+		$table = ReportSummary::where('found_date','>=',$startDate)
+		->where('found_date','<=',$endDate)
+		->where('location_id','=',Auth::user()->location->id)
+		->get();
+		$total = Report::getTotal(Auth::user()->location->id, $startDate, $endDate);
 		$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 		$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
-		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate'));
+		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate','total'));
 	}
-	public function getAdminReport($startDate=null,$endDate=null){
-		$table = ReportSummary::all();
-		$a = 'a';
-		foreach ($table as $t){
-			echo $t->$a;
-		}	
-		/*if(Auth::user()->role_id !=3 )
+	public function getAdminReport($startDate=null,$endDate=null){	
+		if(Auth::user()->role_id !=3 )
 		{	
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			if($startDate==null || $endDate == null)
@@ -75,21 +85,26 @@ class ReportController extends BaseController {
 				$startDate = Report::convertYearBtoC($startDate);
 				$endDate = Report::convertYearBtoC($endDate);
 			}
-			$i=0;
+			/*$i=0;
 			$table = array();		
 			foreach(Location::orderBy('khet_id')->get() as $location)
 			{
 				$table_temp = Report::generateReportRow($location->id,$startDate,$endDate);
 				$table = array_add($table,$i,$table_temp);
 				$i++;
-			}
+			}*/
+			$startDate= date("Y-m-d", strtotime($startDate));	
+			$endDate= date("Y-m-d", strtotime($endDate));	
+			$table = ReportSummary::where('found_date','>=',$startDate)
+			->where('found_date','<=',$endDate)
+			->get();
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate'));
 		}
 		else {
 			echo "permission denied";
-		}*/
+		}
 	}
 	public function postAdminReport(){
 		if(Auth::user()->role_id !=3 )
@@ -104,14 +119,19 @@ class ReportController extends BaseController {
 				$startDate = Report::convertYearBtoC(Input::get('startDate'));
 				$endDate = Report::convertYearBtoC(Input::get('endDate'));
 			}
-			$i=0;
+			/*$i=0;
 			$table = array();		
 			foreach(Location::orderBy('khet_id')->get() as $location)
 			{
 				$table_temp = Report::generateReportRow($location->id,$startDate,$endDate);
 				$table = array_add($table,$i,$table_temp);
 				$i++;
-			}
+			}*/
+			$startDate= date("Y-m-d", strtotime($startDate));	
+			$endDate= date("Y-m-d", strtotime($endDate));	
+			$table = ReportSummary::where('found_date','>=',$startDate)
+			->where('found_date','<=',$endDate)
+			->get();
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate'));
