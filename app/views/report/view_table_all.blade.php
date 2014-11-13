@@ -1,8 +1,6 @@
 @extends("layout")
 @section('styles')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">
-
 @stop
 @section("content")
 
@@ -136,27 +134,6 @@
 
 @stop
 @section('scripts')
-<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript">
-		var oTable;
-		$(document).ready(function() {
-			oTable = $('#summary').dataTable( {
-				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-				"sPaginationType": "bootstrap",
-				"oLanguage": {
-					"sLengthMenu": "_MENU_ records per page"
-				},
-				"aaSorting": [[ 1, "desc" ]],
-				"bProcessing": false,
-		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('admin/comments/data/') }}"+"/"+"{{$post}}",
-		        "fnDrawCallback": function ( oSettings ) {
-	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
-	     		}
-			});
-		
-		});
-</script>
 <script>
 	 $(function () {
 		    /*var d = new Date();

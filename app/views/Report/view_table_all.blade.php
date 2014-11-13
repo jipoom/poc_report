@@ -56,22 +56,77 @@
 					<th class="rotate"><div><span>อุปกรณ์ชาร์จแบตเตอรี่</span></div></th>
 					
 				</tr>
-				@foreach($table as $location)
-					@foreach($location as $transaction)
+					@foreach($table as $transaction)
 						<tr>
-						@foreach($transaction as $item)
-						<td>
-							@if($item == '0')
-								-
+							<td>{{$transaction->found_date}}</td>
+							<td>{{$transaction->khet_id}}</td>
+							<td>{{Location::find($transaction->location_id)->name}}</td>
+							@if($transaction->method == 1)
+							<td>1</td>	
+							<td>-</td>	
 							@else
-								{{$item}}
-							@endif	
-							
-						</td>
-						@endforeach	
+							<td>-</td>
+							<td>1</td>	
+							@endif
+							@if($transaction->a+$transaction->b+$transaction->c+$transaction->d+$transaction->e+
+							$transaction->f+$transaction->g+$transaction->h+$transaction->i+$transaction->j+
+							$transaction->k+$transaction->l+$transaction->m+$transaction->n+$transaction->o+
+							$transaction->p+$transaction->q+$transaction->r+$transaction->s+$transaction->t+
+							$transaction->u+$transaction->v+$transaction->w == 0)
+							<td>1</td>	
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							@else
+							<td>-</td>	
+							<td>1</td>
+							<td>{{($transaction->a==0)? '-' : $transaction->a}}</td>
+							<td>{{($transaction->b==0)? '-' : $transaction->b}}</td>
+							<td>{{($transaction->c==0)? '-' : $transaction->c}}</td>
+							<td>{{($transaction->d==0)? '-' : $transaction->d}}</td>
+							<td>{{($transaction->e==0)? '-' : $transaction->e}}</td>
+							<td>{{($transaction->f==0)? '-' : $transaction->f}}</td>
+							<td>{{($transaction->g==0)? '-' : $transaction->g}}</td>
+							<td>{{($transaction->h==0)? '-' : $transaction->h}}</td>
+							<td>{{($transaction->i==0)? '-' : $transaction->i}}</td>
+							<td>{{($transaction->j==0)? '-' : $transaction->j}}</td>
+							<td>{{($transaction->k==0)? '-' : $transaction->k}}</td>
+							<td>{{($transaction->l==0)? '-' : $transaction->l}}</td>
+							<td>{{($transaction->m==0)? '-' : $transaction->m}}</td>
+							<td>{{($transaction->n==0)? '-' : $transaction->n}}</td>
+							<td>{{($transaction->o==0)? '-' : $transaction->o}}</td>
+							<td>{{($transaction->p==0)? '-' : $transaction->p}}</td>
+							<td>{{($transaction->q==0)? '-' : $transaction->q}}</td>
+							<td>{{($transaction->r==0)? '-' : $transaction->r}}</td>
+							<td>{{($transaction->s==0)? '-' : $transaction->s}}</td>
+							<td>{{($transaction->t==0)? '-' : $transaction->t}}</td>
+							<td>{{($transaction->u==0)? '-' : $transaction->u}}</td>
+							<td>{{($transaction->v==0)? '-' : $transaction->v}}</td>
+							<td>{{($transaction->w==0)? '-' : $transaction->w}}</td>
+							@endif
 						</tr>
 					@endforeach
-				@endforeach	
 				
 			</thead>
 		</table>
