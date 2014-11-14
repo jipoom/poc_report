@@ -72,7 +72,8 @@ class ReportController extends BaseController {
 		$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 		return View::make('report/view_table',compact('table','buddhistYear','startDate','endDate','total'));
 	}
-	public function getAdminReport($startDate=null,$endDate=null){	
+	public function getAdminReport($startDate=null,$endDate=null){
+		$total = array();		
 		if(Auth::user()->role_id !=3 )
 		{	
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
@@ -98,9 +99,53 @@ class ReportController extends BaseController {
 			$table = ReportSummary::where('found_date','>=',$startDate)
 			->where('found_date','<=',$endDate)
 			->get();
+			$total = array('normal'=>'0','special'=>'0','notFound'=>'0','found'=>'0','a'=>'0','b'=>'0','c'=>'0','d'=>'0','e'=>'0','f'=>'0','g'=>'0','h'=>'0','i'=>'0','j'=>'0','k'=>'0','l'=>'0',
+			'm'=>'0','n'=>'0','o'=>'0','p'=>'0','q'=>'0','r'=>'0','s'=>'0','t'=>'0','u'=>'0','v'=>'0','w'=>'0');
+			foreach($table as $temp){
+				if($temp->method == 1){
+					$total['normal']++;
+				}	
+				else if($temp->method == 2){
+					$total['special']++;
+				}
+				if($temp->a+$temp->b+$temp->c+$temp->d+$temp->e+
+							$temp->f+$temp->g+$temp->h+$temp->i+$temp->j+
+							$temp->k+$temp->l+$temp->m+$temp->n+$temp->o+
+							$temp->p+$temp->q+$temp->r+$temp->s+$temp->t+
+							$temp->u+$temp->v+$temp->w == 0)
+				{
+					$total['notFound']++;
+				}	
+				else{
+					$total['found']++;
+				}
+				$total['a'] = $temp->a + $total['a'];
+				$total['b'] = $temp->b + $total['b'];
+				$total['c'] = $temp->c + $total['c'];
+				$total['d'] = $temp->d + $total['d'];
+				$total['e'] = $temp->e + $total['e'];
+				$total['f'] = $temp->f + $total['f'];
+				$total['g'] = $temp->g + $total['g'];
+				$total['h'] = $temp->h + $total['h'];
+				$total['i'] = $temp->i + $total['i'];
+				$total['j'] = $temp->j + $total['j'];
+				$total['k'] = $temp->k + $total['k'];
+				$total['l'] = $temp->l + $total['l'];
+				$total['m'] = $temp->m + $total['m'];
+				$total['n'] = $temp->n + $total['n'];
+				$total['o'] = $temp->o + $total['o'];
+				$total['p'] = $temp->p + $total['p'];
+				$total['q'] = $temp->q + $total['q'];
+				$total['r'] = $temp->r + $total['r'];
+				$total['s'] = $temp->s + $total['s'];
+				$total['t'] = $temp->t + $total['t'];
+				$total['u'] = $temp->u + $total['u'];
+				$total['v'] = $temp->v + $total['v'];
+				$total['w'] = $temp->w + $total['w'];
+			}
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
-			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate'));
+			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate','total'));
 		}
 		else {
 			echo "permission denied";
@@ -151,9 +196,55 @@ class ReportController extends BaseController {
 				}
 				
 			}
+			
+			$total = array('normal'=>'0','special'=>'0','notFound'=>'0','found'=>'0','a'=>'0','b'=>'0','c'=>'0','d'=>'0','e'=>'0','f'=>'0','g'=>'0','h'=>'0','i'=>'0','j'=>'0','k'=>'0','l'=>'0',
+			'm'=>'0','n'=>'0','o'=>'0','p'=>'0','q'=>'0','r'=>'0','s'=>'0','t'=>'0','u'=>'0','v'=>'0','w'=>'0');
+			foreach($table as $temp){
+				if($temp->method == 1){
+					$total['normal']++;
+				}	
+				else if($temp->method == 2){
+					$total['special']++;
+				}
+				if($temp->a+$temp->b+$temp->c+$temp->d+$temp->e+
+							$temp->f+$temp->g+$temp->h+$temp->i+$temp->j+
+							$temp->k+$temp->l+$temp->m+$temp->n+$temp->o+
+							$temp->p+$temp->q+$temp->r+$temp->s+$temp->t+
+							$temp->u+$temp->v+$temp->w == 0)
+				{
+					$total['notFound']++;
+				}	
+				else{
+					$total['found']++;
+				}	
+				$total['a'] = $temp->a + $total['a'];
+				$total['b'] = $temp->b + $total['b'];
+				$total['c'] = $temp->c + $total['c'];
+				$total['d'] = $temp->d + $total['d'];
+				$total['e'] = $temp->e + $total['e'];
+				$total['f'] = $temp->f + $total['f'];
+				$total['g'] = $temp->g + $total['g'];
+				$total['h'] = $temp->h + $total['h'];
+				$total['i'] = $temp->i + $total['i'];
+				$total['j'] = $temp->j + $total['j'];
+				$total['k'] = $temp->k + $total['k'];
+				$total['l'] = $temp->l + $total['l'];
+				$total['m'] = $temp->m + $total['m'];
+				$total['n'] = $temp->n + $total['n'];
+				$total['o'] = $temp->o + $total['o'];
+				$total['p'] = $temp->p + $total['p'];
+				$total['q'] = $temp->q + $total['q'];
+				$total['r'] = $temp->r + $total['r'];
+				$total['s'] = $temp->s + $total['s'];
+				$total['t'] = $temp->t + $total['t'];
+				$total['u'] = $temp->u + $total['u'];
+				$total['v'] = $temp->v + $total['v'];
+				$total['w'] = $temp->w + $total['w'];
+			}
+			
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
-			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate'));
+			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate','total'));
 		}
 		else {
 			echo "permission denied";

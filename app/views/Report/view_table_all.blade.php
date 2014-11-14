@@ -136,7 +136,15 @@
 							@endif
 						</tr>
 					@endforeach
-				
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+
+					@foreach($total as $temp)
+						<td>{{$temp}}</td>
+					@endforeach
+					</tr>
 			</thead>
 		</table>
 		
