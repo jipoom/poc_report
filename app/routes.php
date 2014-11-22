@@ -17,7 +17,8 @@ Route::get('report/item/need_other','ReportController@checkItemName');
 Route::get('report/method/{methodId}','ReportController@checkMethod');
 Route::get('report/area/need_other','ReportController@checkAreaName');
 Route::get('report/area_option/{found_at_id}','ReportController@loadAreaOption');
-Route::get('report/loadLocation/{khet_id}','ReportController@loadLocation');
+Route::get('report/loadLocation/{khet_id}/{location_id}','ReportController@loadLocation');
+Route::get('report/loadItem/{category_id}/{item_id}','ReportController@loadItem');
 Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
@@ -27,8 +28,11 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	//อธิบดี
 	Route::post('view_all', 'ReportController@postAdminReport');
 	Route::get('view_all/{startDate?}/{endDate?}', 'ReportController@getAdminReport');
-	Route::get('map', 'ReportController@showPOC');
-	Route::get('overall', 'ReportController@showOverall');
+	Route::post('view_category', 'ReportController@postAdminReportCategory');
+	Route::get('view_category/{startDate?}/{endDate?}', 'ReportController@getAdminReportCategory');
+	
+	//Route::get('map', 'ReportController@showPOC');
+	//Route::get('overall', 'ReportController@showOverall');
 	
 	//เรือนจำ
 	Route::get('add', array('as' => 'add', 'uses' => 'ReportController@getAddData'));

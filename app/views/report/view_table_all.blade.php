@@ -27,6 +27,13 @@
 บริเวณที่มีการค้นพบ: {{ Form::select('found_at_id', FoundAt::getArray(),Input::old('found_at_id',(isset($found_at_id))? $found_at_id : 0),array('id'=>'found_at_id')) }}
 </div>
 </p>
+<p>
+ระบุประเภทสิ่งของต้องห้าม: {{ Form::select('category_id', Category::getArrayWithAll(),Input::old('category_id',(isset($category_id))? $category_id : 0),array('id'=>'category_id')) }}
+</p>
+<p>
+<div id='item'>
+</div>
+</p>
 
 {{ Form::submit() }}
 {{ Form::close() }}
@@ -167,13 +174,19 @@
 	 $( document ).ready(function() {
 	  // Handler for .ready() called.
 	  	$( "#khet_id" ).change(function() {
-		   	loadLocation($( "#khet_id" ).val());
+		   	loadLocation($( "#khet_id" ).val(),'{{$location_id}}');
 		});
 	    if($("#khet_id").val()!=0){
-	   	    loadLocation($( "#khet_id" ).val());
+	   	    loadLocation($( "#khet_id" ).val(),'{{$location_id}}');
+	    }
+	    $( "#category_id" ).change(function() {
+		   	loadItem($( "#category_id" ).val(),'{{$item_id}}');
+		});
+	    if($("#category_id").val()!=0){
+	   	    loadItem($( "#category_id" ).val(),'{{$item_id}}');
 	    }
 	 });
-	 function loadLocation(khetId){
+	 function loadLocation(khetId,locationId){
 	 	if (window.XMLHttpRequest) {
 					// code for IE7+, Firefox, Chrome, Opera, Safari
 					xmlhttp = new XMLHttpRequest();
@@ -185,7 +198,22 @@
 						document.getElementById("location").innerHTML = xmlhttp.responseText;
 					}
 				}
-				xmlhttp.open("GET", "{{{ URL::to('report/loadLocation') }}}/"+khetId, true);
+				xmlhttp.open("GET", "{{{ URL::to('report/loadLocation') }}}/"+khetId+"/"+locationId, false);
+				xmlhttp.send();
+	 }
+	  function loadItem(categoryId,itemId){
+	 	if (window.XMLHttpRequest) {
+					// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp = new XMLHttpRequest();
+				} else {// code for IE6, IE5
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						document.getElementById("item").innerHTML = xmlhttp.responseText;
+					}
+				}
+				xmlhttp.open("GET", "{{{ URL::to('report/loadItem') }}}/"+categoryId+"/"+itemId, false);
 				xmlhttp.send();
 	 }
 	 $(function () {

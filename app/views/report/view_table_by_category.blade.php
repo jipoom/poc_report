@@ -11,10 +11,10 @@
 ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
 </p>
 <p>
-ระบุเขต: {{ Form::select('khet_id', Khet::getArray(),Input::old('khet_id',(isset($khet_id))? $khet_id : 0),array('id'=>'khet_id')) }}
+ระบุประเภทสิ่งของต้องห้าม: {{ Form::select('category_id', Category::getArrayWithAll(),Input::old('category_id',(isset($category_id))? $category_id : 0),array('id'=>'category_id')) }}
 </p>
 <p>
-<div id='location'>
+<div id='item'>
 </div>
 </p>
 <p>
@@ -25,13 +25,6 @@
 <p>
 <div id='found_at'>
 บริเวณที่มีการค้นพบ: {{ Form::select('found_at_id', FoundAt::getArray(),Input::old('found_at_id',(isset($found_at_id))? $found_at_id : 0),array('id'=>'found_at_id')) }}
-</div>
-</p>
-<p>
-ระบุประเภทสิ่งของต้องห้าม: {{ Form::select('category_id', Category::getArrayWithAll(),Input::old('category_id',(isset($category_id))? $category_id : 0),array('id'=>'category_id')) }}
-</p>
-<p>
-<div id='item'>
 </div>
 </p>
 
@@ -173,35 +166,14 @@
 
 	 $( document ).ready(function() {
 	  // Handler for .ready() called.
-	  	$( "#khet_id" ).change(function() {
-		   	loadLocation($( "#khet_id" ).val(),'{{$location_id}}');
-		});
-	    if($("#khet_id").val()!=0){
-	   	    loadLocation($( "#khet_id" ).val(),'{{$location_id}}');
-	    }
-	    $( "#category_id" ).change(function() {
-		   	loadItem($( "#category_id" ).val(),'{{$item_id}}');
+	  	$( "#category_id" ).change(function() {
+		   	loadItem($( "#category_id" ).val());
 		});
 	    if($("#category_id").val()!=0){
-	   	    loadItem($( "#category_id" ).val(),'{{$item_id}}');
+	   	    loadItem($( "#category_id" ).val());
 	    }
 	 });
-	 function loadLocation(khetId,locationId){
-	 	if (window.XMLHttpRequest) {
-					// code for IE7+, Firefox, Chrome, Opera, Safari
-					xmlhttp = new XMLHttpRequest();
-				} else {// code for IE6, IE5
-					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				xmlhttp.onreadystatechange = function() {
-					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-						document.getElementById("location").innerHTML = xmlhttp.responseText;
-					}
-				}
-				xmlhttp.open("GET", "{{{ URL::to('report/loadLocation') }}}/"+khetId+"/"+locationId, false);
-				xmlhttp.send();
-	 }
-	  function loadItem(categoryId,itemId){
+	 function loadItem(categoryId){
 	 	if (window.XMLHttpRequest) {
 					// code for IE7+, Firefox, Chrome, Opera, Safari
 					xmlhttp = new XMLHttpRequest();
@@ -213,7 +185,7 @@
 						document.getElementById("item").innerHTML = xmlhttp.responseText;
 					}
 				}
-				xmlhttp.open("GET", "{{{ URL::to('report/loadItem') }}}/"+categoryId+"/"+itemId, false);
+				xmlhttp.open("GET", "{{{ URL::to('report/loadItem') }}}/"+categoryId, true);
 				xmlhttp.send();
 	 }
 	 $(function () {
