@@ -86,7 +86,8 @@
 					@foreach($table as $transaction)
 						<tr>
 							<td>{{$transaction->found_date}}</td>
-							<td>{{$transaction->khet_id}}</td>
+							<td>{{($transaction->khet_id==10)? 'เขตอิสระ' : $transaction->khet_id}}</td>
+							
 							<td>{{Location::find($transaction->location_id)->name}}</td>
 							@if($transaction->method == 1)
 							<td>1</td>	
