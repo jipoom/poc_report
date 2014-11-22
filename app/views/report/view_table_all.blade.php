@@ -11,12 +11,23 @@
 ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
 </p>
 <p>
-ระบุเขต: {{ Form::select('khet_id', Khet::getArray(),"",array('id'=>'khet_id')) }}
+ระบุเขต: {{ Form::select('khet_id', Khet::getArray(),Input::old('khet_id',(isset($khet_id))? $khet_id : 0),array('id'=>'khet_id')) }}
 </p>
 <p>
 <div id='location'>
 </div>
 </p>
+<p>
+<div id='method'>
+ระบุวิธีการจู่โจม: {{ Form::select('method_id', Method::getArrayWithAll(),Input::old('method_id',(isset($method_id))? $method_id : 0),array('id'=>'method_id')) }}
+</div>
+</p>
+<p>
+<div id='found_at'>
+บริเวณที่มีการค้นพบ: {{ Form::select('found_at_id', FoundAt::getArray(),Input::old('found_at_id',(isset($found_at_id))? $found_at_id : 0),array('id'=>'found_at_id')) }}
+</div>
+</p>
+
 {{ Form::submit() }}
 {{ Form::close() }}
 
@@ -152,8 +163,15 @@
 @stop
 @section('scripts')
 <script>
-	 $( "#khet_id" ).change(function() {
-	   	loadLocation($( "#khet_id" ).val());
+
+	 $( document ).ready(function() {
+	  // Handler for .ready() called.
+	  	$( "#khet_id" ).change(function() {
+		   	loadLocation($( "#khet_id" ).val());
+		});
+	    if($("#khet_id").val()!=0){
+	   	    loadLocation($( "#khet_id" ).val());
+	    }
 	 });
 	 function loadLocation(khetId){
 	 	if (window.XMLHttpRequest) {

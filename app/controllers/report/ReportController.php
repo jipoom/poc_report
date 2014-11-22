@@ -176,23 +176,93 @@ class ReportController extends BaseController {
 			$endDate= date("Y-m-d", strtotime($endDate));	
 			if(Input::get('khet_id') == 0)
 			{
-				$table = ReportSummary::where('found_date','>=',$startDate)
-				->where('found_date','<=',$endDate)
-				->get();
+				if(Input::get('method_id') == 0 && Input::get('found_at_id') == 0){	
+					$table = ReportSummary::where('found_date','>=',$startDate)
+					->where('found_date','<=',$endDate)
+					->get();
+				}
+				else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0){	
+					$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
+					->where('found_date','<=',$endDate)
+					->where('method','=',Input::get('method_id'))
+					->where('found_at_id','=',Input::get('found_at_id'))
+					->get();
+				}
+				else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0){	
+					$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
+					->where('found_date','<=',$endDate)
+					->where('found_at_id','=',Input::get('found_at_id'))
+					->get();
+				}
+				else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0){	
+					$table = ReportSummary::where('found_date','>=',$startDate)
+					->where('found_date','<=',$endDate)
+					->where('method','=',Input::get('method_id'))
+					->get();
+				}
 			}
 			else{
 				if(Input::get('location_id') == 0)
 				{
-					$table = ReportSummary::where('found_date','>=',$startDate)
-					->where('found_date','<=',$endDate)
-					->where('khet_id','=',Input::get('khet_id'))
-					->get();
+					if(Input::get('method_id') == 0 && Input::get('found_at_id') == 0){		
+						$table = ReportSummary::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('khet_id','=',Input::get('khet_id'))
+						->get();
+					}
+					else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0){	
+						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('khet_id','=',Input::get('khet_id'))
+						->where('method','=',Input::get('method_id'))
+						->where('found_at_id','=',Input::get('found_at_id'))
+						->get();
+					}
+					else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0){	
+						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('khet_id','=',Input::get('khet_id'))
+						->where('found_at_id','=',Input::get('found_at_id'))
+						->get();
+					}
+					else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0){	
+						$table = ReportSummary::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('khet_id','=',Input::get('khet_id'))
+						->where('method','=',Input::get('method_id'))
+						->get();
+					}
 				}
 				else{
-					$table = ReportSummary::where('found_date','>=',$startDate)
-					->where('found_date','<=',$endDate)
-					->where('location_id','=',Input::get('location_id'))
-					->get();
+					if(Input::get('method_id') == 0 && Input::get('found_at_id') == 0){		
+						$table = ReportSummary::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('location_id','=',Input::get('location_id'))
+						->get();
+					}
+					else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0){	
+						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('location_id','=',Input::get('location_id'))
+						->where('method','=',Input::get('method_id'))
+						->where('found_at_id','=',Input::get('found_at_id'))
+						->get();
+					}
+					else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0){	
+						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('location_id','=',Input::get('location_id'))
+						->where('found_at_id','=',Input::get('found_at_id'))
+						->get();
+					}
+					else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0){	
+						$table = ReportSummary::where('found_date','>=',$startDate)
+						->where('found_date','<=',$endDate)
+						->where('location_id','=',Input::get('location_id'))
+						->where('method','=',Input::get('method_id'))
+						->get();
+					}
+					
 				}
 				
 			}
@@ -241,10 +311,13 @@ class ReportController extends BaseController {
 				$total['v'] = $temp->v + $total['v'];
 				$total['w'] = $temp->w + $total['w'];
 			}
-			
+			$khet_id = Input::get('khet_id');
+			$location_id = Input::get('location_id');
+			$method_id = Input::get('method_id');
+			$found_at_id = Input::get('found_at_id');
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
-			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate','total'));
+			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate','total','khet_id','location_id','method_id','found_at_id'));
 		}
 		else {
 			echo "permission denied";

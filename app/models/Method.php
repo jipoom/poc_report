@@ -20,6 +20,12 @@ class Method extends Eloquent {
 		}
 		return $item;
 	}
+	public static function getArrayWithAll()
+	{
+		$item = array('0'=>'ทั้งหมด');	
+		$item = array_merge($item,Method::all()->lists('name','id'));		
+		return $item;
+	}
 }
 
 ?>

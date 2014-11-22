@@ -8,6 +8,11 @@ class FoundAt extends Eloquent {
 	{
 		return $this->hasMany('Report');
 	}
+	public static function getArray(){
+		$item = array('0'=>'ทั้งหมด');	
+		$item = array_merge($item,FoundAt::all()->lists('name','id'));		
+		return $item;
+	}
 }
 
 ?>
