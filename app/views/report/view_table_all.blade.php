@@ -31,7 +31,7 @@
 ระบุประเภทสิ่งของต้องห้าม: {{ Form::select('category_id', Category::getArrayWithAll(),Input::old('category_id',(isset($category_id))? $category_id : 0),array('id'=>'category_id')) }}
 </p>
 
-{{ Form::submit() }}
+{{ Form::submit('ดูรายงาน') }}
 {{ Form::close() }}
 
 <table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;">
