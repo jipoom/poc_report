@@ -18,7 +18,6 @@ Route::get('report/method/{methodId}','ReportController@checkMethod');
 Route::get('report/area/need_other','ReportController@checkAreaName');
 Route::get('report/area_option/{found_at_id}','ReportController@loadAreaOption');
 Route::get('report/loadLocation/{khet_id}/{location_id}','ReportController@loadLocation');
-Route::get('report/loadItem/{category_id}/{item_id}','ReportController@loadItem');
 Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');

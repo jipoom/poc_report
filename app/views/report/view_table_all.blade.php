@@ -30,10 +30,6 @@
 <p>
 ระบุประเภทสิ่งของต้องห้าม: {{ Form::select('category_id', Category::getArrayWithAll(),Input::old('category_id',(isset($category_id))? $category_id : 0),array('id'=>'category_id')) }}
 </p>
-<p>
-<div id='item'>
-</div>
-</p>
 
 {{ Form::submit() }}
 {{ Form::close() }}
@@ -180,12 +176,6 @@
 	    if($("#khet_id").val()!=0){
 	   	    loadLocation($( "#khet_id" ).val(),'{{$location_id}}');
 	    }
-	    $( "#category_id" ).change(function() {
-		   	loadItem($( "#category_id" ).val(),'{{$item_id}}');
-		});
-	    if($("#category_id").val()!=0){
-	   	    loadItem($( "#category_id" ).val(),'{{$item_id}}');
-	    }
 	 });
 	 function loadLocation(khetId,locationId){
 	 	if (window.XMLHttpRequest) {
@@ -200,21 +190,6 @@
 					}
 				}
 				xmlhttp.open("GET", "{{{ URL::to('report/loadLocation') }}}/"+khetId+"/"+locationId, false);
-				xmlhttp.send();
-	 }
-	  function loadItem(categoryId,itemId){
-	 	if (window.XMLHttpRequest) {
-					// code for IE7+, Firefox, Chrome, Opera, Safari
-					xmlhttp = new XMLHttpRequest();
-				} else {// code for IE6, IE5
-					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				xmlhttp.onreadystatechange = function() {
-					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-						document.getElementById("item").innerHTML = xmlhttp.responseText;
-					}
-				}
-				xmlhttp.open("GET", "{{{ URL::to('report/loadItem') }}}/"+categoryId+"/"+itemId, false);
 				xmlhttp.send();
 	 }
 	 $(function () {

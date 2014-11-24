@@ -184,36 +184,23 @@ class ReportController extends BaseController {
 					->get();
 				}
 				else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0 && Input::get('category_id') != 0){
-					$alias = Item::find(Input::get('item_id'))->alias;		
-					$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
-					->where('found_date','<=',$endDate)
-					->where('method','=',Input::get('method_id'))
-					->where('found_at_id','=',Input::get('found_at_id'))
-					->where($alias,'>',0)
-					->get();
+					$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('method', '=', Input::get('method_id')) 
+							->where('found_at_id', '=', Input::get('found_at_id'))
+							->get();	
 				}
 				else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0 && Input::get('category_id') != 0){
-					$alias = Item::find(Input::get('item_id'))->alias;			
-					$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
-					->where('found_date','<=',$endDate)
-					->where('found_at_id','=',Input::get('found_at_id'))
-					->where($alias,'>',0)
-					->get();
+					$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('found_at_id', '=', Input::get('found_at_id'))
+							->get();		
 				}
 				else if(Input::get('method_id') == 0 && Input::get('found_at_id') == 0 && Input::get('category_id') != 0){
-					$alias = Item::find(Input::get('item_id'))->alias;					
-					$table = ReportSummary::where('found_date','>=',$startDate)
-					->where('found_date','<=',$endDate)
-					->where($alias,'>',0)
-					->get();
+					$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)->get();	
 				}
 				else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0 && Input::get('category_id') != 0){
-					$alias = Item::find(Input::get('item_id'))->alias;				
-					$table = ReportSummary::where('found_date','>=',$startDate)
-					->where('found_date','<=',$endDate)
-					->where('method','=',Input::get('method_id'))
-					->where($alias,'>',0)
-					->get();
+					$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('method', '=', Input::get('method_id')) 
+							->get();	
 				}
 				else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0 && Input::get('category_id') == 0){
 					$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
@@ -246,12 +233,9 @@ class ReportController extends BaseController {
 						->get();
 					}	
 					else if(Input::get('method_id') == 0 && Input::get('found_at_id') == 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;			
-						$table = ReportSummary::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where($alias,'>',0)
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+						    ->where('khet_id','=',Input::get('khet_id'))
+							->get();	
 					}	
 					else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0 && Input::get('category_id') == 0){	
 						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
@@ -261,13 +245,10 @@ class ReportController extends BaseController {
 						->get();
 					}
 					else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;			
-						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where('method','=',Input::get('method_id'))
-						->where($alias,'>',0)
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('found_at_id','=',Input::get('found_at_id'))
+							->where('khet_id','=',Input::get('khet_id'))
+							->get();	
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0 && Input::get('category_id') == 0){	
 						$table = ReportSummary::where('found_date','>=',$startDate)
@@ -277,13 +258,10 @@ class ReportController extends BaseController {
 						->get();
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;		
-						$table = ReportSummary::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where('method','=',Input::get('method_id'))
-						->where($alias,'>',0)
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('method', '=', Input::get('method_id')) 
+							->where('khet_id','=',Input::get('khet_id'))
+							->get();		
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0 && Input::get('category_id') == 0){	
 						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
@@ -293,31 +271,24 @@ class ReportController extends BaseController {
 						->get();
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;			
-						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where('method','=',Input::get('method_id'))
-						->where($alias,'>',0)
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('method', '=', Input::get('method_id')) 
+							->where('found_at_id','=',Input::get('found_at_id'))
+							->where('khet_id','=',Input::get('khet_id'))
+							->get();	
 					}
 				}
 				else{
 					if(Input::get('method_id') == 0 && Input::get('found_at_id') == 0 && Input::get('category_id') == 0){		
 						$table = ReportSummary::where('found_date','>=',$startDate)
 						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
 						->where('location_id','=',Input::get('location_id'))
 						->get();
 					}	
 					else if(Input::get('method_id') == 0 && Input::get('found_at_id') == 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;			
-						$table = ReportSummary::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where('location_id','=',Input::get('location_id'))
-						->where($alias,'>',0)
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('location_id','=',Input::get('location_id'))
+							->get();	
 					}	
 					else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0 && Input::get('category_id') == 0){	
 						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
@@ -328,14 +299,10 @@ class ReportController extends BaseController {
 						->get();
 					}
 					else if(Input::get('method_id') == 0 && Input::get('found_at_id') != 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;			
-						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where('method','=',Input::get('method_id'))
-						->where($alias,'>',0)
-						->where('location_id','=',Input::get('location_id'))
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('found_at_id','=',Input::get('found_at_id'))
+							->where('location_id','=',Input::get('location_id'))
+							->get();	
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0 && Input::get('category_id') == 0){	
 						$table = ReportSummary::where('found_date','>=',$startDate)
@@ -346,14 +313,10 @@ class ReportController extends BaseController {
 						->get();
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') == 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;		
-						$table = ReportSummary::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where('method','=',Input::get('method_id'))
-						->where('location_id','=',Input::get('location_id'))
-						->where($alias,'>',0)
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('method', '=', Input::get('method_id')) 
+							->where('location_id','=',Input::get('location_id'))
+							->get();	
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0 && Input::get('category_id') == 0){	
 						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
@@ -364,14 +327,11 @@ class ReportController extends BaseController {
 						->get();
 					}
 					else if(Input::get('method_id') != 0 && Input::get('found_at_id') != 0 && Input::get('category_id') != 0){
-						$alias = Item::find(Input::get('item_id'))->alias;			
-						$table = ReportSummaryByFoundAt::where('found_date','>=',$startDate)
-						->where('found_date','<=',$endDate)
-						->where('khet_id','=',Input::get('khet_id'))
-						->where('method','=',Input::get('method_id'))
-						->where($alias,'>',0)
-						->where('location_id','=',Input::get('location_id'))
-						->get();
+						$table = ReportSummaryByFoundAt::reportByCategory(Input::get('category_id'),$startDate,$endDate)
+							->where('method', '=', Input::get('method_id')) 
+							->where('found_at_id','=',Input::get('found_at_id'))
+							->where('location_id','=',Input::get('location_id'))
+							->get();	
 					}
 				
 					
@@ -765,22 +725,14 @@ class ReportController extends BaseController {
                   echo "<option value='$location->id' >$location->name</option>" ;
 		echo "</select>\n";*/
 		$location = array('0'=>'เลือกทั้งหมด');	
-		$location = array_merge($location,Location::where('khet_id','=',$khetId)->lists('name','id'));		
+		$allLocation = Location::where('khet_id','=',$khetId)->get();
+		foreach($allLocation as $temp)
+		{
+			$location = array_add($location, $temp->id, $temp->name);
+		}	
 		echo Form::select('location_id', $location,$locationId,array('id'=>'location_id'));
 	}
-	public function loadItem($categoryId,$itemId){
-		if($categoryId==0){
-			return null;
-		}
-		echo "เลือกสิ่งของต้องห้าม: "	;
-		/*echo "<select name='item_id' id='item_id'>";
-             $result=Item::where('category_id','=',$categoryId)->where('id','<>',0)->get();
-             foreach($result as $item)
-                  echo "<option value='$item->id' >$item->name</option>" ;
-		echo "</select>\n";*/	
-		$item = Item::where('category_id','=',$categoryId)->lists('name','id');		
-		echo Form::select('item_id', $item,$itemId,array('id'=>'item_id'));
-	}
+	
 	public function checkAreaName(){
 		if(Area::find(Input::get('areaId'))->name == "อื่นๆ")
 			return 1;
