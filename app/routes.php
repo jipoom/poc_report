@@ -25,10 +25,10 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('dashboard', 'ReportController@showDashBoard');
 	Route::get('hdashboard', 'ReportController@showHDashBoard');
 	//อธิบดี
-	Route::post('view_all', 'ReportController@postAdminReport');
-	Route::get('view_all/{startDate?}/{endDate?}', 'ReportController@getAdminReport');
-	Route::post('view_category', 'ReportController@postAdminReportCategory');
-	Route::get('view_category/{startDate?}/{endDate?}', 'ReportController@getAdminReportCategory');
+	Route::post('view_all', 'TableController@postAdminReport');
+	Route::get('view_all/{startDate?}/{endDate?}', 'TableController@getAdminReport');
+	Route::post('view_category', 'TableController@postAdminReportCategory');
+	Route::get('view_category/{startDate?}/{endDate?}', 'TableController@getAdminReportCategory');
 	
 	//Route::get('map', 'ReportController@showPOC');
 	//Route::get('overall', 'ReportController@showOverall');

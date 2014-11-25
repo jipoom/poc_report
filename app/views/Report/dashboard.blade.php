@@ -1,84 +1,317 @@
 @extends("layout")
-@section('title')
-Stand Alone
-@stop
 @section('styles')
-         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
 @stop
 @section("content")
-      <!--Divs for our charts -->
-		
-		 <form action="{{URL::to('report/dashboard')}}" method="get">
-		 <p>เลือกวันที่: <input type="text" id="datepicker" name="date" value="{{isset($date) ? $date : date('d-M-Y')}}">
-		 <button type="submit">Submit</button></p>
-		 </form>
-		 <h3>รายงานสรุปผลประจำวันที่: {{$date}}</h3>
-		 <div>
-		 	<p>มีการตรวจค้นทั้งสิ้น {{$totalPrisonInspected}}</p>
-		 	<p>พบยาเสพติด {{$totalDrugs}}</p>
-		 	<p>พบสิ่งของต้องห้าม {{$totalItems}}</p>
-		 </div>  
-		 <div id="Khet1"></div>
-		 <div id="Khet2"></div>
-		 <div id="Khet3"></div>
-		 <div id="Khet4"></div>
-		 <div id="Khet5"></div>
-		 <div id="Khet6"></div>
 
+<h3 align="center">สรุปการรายงานการจู่โจมตรวจค้นประจำวันที่ 9 ตุลาคม 2557 </h3>
+<table cellpadding="10" style="position: absolute; margin: 15px 0 0 45px;">
+	<tr>
+		<th><img src="{{asset('assets/images/po.png')}}" width="60px" style="position: relative;"></th>
+		<th> มีการจู่โจมตรวจค้นทั้งสิ้น</th>
+		<th> 80</th>
+		<th> เรือนจำ</th>
+	</tr>
+	<tr>
+		<td><img src="{{asset('assets/images/cr3.png')}}" width="60px" style="position: relative;"></td>
+		<th> พบยาเสพติด / มือถือ/ ซิมการ์ด</th>
+		<th> 30</th>
+		<th> เรือนจำ</th>
+	</tr>
+	<tr>
+		<td><img src="{{asset('assets/images/cr4.png')}}" width="60px" style="position: relative;"></td>
+		<th> พบสิ่งต้องห้ามอื่นๆ</th>
+		<th> 15</th>
+		<th> เรือนจำ</th>
+	</tr>
+</table>
+<div id="all2" style="float: right; height: 300px; width: 450px; padding: 0"></div>
+
+<div id="all" style=""></div>
+<br />
+<table frame="box" style="margin: 0px auto; border-width: 1px; border-coler:gray">
+	<tr>
+		<th><div id="c1" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t1" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+		</div></th>
+
+	</tr>
+
+	<tr>
+		<th><div id="c2" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t2" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลา
+		</div></th>
+	</tr>
+	<tr>
+		<th><div id="c3" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t3" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลา
+		</div></th>
+	</tr>
+</table>
 @section('scripts')
- <!-- load Google AJAX API -->
+<script src="{{asset('assets/js/highcharts.js')}}"></script>
+<script src="js/modules/exporting.js"></script>
+<script type="text/javascript">
+$(function () {
+	$('#all').highcharts({
+	title: {
+	text: 'กราฟสรุปผลการจู่โจมตรวจค้น'
+	},
+	xAxis: {
+	categories: ['เขตอิสระ','เขต 1', 'เขต 2', 'เขต 3', 'เขต 4', 'เขต 5','เขต 6', 'เขต 7', 'เขต 8', 'เขต 9']
+	},
+	labels: {
+	items: [{
+	html: 'กราฟสรุปผลการจู่โจมตรวจค้นรวมทั้งประเทศ',
+	style: {
+	left: '140px',
+	top: '-18px',
+	color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+	}
+	}]
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'column',
+	name: 'ไม่พบ',
+	data: [3, 2, 1, 3, 4, 0, 2, 3, 7, 6],
+	dataLabels: {
+	enabled: true
+	}
+	}, {
+	type: 'column',
+	name: 'พบสารเสพติด',
+	data: [2, 3, 5, 7, 6, 5, 2, 2, 9, 6],
+	dataLabels: {
+	enabled: true
+	}
+	}, {
+	type: 'column',
+	name: 'พบสิ่งของต้องห้าม',
+	data: [4, 3, 3, 9, 0, 4, 5, 6, 1, 3],
+	dataLabels: {
+	enabled: true
+	}
+	}, {
+	type: 'pie',
+	name: 'รวมทั้งประเทศ',
+	data: [{
+	name: 'ไม่พบ',
+	y: 13,
+	color: Highcharts.getOptions().colors[0] // John's color
+	}, {
+	name: 'พบสารเสพติด',
+	y: 23,
+	color: Highcharts.getOptions().colors[1] // John's color
+	}, {
+	name: 'พบสิ่งของต้องห้าม',
+	y: 19,
+	color: Highcharts.getOptions().colors[2] // Joe's color
+	}],
+	center: [60, 0],
+	size: 100,
+	showInLegend: false,
+	dataLabels: {
+	enabled: false
+	}
+	}]
+	});
+	
+	$('#all2').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: 1,//null,
+	plotShadow: false
+	},
+	title: {
+	text: 'สรุปการจู่โจมตรวจค้นทั้งประเทศ (ประเภทยาเสพติด)'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	credits: {
+	enabled: false
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: true,
+	format: '<b>{point.name}</b>: พบ {point.y} เรือนจำ',
+	style: {
+	color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+	}
+	}
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	series: [{
+	type: 'pie',
+	name: 'จำนวนเรือนจำที่พบ',
+	data: [
+	['เขต 1',   19],
+	['เขต 2',       8],
+	['เขต 3',    20],
+	['เขต 4',     2],
+	['เขต 5',   7],
+	['เขต 6',   29],
+	['เขต 7',       18],
+	['เขต 8',    2],
+	['เขต 9',     12],
+	['เขตอิสระ',   17]
+	]
+	}]
+	});
+	
+	$('#c1').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 1'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: [
+	['พบสิ่งของต้องห้าม',   12],
+	['พบสารเสพติด',       3],
+	['ไม่พบ', 4],
+	]
+	}]
+	});
+	
+	$('#c2').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 2'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: [
+	['พบสิ่งของต้องห้าม',   8],
+	['พบสารเสพติด',       10],
+	['ไม่พบ', 4],
+	]
+	}]
+	});
+	
+	$('#c3').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 3'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: [
+	['พบสิ่งของต้องห้าม',   2],
+	['พบสารเสพติด',       10],
+	['ไม่พบ', 7],
+	]
+	}]
+	});
 
-        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-        <script type="text/javascript">
-            //load the Google Visualization API and the chart
-            //google.load('visualization', '1', {'packages':['columnchart','piechart']});
- 			google.load('visualization', '1', {'packages':['corechart']});
-            //set callback
-            google.setOnLoadCallback (createChart);
-            //callback function
-            function createChart() {
- 				
- 				var jsonData = $.ajax({
-		          url: "{{URL::to('report/getDashBoardData')}}"+"/"+"{{$date}}"+"/"+"1",
-		          dataType:"json",
-		          async: false
-		          }).responseText;
- 				
-                //create data table object
-               	var data = new google.visualization.DataTable(jsonData);
- 			
- 				var view = new google.visualization.DataView(data);
-			    view.setColumns([0, 1
-			    ,{ calc: "stringify",
-		                         sourceColumn: 1,
-		                         type: "string",
-		                         role: "annotation" }]);
- 			
-                //instantiate our chart objects
-                var chart1 = new google.visualization.PieChart (document.getElementById('Khet1'));
-                var chart2 = new google.visualization.PieChart (document.getElementById('Khet2'));
-                var chart3 = new google.visualization.PieChart (document.getElementById('Khet3'));
-                var chart4 = new google.visualization.PieChart (document.getElementById('Khet4'));
-                var chart5 = new google.visualization.PieChart (document.getElementById('Khet5'));
-                var chart6 = new google.visualization.PieChart (document.getElementById('Khet6'));
-                //define options for visualization
-                var options = {width: 600, height: 400, is3D: true, title: 'เขต 1',colors: ['orange', 'red', 'green']};
- 	
-                //draw our chart
-                chart1.draw(data, options);
-                chart2.draw(data, options);
-                chart3.draw(data, options);
-                chart4.draw(data, options);
-                chart5.draw(data, options);
-                chart6.draw(data, options);
+});
 
- 
-            }
-        </script>
-         <script>
-		  $(function() {
-		    $("#datepicker").datepicker({ dateFormat: 'dd-M-yy' });;
-		  });
-		  </script>
-@stop 
+</script>
+@stop
 @stop
