@@ -97,6 +97,7 @@ Stand Alone
                 }]
             }
             
+            
             $.getJSON("{{URL::to('report/getHDashBoardData')}}"+"/"+"{{$date}}"+"/"+khetId, function(json) {
                 options.series[0].data = json;
                 chart = new Highcharts.Chart(options);
