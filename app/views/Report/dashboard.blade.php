@@ -69,7 +69,7 @@
 </table>
 @section('scripts')
 <script src="{{asset('assets/js/highcharts.js')}}"></script>
-<script src="js/modules/exporting.js"></script>
+<script src="{{asset('assets/js/modules/exporting.js')}}"></script>
 <script type="text/javascript">
 $(function () {
 	$('#all').highcharts({
