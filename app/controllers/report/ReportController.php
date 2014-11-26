@@ -17,22 +17,47 @@ class ReportController extends BaseController {
 	public function showStandAlone(){
 		return View::make('report/poc_standalone');
 	}
-	public function showDashBoard(){
-		$date = Input::get('date');
-		if($date==null)
-		{
-			$date=date('d-M-Y');
+	public function getDashBoard($startDate=null,$endDate=null){
+		if(Auth::user()->role_id !=3 )
+		{	
+			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
+			if($startDate==null || $endDate == null)
+			{
+				$startDate=date('Y-m-d',strtotime("-1 days"));
+				$endDate = $startDate;
+			}	
+			else{
+				$startDate = Report::convertYearBtoC($startDate);
+				$endDate = Report::convertYearBtoC($endDate);
+			}
+			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
+			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
+			return View::make('report/dashboard',compact('buddhistYear','startDate','endDate'));
 		}
-		$timestamp = strtotime($date);
-		$prohibitedId=Category::where('name','=','สิ่งของต้องห้าม')->first()->id;
-		// yet to be done
-		$drugId=Category::where('name','=','ยาเสพติด')->first()->id;
-		$totalItems=Report::where('category_id','=',$prohibitedId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
-		$totalDrugs=Report::where('category_id','=',$drugId)->where('found_date','=',date("Y-m-d", $timestamp))->count();
-		$totalPrisonInspected=Report::where('found_date','=',date("Y-m-d", $timestamp))->groupBy('location_id')->count();
-		
-		
-		return View::make('report/dashboard',compact('date','totalItems','totalDrugs','totalPrisonInspected'));
+		else {
+			echo "permission denied";
+		}
+	}
+	public function postDashBoard(){
+		if(Auth::user()->role_id !=3 )
+		{	
+			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
+			if(Input::get('startDate')==null || Input::get('endDate') == null)
+			{
+				$startDate=date('Y-m-d',strtotime("-1 days"));
+				$endDate = $startDate;
+			}	
+			else{
+				$startDate = Report::convertYearBtoC(Input::get('startDate'));
+				$endDate = Report::convertYearBtoC(Input::get('endDate'));
+			}
+			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
+			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
+			return View::make('report/dashboard',compact('buddhistYear','startDate','endDate'));
+		}
+		else {
+			echo "permission denied";
+		}
 	}
 	public function showHDashBoard(){
 		$date = Input::get('date');
@@ -50,6 +75,9 @@ class ReportController extends BaseController {
 		
 		
 		return View::make('report/hdashboard',compact('date','totalItems','totalDrugs','totalPrisonInspected'));
+		 
+		
+		 
 	}
 	public function showPOC()
 	{

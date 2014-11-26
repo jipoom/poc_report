@@ -4,8 +4,15 @@
 
 @stop
 @section("content")
+{{ Form::open(array('url'=>'report/dashboard', 'class'=>'form-signup', 'id'=>'infoForm')) }}
+<p>
+ตั้งแต่: <input type="text" id="startDate" name="startDate" readonly="true"value="{{Input::old('startDate',(isset($startDate))? $startDate : date('d-m').'-'.$buddhistYear)}}"> 	
+ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
+{{ Form::submit('ดูสถิติ') }}
+</p>
 
-<h3 align="center">สรุปการรายงานการจู่โจมตรวจค้นประจำวันที่ 9 ตุลาคม 2557 </h3>
+{{ Form::close() }}
+<h3 align="center">สรุปการรายงานการจู่โจมตรวจค้นประจำวันที่  {{$startDate}} ถึง {{$endDate}}</h3>
 <table cellpadding="10" style="position: absolute; margin: 15px 0 0 45px;">
 	<tr>
 		<th><img src="{{asset('assets/images/po.png')}}" width="60px" style="position: relative;"></th>
@@ -71,76 +78,49 @@
 <script src="{{asset('assets/js/highcharts.js')}}"></script>
 <script src="{{asset('assets/js/modules/exporting.js')}}"></script>
 <script type="text/javascript">
-$(function () {
-	$('#all').highcharts({
-	title: {
-	text: 'กราฟสรุปผลการจู่โจมตรวจค้น'
-	},
-	xAxis: {
-	categories: ['เขตอิสระ','เขต 1', 'เขต 2', 'เขต 3', 'เขต 4', 'เขต 5','เขต 6', 'เขต 7', 'เขต 8', 'เขต 9']
-	},
-	labels: {
-	items: [{
-	html: 'กราฟสรุปผลการจู่โจมตรวจค้นรวมทั้งประเทศ',
-	style: {
-	left: '140px',
-	top: '-18px',
-	color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
-	}
-	}]
-	},
-	exporting : {
-	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
-	},
-	credits: {
-	enabled: false
-	},
-	series: [{
-	type: 'column',
-	name: 'ไม่พบ',
-	data: [3, 2, 1, 3, 4, 0, 2, 3, 7, 6],
-	dataLabels: {
-	enabled: true
-	}
-	}, {
-	type: 'column',
-	name: 'พบสารเสพติด',
-	data: [2, 3, 5, 7, 6, 5, 2, 2, 9, 6],
-	dataLabels: {
-	enabled: true
-	}
-	}, {
-	type: 'column',
-	name: 'พบสิ่งของต้องห้าม',
-	data: [4, 3, 3, 9, 0, 4, 5, 6, 1, 3],
-	dataLabels: {
-	enabled: true
-	}
-	}, {
-	type: 'pie',
-	name: 'รวมทั้งประเทศ',
-	data: [{
-	name: 'ไม่พบ',
-	y: 13,
-	color: Highcharts.getOptions().colors[0] // John's color
-	}, {
-	name: 'พบสารเสพติด',
-	y: 23,
-	color: Highcharts.getOptions().colors[1] // John's color
-	}, {
-	name: 'พบสิ่งของต้องห้าม',
-	y: 19,
-	color: Highcharts.getOptions().colors[2] // Joe's color
-	}],
-	center: [60, 0],
-	size: 100,
-	showInLegend: false,
-	dataLabels: {
-	enabled: false
-	}
-	}]
-	});
-	
+ $(function () {
+			$("#startDate").datepicker({
+			    dateFormat: 'dd-mm-yy',
+			    maxDate: 0, // to disable past dates (skip if not needed)			 	
+			    isBuddhist: true,
+			    dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+			    dayNamesMin: ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'],
+			    monthNames: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
+			    monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'],
+			    onClose: function(selectedDate) {
+			        // Set the minDate of 'to' as the selectedDate of 'from'
+			       // alert(new Date('01-02-10'));
+			      $("#endDate").datepicker("option", "maxDate", 0);
+			      $("#endDate").datepicker("option", "minDate", selectedDate);
+			      $("#endDate").datepicker("option", "isBuddhist", true);
+			      $("#endDate").datepicker("option", "dateFormat", 'dd-mm-yy');
+			      $("#endDate").datepicker("option", "dayNames", ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์']);
+			      $("#endDate").datepicker("option", "dayNamesMin", ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.']);
+			      $("#endDate").datepicker("option", "monthNames", ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม']);
+			      $("#endDate").datepicker("option", "monthNamesShort", ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']);
+			    			    			      
+			    }
+			});
+			
+			$("#endDate").datepicker({ dateFormat: 'dd-mm-yy', isBuddhist: true, maxDate:0, dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+              	dayNamesMin: ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'],
+             	 monthNames: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
+             	 monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
+			});
+
+
+$(document).ready(function() {
+ $.ajax({
+    url: "{{URL::to('report/getHDashBoardData')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        test(data);
+    }
+  });
+ });
+function test (data) {
 	$('#all2').highcharts({
 	chart: {
 	plotBackgroundColor: null,
@@ -175,20 +155,82 @@ $(function () {
 	series: [{
 	type: 'pie',
 	name: 'จำนวนเรือนจำที่พบ',
-	data: [
-	['เขต 1',   19],
-	['เขต 2',       8],
-	['เขต 3',    20],
-	['เขต 4',     2],
-	['เขต 5',   7],
-	['เขต 6',   29],
-	['เขต 7',       18],
-	['เขต 8',    2],
-	['เขต 9',     12],
-	['เขตอิสระ',   17]
-	]
+	data: data
 	}]
 	});
+}
+
+$(function () {
+	
+	$('#all').highcharts({
+title: {
+text: 'กราฟสรุปผลการจู่โจมตรวจค้น'
+},
+xAxis: {
+categories: ['เขตอิสระ','เขต 1', 'เขต 2', 'เขต 3', 'เขต 4', 'เขต 5','เขต 6', 'เขต 7', 'เขต 8', 'เขต 9']
+},
+labels: {
+items: [{
+html: 'กราฟสรุปผลการจู่โจมตรวจค้นรวมทั้งประเทศ',
+style: {
+left: '140px',
+top: '-18px',
+color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+}
+}]
+},
+exporting : {
+	url: 'http://localhost/report_demo/exporting-server/php/php-batik/index.php'
+},
+credits: {
+enabled: false
+},
+series: [{
+type: 'column',
+name: 'ไม่พบ',
+data: [3, 2, 1, 3, 4, 0, 2, 3, 7, 6],
+dataLabels: {
+enabled: true
+}
+}, {
+type: 'column',
+name: 'พบสารเสพติด',
+data: [2, 3, 5, 7, 6, 5, 2, 2, 9, 6],
+dataLabels: {
+enabled: true
+}
+}, {
+type: 'column',
+name: 'พบสิ่งของต้องห้าม',
+data: [4, 3, 3, 9, 0, 4, 5, 6, 1, 3],
+dataLabels: {
+enabled: true
+}
+}, {
+type: 'pie',
+name: 'รวมทั้งประเทศ',
+data: [{
+name: 'ไม่พบ',
+y: 13,
+color: Highcharts.getOptions().colors[0] // John's color
+}, {
+name: 'พบสารเสพติด',
+y: 23,
+color: Highcharts.getOptions().colors[1] // John's color
+}, {
+name: 'พบสิ่งของต้องห้าม',
+y: 19,
+color: Highcharts.getOptions().colors[2] // Joe's color
+}],
+center: [60, 0],
+size: 100,
+showInLegend: false,
+dataLabels: {
+enabled: false
+}
+}]
+});	
+	
 	
 	$('#c1').highcharts({
 	chart: {

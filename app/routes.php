@@ -22,7 +22,8 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {
 	Route::get('poc', 'ReportController@showPOC');
 	Route::get('stand_alone', 'ReportController@showStandAlone');
-	Route::get('dashboard', 'ReportController@showDashBoard');
+	Route::get('dashboard/{startDate?}/{endDate?}', 'ReportController@getDashBoard');
+	Route::post('dashboard', 'ReportController@postDashBoard');
 	Route::get('hdashboard', 'ReportController@showHDashBoard');
 	//อธิบดี
 	Route::post('view_all', 'TableController@postAdminReport');
@@ -49,7 +50,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('export', 'ReportController@export');
 	Route::get('getData/{startDate}/{endDate}/{location_id}/{found_at}', 'ReportController@getData');
 	Route::get('getDashBoardData/{date}/{khetId}', 'ReportController@getDashBoardData');
-	Route::get('getHDashBoardData/{date}/{khetId}', 'ReportController@getHDashBoardData');
+	Route::get('getHDashBoardData/{startDate}/{endDate}', 'ChartController@getDashBoardDrugData');
 	
 
 });
