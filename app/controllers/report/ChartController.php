@@ -31,5 +31,42 @@ class ChartController extends BaseController {
 		}
 		echo json_encode($rows);
 	}
+	public function getCombinationNotFoundData($startDate,$endDate){
+		//$result = Report::notFoundCount($startDate,$endDate);
+		//echo json_encode($result);	
+	}
+	public function getCombinationDrugFoundData($startDate,$endDate){
+		
+		//echo json_encode($result);	
+	}
+	public function getCombinationItemFoundData($startDate,$endDate){
+		
+		//echo json_encode($result);		
+		
+	}
+	public function getCombinationAllData($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'ไม่พบ';
+		$row[1] = 10;
+		array_push($rows,$row);
+		
+		$row[0] = 'พบยาเสพติด';
+		$row[1] = 20;
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = 30;
+		array_push($rows,$row);
+		$data1 = Report::notFoundCount($startDate,$endDate);
+		$data2 = Report::drugFoundCount($startDate,$endDate);
+		$data3 = Report::itemFoundCount($startDate,$endDate);
+		$data4 = Report::summaryCount($startDate,$endDate);
+		$serie1[] = array('type'=>'column', 'name' => 'ไม่พบ', 'data' => $data1);
+		$serie1[] = array('type'=>'column', 'name' => 'พบสารเสพติด', 'data' => $data2);
+		$serie1[] = array('type'=>'column', 'name' => 'พบสิ่งของต้องห้าม', 'data' => $data3);
+		$serie1[] = array('type'=>'pie', 'name' => 'รวมทั้งประเทศ', 'data' => $data4);		
+		echo json_encode($serie1);	
+		
+	}
 }
 ?>

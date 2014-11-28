@@ -111,16 +111,17 @@
 
 $(document).ready(function() {
  $.ajax({
-    url: "{{URL::to('report/getHDashBoardData')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    url: "{{URL::to('report/getPieAllData')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
     type: 'GET',
     async: true,
     dataType: "json",
     success: function (data) {
-        test(data);
+        pieAll(data);
     }
   });
- });
-function test (data) {
+  combinationAll();
+});
+function pieAll (data) {
 	$('#all2').highcharts({
 	chart: {
 	plotBackgroundColor: null,
@@ -160,76 +161,62 @@ function test (data) {
 	});
 }
 
+function combinationAll() {
+	var options = {
+		chart: {
+	                    renderTo: 'all',
+	                    plotBackgroundColor: null,
+	                    plotBorderWidth: null,
+	                    plotShadow: false
+	                },
+		title: {
+			text: 'กราฟสรุปผลการจู่โจมตรวจค้น'
+		},
+		xAxis: {
+			categories: ['เขตอิสระ','เขต 1', 'เขต 2', 'เขต 3', 'เขต 4', 'เขต 5','เขต 6', 'เขต 7', 'เขต 8', 'เขต 9']
+		},
+		labels: {
+			items: [{
+			html: 'กราฟสรุปผลการจู่โจมตรวจค้นรวมทั้งประเทศ',
+			style: {
+				left: '140px',
+				top: '-18px',
+				color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+				}
+			}]
+		},
+		 plotOptions: {
+            column: {
+                dataLabels: {
+                    enabled: true
+                }
+            },
+            pie: {
+            	center: [60, 0],
+				size: 100,
+				showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        },
+		exporting : {
+			url: 'http://localhost/report_demo/exporting-server/php/php-batik/index.php'
+		},
+		credits: {
+		enabled: false
+		},
+		series: [{}]
+	}
+	 $.getJSON("{{URL::to('report/getCombinationAllData')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}", function(json) {
+                options.series = json;
+                chart = new Highcharts.Chart(options);
+            });
+		
+}
+
 $(function () {
-	
-	$('#all').highcharts({
-title: {
-text: 'กราฟสรุปผลการจู่โจมตรวจค้น'
-},
-xAxis: {
-categories: ['เขตอิสระ','เขต 1', 'เขต 2', 'เขต 3', 'เขต 4', 'เขต 5','เขต 6', 'เขต 7', 'เขต 8', 'เขต 9']
-},
-labels: {
-items: [{
-html: 'กราฟสรุปผลการจู่โจมตรวจค้นรวมทั้งประเทศ',
-style: {
-left: '140px',
-top: '-18px',
-color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
-}
-}]
-},
-exporting : {
-	url: 'http://localhost/report_demo/exporting-server/php/php-batik/index.php'
-},
-credits: {
-enabled: false
-},
-series: [{
-type: 'column',
-name: 'ไม่พบ',
-data: [3, 2, 1, 3, 4, 0, 2, 3, 7, 6],
-dataLabels: {
-enabled: true
-}
-}, {
-type: 'column',
-name: 'พบสารเสพติด',
-data: [2, 3, 5, 7, 6, 5, 2, 2, 9, 6],
-dataLabels: {
-enabled: true
-}
-}, {
-type: 'column',
-name: 'พบสิ่งของต้องห้าม',
-data: [4, 3, 3, 9, 0, 4, 5, 6, 1, 3],
-dataLabels: {
-enabled: true
-}
-}, {
-type: 'pie',
-name: 'รวมทั้งประเทศ',
-data: [{
-name: 'ไม่พบ',
-y: 13,
-color: Highcharts.getOptions().colors[0] // John's color
-}, {
-name: 'พบสารเสพติด',
-y: 23,
-color: Highcharts.getOptions().colors[1] // John's color
-}, {
-name: 'พบสิ่งของต้องห้าม',
-y: 19,
-color: Highcharts.getOptions().colors[2] // Joe's color
-}],
-center: [60, 0],
-size: 100,
-showInLegend: false,
-dataLabels: {
-enabled: false
-}
-}]
-});	
+
 	
 	
 	$('#c1').highcharts({
