@@ -54,9 +54,6 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('dashboard/{startDate?}/{endDate?}', 'ReportController@getDashBoard');
 	Route::post('dashboard', 'ReportController@postDashBoard');
 	Route::get('getPieAllData/{startDate}/{endDate}', 'ChartController@getDashBoardDrugData');
-	Route::get('getCombinationNotFoundData/{startDate}/{endDate}', 'ChartController@getCombinationNotFoundData');
-	Route::get('getCombinationDrugFoundData/{startDate}/{endDate}', 'ChartController@getCombinationDrugFoundData');
-	Route::get('getCombinationItemFoundData/{startDate}/{endDate}', 'ChartController@getCombinationItemFoundData');
 	Route::get('getCombinationAllData/{startDate}/{endDate}', 'ChartController@getCombinationAllData');
 
 });

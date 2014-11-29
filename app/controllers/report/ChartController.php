@@ -31,19 +31,6 @@ class ChartController extends BaseController {
 		}
 		echo json_encode($rows);
 	}
-	public function getCombinationNotFoundData($startDate,$endDate){
-		//$result = Report::notFoundCount($startDate,$endDate);
-		//echo json_encode($result);	
-	}
-	public function getCombinationDrugFoundData($startDate,$endDate){
-		
-		//echo json_encode($result);	
-	}
-	public function getCombinationItemFoundData($startDate,$endDate){
-		
-		//echo json_encode($result);		
-		
-	}
 	public function getCombinationAllData($startDate,$endDate){
 		$rows = array();	
 		$row[0] = 'ไม่พบ';

@@ -17,19 +17,19 @@
 	<tr>
 		<th><img src="{{asset('assets/images/po.png')}}" width="60px" style="position: relative;"></th>
 		<th> มีการจู่โจมตรวจค้นทั้งสิ้น</th>
-		<th> 80</th>
+		<th> {{$inspect}}</th>
 		<th> เรือนจำ</th>
 	</tr>
 	<tr>
 		<td><img src="{{asset('assets/images/cr3.png')}}" width="60px" style="position: relative;"></td>
 		<th> พบยาเสพติด / มือถือ/ ซิมการ์ด</th>
-		<th> 30</th>
+		<th> {{$drugAndItem}}</th>
 		<th> เรือนจำ</th>
 	</tr>
 	<tr>
 		<td><img src="{{asset('assets/images/cr4.png')}}" width="60px" style="position: relative;"></td>
 		<th> พบสิ่งต้องห้ามอื่นๆ</th>
-		<th> 15</th>
+		<th> {{$other}}</th>
 		<th> เรือนจำ</th>
 	</tr>
 </table>
