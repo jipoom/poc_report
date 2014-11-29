@@ -31,29 +31,30 @@ class ReportController extends BaseController {
 				$endDate = Report::convertYearBtoC($endDate);
 			}
 			
-			$inspect = count(ReportSummary::
+			$inspect = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
-				->distinct()
-				->get(array('location_id')));
+				->distinct('location_id')
+				->get(array('location_id','khet_id'));
 			
-			$drugAndItem = count(ReportSummary::
+			$drugAndItem = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
 				->where(function($query) {
 					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0) -> orwhere('p', '>', 0) -> orwhere('r', '>', 0);
 				})
-				->distinct()
-				->get(array('location_id')));
+				->distinct('location_id')
+				->get(array('location_id','khet_id'));
 				
-			$other = count(ReportSummary::
+			$other = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
 				->where(function($query) {
 					$query -> where('g', '>', 0) -> orwhere('h', '>', 0) -> orwhere('i', '>', 0) -> orwhere('j', '>', 0) -> orwhere('k', '>', 0) -> orwhere('l', '>', 0) -> orwhere('m', '>', 0) -> orwhere('n', '>', 0) 
 					-> orwhere('o', '>', 0) -> orwhere('q', '>', 0) -> orwhere('s', '>', 0) -> orwhere('t', '>', 0) -> orwhere('u', '>', 0) -> orwhere('v', '>', 0) -> orwhere('w', '>', 0);
 				})
-				->get(array('location_id')));
+				->distinct('location_id')
+				->get(array('location_id','khet_id'));
 			
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
@@ -79,30 +80,30 @@ class ReportController extends BaseController {
 				$startDate = Report::convertYearBtoC(Input::get('startDate'));
 				$endDate = Report::convertYearBtoC(Input::get('endDate'));
 			}
-			$inspect = count(ReportSummary::
+			$inspect = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
-				->distinct()
-				->get(array('location_id')));
+				->distinct('location_id')
+				->get(array('location_id','khet_id'));
 			
-			$drugAndItem = count(ReportSummary::
+			$drugAndItem = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
 				->where(function($query) {
 					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0) -> orwhere('p', '>', 0) -> orwhere('r', '>', 0);
 				})
-				->distinct()
-				->get(array('location_id')));
+				->distinct('location_id')
+				->get(array('location_id','khet_id'));
 				
-			$other = count(ReportSummary::
+			$other = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
 				->where(function($query) {
 					$query -> where('g', '>', 0) -> orwhere('h', '>', 0) -> orwhere('i', '>', 0) -> orwhere('j', '>', 0) -> orwhere('k', '>', 0) -> orwhere('l', '>', 0) -> orwhere('m', '>', 0) -> orwhere('n', '>', 0) 
 					-> orwhere('o', '>', 0) -> orwhere('q', '>', 0) -> orwhere('s', '>', 0) -> orwhere('t', '>', 0) -> orwhere('u', '>', 0) -> orwhere('v', '>', 0) -> orwhere('w', '>', 0);
 				})
-				->distinct()
-				->get(array('location_id')));
+				->distinct('location_id')
+				->get(array('location_id','khet_id'));
 			
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));

@@ -55,7 +55,16 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::post('dashboard', 'ReportController@postDashBoard');
 	Route::get('getPieAllData/{startDate}/{endDate}', 'ChartController@getDashBoardDrugData');
 	Route::get('getCombinationAllData/{startDate}/{endDate}', 'ChartController@getCombinationAllData');
-
+	Route::get('Khet10Data/{startDate}/{endDate}', 'ChartController@getKhet10Data');
+	Route::get('Khet01Data/{startDate}/{endDate}', 'ChartController@getKhet01Data');
+	Route::get('Khet02Data/{startDate}/{endDate}', 'ChartController@getKhet02Data');
+	Route::get('Khet03Data/{startDate}/{endDate}', 'ChartController@getKhet03Data');
+	Route::get('Khet04Data/{startDate}/{endDate}', 'ChartController@getKhet04Data');
+	Route::get('Khet05Data/{startDate}/{endDate}', 'ChartController@getKhet05Data');
+	Route::get('Khet06Data/{startDate}/{endDate}', 'ChartController@getKhet06Data');
+	Route::get('Khet07Data/{startDate}/{endDate}', 'ChartController@getKhet07Data');
+	Route::get('Khet08Data/{startDate}/{endDate}', 'ChartController@getKhet08Data');
+	Route::get('Khet09Data/{startDate}/{endDate}', 'ChartController@getKhet09Data');
 });
 
 Route::group(array('prefix' => 'user'), function()

@@ -191,7 +191,7 @@ class Report extends Eloquent {
 			return $reportTotal;	
 		}
 		
-	public static function notFoundCount($startDate,$endDate){
+	public static function notFoundCountAll($startDate,$endDate){
 		$startDate = Report::convertYearBtoC($startDate);
 		$endDate = Report::convertYearBtoC($endDate);	
 		$startDate= date("Y-m-d", strtotime($startDate));	
@@ -213,7 +213,7 @@ class Report extends Eloquent {
 		}
 		return $result;
 	}
-	public static function drugFoundCount($startDate,$endDate){
+	public static function drugFoundCountAll($startDate,$endDate){
 		$startDate = Report::convertYearBtoC($startDate);
 		$endDate = Report::convertYearBtoC($endDate);	
 		$startDate= date("Y-m-d", strtotime($startDate));	
@@ -243,7 +243,7 @@ class Report extends Eloquent {
 		}
 		return $result;
 	}
-	public static function itemFoundCount($startDate,$endDate){
+	public static function itemFoundCountAll($startDate,$endDate){
 		$startDate = Report::convertYearBtoC($startDate);
 		$endDate = Report::convertYearBtoC($endDate);	
 		$startDate= date("Y-m-d", strtotime($startDate));	
@@ -275,7 +275,7 @@ class Report extends Eloquent {
 	}
 	public static function summaryCount($startDate,$endDate){
 		$rows = array();
-		$result = Report::notFoundCount($startDate,$endDate);
+		$result = Report::notFoundCountAll($startDate,$endDate);
 		$ans = 0;
 		foreach($result as $r){
 			$ans+=$r;
@@ -284,7 +284,7 @@ class Report extends Eloquent {
 		$row[1] = $ans;
 		array_push($rows,$row);
 		
-		$result = Report::drugFoundCount($startDate,$endDate);
+		$result = Report::drugFoundCountAll($startDate,$endDate);
 		$ans = 0;
 		foreach($result as $r){
 			$ans+=$r;
@@ -293,7 +293,7 @@ class Report extends Eloquent {
 		$row[1] = $ans;
 		array_push($rows,$row);
 		
-		$result = Report::itemFoundCount($startDate,$endDate);
+		$result = Report::itemFoundCountAll($startDate,$endDate);
 		$ans = 0;
 		foreach($result as $r){
 			$ans+=$r;
@@ -302,6 +302,49 @@ class Report extends Eloquent {
 		$row[1] = $ans;
 		array_push($rows,$row);
 		return $rows;
+	}
+	
+	
+	public static function notFoundCountKhet($khetId,$startDate,$endDate){
+		$startDate = Report::convertYearBtoC($startDate);
+		$endDate = Report::convertYearBtoC($endDate);	
+		$startDate= date("Y-m-d", strtotime($startDate));	
+		$endDate= date("Y-m-d", strtotime($endDate));	
+		return count(ReportSummaryByFoundAt::where('found_date','>=',$startDate)
+				->where('found_date','<=',$endDate)
+				->where('khet_id','=',$khetId)
+				->where('found_at_id','=',0)->distinct()
+				->get(array('location_id')));
+	}
+	public static function drugFoundCountKhet($khetId,$startDate,$endDate){
+		$startDate = Report::convertYearBtoC($startDate);
+		$endDate = Report::convertYearBtoC($endDate);	
+		$startDate= date("Y-m-d", strtotime($startDate));	
+		$endDate= date("Y-m-d", strtotime($endDate));	
+		return count(ReportSummary::
+				where('found_date','>=',$startDate)
+				->where('found_date','<=',$endDate)
+				->where('khet_id','=',$khetId)
+				->where(function($query) {
+					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0);
+				})
+				->distinct()
+				->get(array('location_id')));
+	}
+	public static function itemFoundCountKhet($khetId,$startDate,$endDate){
+		$startDate = Report::convertYearBtoC($startDate);
+		$endDate = Report::convertYearBtoC($endDate);	
+		$startDate= date("Y-m-d", strtotime($startDate));	
+		$endDate= date("Y-m-d", strtotime($endDate));	
+		return count(ReportSummary::
+				where('found_date','>=',$startDate)
+				->where('found_date','<=',$endDate)
+				->where('khet_id','=',$khetId)
+				->where(function($query) {
+					$query -> where('p', '>', 0) -> orwhere('r', '>', 0);
+				})
+				->distinct()
+				->get(array('location_id')));
 	}
 	
 	

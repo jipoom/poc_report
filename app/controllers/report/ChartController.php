@@ -32,21 +32,9 @@ class ChartController extends BaseController {
 		echo json_encode($rows);
 	}
 	public function getCombinationAllData($startDate,$endDate){
-		$rows = array();	
-		$row[0] = 'ไม่พบ';
-		$row[1] = 10;
-		array_push($rows,$row);
-		
-		$row[0] = 'พบยาเสพติด';
-		$row[1] = 20;
-		array_push($rows,$row);
-		
-		$row[0] = 'พบสิ่งของต้องห้าม';
-		$row[1] = 30;
-		array_push($rows,$row);
-		$data1 = Report::notFoundCount($startDate,$endDate);
-		$data2 = Report::drugFoundCount($startDate,$endDate);
-		$data3 = Report::itemFoundCount($startDate,$endDate);
+		$data1 = Report::notFoundCountAll($startDate,$endDate);
+		$data2 = Report::drugFoundCountAll($startDate,$endDate);
+		$data3 = Report::itemFoundCountAll($startDate,$endDate);
 		$data4 = Report::summaryCount($startDate,$endDate);
 		$serie1[] = array('type'=>'column', 'name' => 'ไม่พบ', 'data' => $data1);
 		$serie1[] = array('type'=>'column', 'name' => 'พบสารเสพติด', 'data' => $data2);
@@ -55,5 +43,166 @@ class ChartController extends BaseController {
 		echo json_encode($serie1);	
 		
 	}
+	public function getKhet10Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(10,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(10,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(10,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet01Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(1,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(1,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(1,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet02Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(2,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(2,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(2,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet03Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(3,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(3,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(3,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet04Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(4,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(4,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(4,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet05Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(5,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(5,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(5,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet06Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(6,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(6,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(6,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet07Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(7,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(7,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(7,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet08Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(8,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(8,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(8,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	public function getKhet09Data($startDate,$endDate){
+		$rows = array();	
+		$row[0] = 'พบสิ่งของต้องห้าม';
+		$row[1] = Report::itemFoundCountKhet(9,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'พบสารเสพติด';
+		$row[1] = Report::drugFoundCountKhet(9,$startDate,$endDate);
+		array_push($rows,$row);
+		
+		$row[0] = 'ไม่พบ';
+		$row[1] = Report::notFoundCountKhet(9,$startDate,$endDate);
+		array_push($rows,$row);
+		echo json_encode($rows);	
+		
+	}
+	
 }
 ?>

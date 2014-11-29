@@ -17,19 +17,19 @@
 	<tr>
 		<th><img src="{{asset('assets/images/po.png')}}" width="60px" style="position: relative;"></th>
 		<th> มีการจู่โจมตรวจค้นทั้งสิ้น</th>
-		<th> {{$inspect}}</th>
+		<th> {{count($inspect)}}</th>
 		<th> เรือนจำ</th>
 	</tr>
 	<tr>
 		<td><img src="{{asset('assets/images/cr3.png')}}" width="60px" style="position: relative;"></td>
 		<th> พบยาเสพติด / มือถือ/ ซิมการ์ด</th>
-		<th> {{$drugAndItem}}</th>
+		<th> {{count($drugAndItem)}}</th>
 		<th> เรือนจำ</th>
 	</tr>
 	<tr>
 		<td><img src="{{asset('assets/images/cr4.png')}}" width="60px" style="position: relative;"></td>
 		<th> พบสิ่งต้องห้ามอื่นๆ</th>
-		<th> {{$other}}</th>
+		<th> {{count($other)}}</th>
 		<th> เรือนจำ</th>
 	</tr>
 </table>
@@ -38,15 +38,56 @@
 <div id="all" style=""></div>
 <br />
 <table frame="box" style="margin: 0px auto; border-width: 1px; border-coler:gray">
+		<tr>
+		<th><div id="c10" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t10" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 10)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 10)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 10)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+		</div></th>
+	</tr>
 	<tr>
 		<th><div id="c1" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t1" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 1)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 1)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 1)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 		</div></th>
 
 	</tr>
@@ -55,22 +96,208 @@
 		<th><div id="c2" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t2" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 2)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 2)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลา
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 2)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 		</div></th>
 	</tr>
 	<tr>
 		<th><div id="c3" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t3" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 3)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลาง
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 3)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: รจก.ระยอง, รจพ.ระยอง , ทสญ.กลา
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 3)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+		</div></th>
+	</tr>
+	<tr>
+		<th><div id="c4" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t4" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 4)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 4)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 4)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+		</div></th>
+	</tr>
+	<tr>
+		<th><div id="c5" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t5" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 5)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 5)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 5)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+		</div></th>
+	</tr>
+	<tr>
+		<th><div id="c6" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t6" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 6)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 6)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 6)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+		</div></th>
+	</tr>
+	<tr>
+		<th><div id="c7" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t7" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 7)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 7)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 7)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+		</div></th>
+	</tr>
+	<tr>
+		<th><div id="c8" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t8" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 8)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 8)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 8)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+		</div></th>
+	</tr>
+	<tr>
+		<th><div id="c9" style="width: 400px; height: 250px"></div></th>
+		<th>
+		<div id="t9" style="width: 600px; right: 0px">
+			ตรวจค้นแล้ว ไม่พบ : 
+			@foreach($inspect as $t)
+				@if($t->khet_id == 9)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			@foreach($drugAndItem as $t)
+				@if($t->khet_id == 9)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
+			<br>
+			พบสิ่งของต้องห้ามอื่นๆ: 
+			@foreach($other as $t)
+				@if($t->khet_id == 9)
+					{{Location::find($t->location_id)->name}},
+				@endif
+			@endforeach
 		</div></th>
 	</tr>
 </table>
@@ -120,7 +347,475 @@ $(document).ready(function() {
     }
   });
   combinationAll();
+  
+   $.ajax({
+    url: "{{URL::to('report/Khet10Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet10(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet01Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet01(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet02Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet02(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet03Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet03(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet04Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet04(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet05Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet05(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet06Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet06(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet07Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet07(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet08Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet08(data);
+    }
+  });
+   $.ajax({
+    url: "{{URL::to('report/Khet09Data')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}",
+    type: 'GET',
+    async: true,
+    dataType: "json",
+    success: function (data) {
+        khet09(data);
+    }
+  });
 });
+
+function khet10 (data) {
+	$('#c10').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขตอิสระ'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+	
+	
+}
+function khet01 (data) {
+	$('#c1').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 1'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+	
+}
+function khet02 (data) {
+	$('#c2').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 2'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+}
+function khet03 (data) {
+	
+	$('#c3').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 3'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+
+}
+function khet04 (data) {
+	$('#c4').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 4'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+}
+function khet05 (data) {
+	$('#c5').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 5'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+}
+function khet06 (data) {
+	$('#c6').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 6'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+}
+function khet07 (data) {
+	$('#c7').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 7'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+}
+function khet08 (data) {
+	$('#c8').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 8'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+}
+function khet09 (data) {
+	$('#c9').highcharts({
+	chart: {
+	plotBackgroundColor: null,
+	plotBorderWidth: null,
+	plotShadow: false
+	},
+	title: {
+	text: 'เขต 9'
+	},
+	tooltip: {
+	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
+	},
+	plotOptions: {
+	pie: {
+	allowPointSelect: true,
+	cursor: 'pointer',
+	dataLabels: {
+	enabled: false
+	},
+	showInLegend: true
+	}
+	},
+	exporting : {
+	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
+	},
+	credits: {
+	enabled: false
+	},
+	series: [{
+	type: 'pie',
+	name: 'ทั้งหมด',
+	innerSize: '50%',
+	data: data
+	}]
+	});
+}
+
 function pieAll (data) {
 	$('#all2').highcharts({
 	chart: {
@@ -215,131 +910,6 @@ function combinationAll() {
 		
 }
 
-$(function () {
-
-	
-	
-	$('#c1').highcharts({
-	chart: {
-	plotBackgroundColor: null,
-	plotBorderWidth: null,
-	plotShadow: false
-	},
-	title: {
-	text: 'เขต 1'
-	},
-	tooltip: {
-	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
-	},
-	plotOptions: {
-	pie: {
-	allowPointSelect: true,
-	cursor: 'pointer',
-	dataLabels: {
-	enabled: false
-	},
-	showInLegend: true
-	}
-	},
-	exporting : {
-	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
-	},
-	credits: {
-	enabled: false
-	},
-	series: [{
-	type: 'pie',
-	name: 'ทั้งหมด',
-	innerSize: '50%',
-	data: [
-	['พบสิ่งของต้องห้าม',   12],
-	['พบสารเสพติด',       3],
-	['ไม่พบ', 4],
-	]
-	}]
-	});
-	
-	$('#c2').highcharts({
-	chart: {
-	plotBackgroundColor: null,
-	plotBorderWidth: null,
-	plotShadow: false
-	},
-	title: {
-	text: 'เขต 2'
-	},
-	tooltip: {
-	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
-	},
-	plotOptions: {
-	pie: {
-	allowPointSelect: true,
-	cursor: 'pointer',
-	dataLabels: {
-	enabled: false
-	},
-	showInLegend: true
-	}
-	},
-	exporting : {
-	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
-	},
-	credits: {
-	enabled: false
-	},
-	series: [{
-	type: 'pie',
-	name: 'ทั้งหมด',
-	innerSize: '50%',
-	data: [
-	['พบสิ่งของต้องห้าม',   8],
-	['พบสารเสพติด',       10],
-	['ไม่พบ', 4],
-	]
-	}]
-	});
-	
-	$('#c3').highcharts({
-	chart: {
-	plotBackgroundColor: null,
-	plotBorderWidth: null,
-	plotShadow: false
-	},
-	title: {
-	text: 'เขต 3'
-	},
-	tooltip: {
-	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
-	},
-	plotOptions: {
-	pie: {
-	allowPointSelect: true,
-	cursor: 'pointer',
-	dataLabels: {
-	enabled: false
-	},
-	showInLegend: true
-	}
-	},
-	exporting : {
-	url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
-	},
-	credits: {
-	enabled: false
-	},
-	series: [{
-	type: 'pie',
-	name: 'ทั้งหมด',
-	innerSize: '50%',
-	data: [
-	['พบสิ่งของต้องห้าม',   2],
-	['พบสารเสพติด',       10],
-	['ไม่พบ', 7],
-	]
-	}]
-	});
-
-});
 
 </script>
 @stop
