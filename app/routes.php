@@ -29,7 +29,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('view_all/{startDate?}/{endDate?}', 'TableController@getAdminReport');
 	Route::post('view_category', 'TableController@postAdminReportCategory');
 	Route::get('view_category/{startDate?}/{endDate?}', 'TableController@getAdminReportCategory');
-	
+	Route::get('export/{categoryId}/{khetId}/{methodId}/{foundAtId}/{locationId}/{startDate}/{endDate}', 'TableController@export');
 	//Route::get('map', 'ReportController@showPOC');
 	//Route::get('overall', 'ReportController@showOverall');
 	
