@@ -251,11 +251,9 @@ class TableController extends BaseController {
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 			
-			Excel::create('excelfile', function($excel) use ($users, $total, $total_with_photo)  {
-            	$excel->sheet('Excel', function($sheet) use ($users, $total, $total_with_photo) {
-               	 $sheet->loadView('report.view_table_all')->with("table", $table)->with("buddhistYear", $buddhistYear)->with("startDate", $startDate)->with("endDate", $endDate)
-				 ->with("total", $total)->with("khet_id", $khet_id)->with("location_id", $location_id)->with("method_id", $method_id)->with("found_at_id", $found_at_id)
-				 ->with("item_id", $item_id);
+			Excel::create('excelfile', function($excel) use ($table, $total) {
+            	$excel->sheet('Excel', function($sheet) use ($table, $total) {
+               	 $sheet->loadView('table.get_report_table')->with("table", $table)->with("total", $total);
             	});
         	})->export('xls');	
 		}
@@ -395,7 +393,13 @@ class TableController extends BaseController {
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 			$location_id = 0;
 			$item_id = 0;
-			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate','total','location_id','item_id'));
+			$khet_id = 0;
+			$method_id=0;
+			$found_at_id=0;
+			$category_id=0;
+			return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate','total','khet_id','location_id','method_id','found_at_id','category_id','item_id'));
+		
+			//return View::make('report/view_table_all',compact('table','buddhistYear','startDate','endDate','total','location_id','item_id'));
 		}
 		else {
 			echo "permission denied";

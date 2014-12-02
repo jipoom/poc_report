@@ -162,7 +162,8 @@
 					</tr>
 			</thead>
 		</table>
-		
+
+		{{ HTML::link(URL::to('report/export/'.$category_id.'/'.$khet_id.'/'.$method_id.'/'.$found_at_id.'/'.$location_id.'/'.$startDate.'/'.$endDate), 'export table to excel')}}
 
 @stop
 @section('scripts')
