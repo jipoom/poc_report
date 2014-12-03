@@ -33,8 +33,9 @@
 
 {{ Form::submit('ดูรายงาน') }}
 {{ Form::close() }}
-
-<table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;">
+<br>
+<p><input type="button" value="select table" onclick="selectElementContents( document.getElementById('table') );"></p>	
+<table class="table table-striped table-bordered tabletest" id="table"border="1" style="font-size: 12px;">
 			<thead>
 					
 				<tr>
@@ -162,9 +163,8 @@
 					</tr>
 			</thead>
 		</table>
-
-		{{ HTML::link(URL::to('report/export/'.$category_id.'/'.$khet_id.'/'.$method_id.'/'.$found_at_id.'/'.$location_id.'/'.$startDate.'/'.$endDate), 'export table to excel')}}
-
+		<input type="button" value="select table" onclick="selectElementContents( document.getElementById('table') );">
+		
 @stop
 @section('scripts')
 <script>
@@ -241,6 +241,29 @@
 			});
 			
 			
+
+</script>
+<script type="text/javascript">
+    function selectElementContents(el) {
+        var body = document.body, range, sel;
+        if (document.createRange && window.getSelection) {
+            range = document.createRange();
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            try {
+                range.selectNodeContents(el);
+                sel.addRange(range);
+            } catch (e) {
+                range.selectNode(el);
+                sel.addRange(range);
+            }
+        } else if (body.createTextRange) {
+            range = body.createTextRange();
+            range.moveToElementText(el);
+            range.select();
+            range.execCommand("Copy");
+        }
+    }
 
 </script>
 @stop

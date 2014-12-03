@@ -1,3 +1,8 @@
+<head>
+		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
+		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/css/jquery.simple-dtpicker.css')}}" />
+	</head>
 <table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;">
 			<thead>
 					
