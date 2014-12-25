@@ -896,7 +896,7 @@ function combinationAll() {
             }
         },
 		exporting : {
-			url: 'http://localhost/report_demo/exporting-server/php/php-batik/index.php'
+			url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"
 		},
 		credits: {
 		enabled: false
