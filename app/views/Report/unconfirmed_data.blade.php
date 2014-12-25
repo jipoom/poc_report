@@ -156,6 +156,65 @@
 	</table>
 	@endif
 	</section>
+	
+	@if(count($unconfirmNotfound)>0)
+	<h4 style="background-color: #efefef; text-align: center">ไม่พบ</h4>
+	<table class="order-table table" border="1px" bordercolor="#cfcfcf">
+		<thead>
+		<tr>			
+				<th style="width: 36%">
+					สิ่งของต้องห้าม
+				</th>
+				
+				<th style="width: 7%">
+					จำนวน 
+				</th>
+				<th style="width: 13%">
+					ผู้ครอบครอง
+				</th>	
+				<th style="width: 18%">
+					บริเวณที่พบ 
+				</th>
+				<th style="width: 14%">
+					วิธีการ 
+				</th>
+				<th style="width: 12%">
+					ต้องการลบ?
+				</th>
+				
+			</tr>
+			</thead>
+		<tbody>
+		@foreach($unconfirmNotfound as $value)
+			<tr>			
+				<td>
+					-
+				</td>
+				<td>
+					-
+				</td>
+				<td>
+					-
+						
+				</td>
+				
+				<td>
+					-
+					
+				</td>
+				<td>
+					-
+				</td>
+				<td>
+					{{ HTML::link(URL::to('report/delete/'.$value->id.'/'.$value->found_date), 'Remove')}}
+				</td>
+				
+			</tr>
+		@endforeach
+		</tbody>
+	</table>
+	@endif
+	</section>
 
 
 	

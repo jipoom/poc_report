@@ -24,6 +24,15 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('stand_alone', 'ReportController@showStandAlone');
 	Route::get('hdashboard', 'ReportController@showHDashBoard');
 	
+	//Admin Panel
+	Route::get('admin', 'AdminController@getAdminPanel');
+	Route::post('admin', 'AdminController@postAdminPanel');
+	Route::post('admin/add', 'AdminController@postAddData');
+	Route::post('admin/confirm', 'AdminController@postConfirm');
+	Route::get('admin/loadLocation/{khet_id}/{location_id}', 'AdminController@loadLocation');
+	Route::get('admin/exist', 'AdminController@checkIfRecordExist');
+	Route::get('admin/delete/{id}/{foundDate}/{locationId}/{khetId}', 'AdminController@deleteData');
+	
 	//admin view report
 	Route::post('view_all', 'TableController@postAdminReport');
 	Route::get('view_all/{startDate?}/{endDate?}', 'TableController@getAdminReport');

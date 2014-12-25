@@ -14,6 +14,9 @@ class ReportController extends BaseController {
 	|	Route::get('/', 'HomeController@showWelcome');
 	|
 	*/
+	
+	
+	
 	public function showStandAlone(){
 		return View::make('report/poc_standalone');
 	}
@@ -557,9 +560,9 @@ class ReportController extends BaseController {
 			//Delete
 			Report::find($reportId) -> delete();
 			//Return to the add page
-			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
-			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
-			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
+			$unconfirmInsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',$foundDate)->where('is_confirmed','=',0)->where('found_at_id','=',2)->get();
+			$unconfirmOutsideReport = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',$foundDate)->where('is_confirmed','=',0)->where('found_at_id','=',1)->get();
+			$unconfirmNotfound = Report::where('location_id','=',Auth::user()->location->id)->where('found_date','=',$foundDate)->where('is_confirmed','=',0)->where('found_at_id','=',0)->get();
 			$date = Report::convertYearCtoB($date);
 			return View::make('report/add_data',compact('date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound'));
 			//return Redirect::to('report/add')->withInput();	

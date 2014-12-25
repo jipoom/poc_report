@@ -13,6 +13,11 @@ class Khet extends Eloquent {
 		$khet = array_merge($khet,Khet::all()->lists('name','id'));		
 		return $khet;
 	}
+	public static function getArrayNotAll(){
+		$khet = array('0'=>'ระบุเขต');	
+		$khet = array_merge($khet,Khet::all()->lists('name','id'));		
+		return $khet;
+	}
 }
 
 ?>

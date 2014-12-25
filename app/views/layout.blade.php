@@ -37,7 +37,8 @@
 						        @elseif(Auth::user()->location->id == 1)
 									  <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
 									  <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> dashboard</a></li>
-									 
+									  <li{{ (Request::is('report/admin*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin') }}}"><span class="glyphicon glyphicon-book"></span> Admin Panel</a></li>
+									
 								@else
 						        	<li{{ (Request::is('report/add*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/add') }}}"><span class="glyphicon glyphicon-book"></span> เพิ่มรายงาน การจู่โจมตรวจค้น</a></li>
 						            <li{{ (Request::is('report/view*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>

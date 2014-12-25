@@ -53,7 +53,7 @@
 
  		<script>
  		// Get unconfirmed data
-		function getUnconfirmedData(){
+		function getData(){
 			var date = $("#found_date").val();
 
 					if (window.XMLHttpRequest) {
@@ -301,7 +301,7 @@
             }
             });
             
-            getUnconfirmedData();
+            getData();
             
 		  });
 		  

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AdminController' => $baseDir . '/app/controllers/report/AdminController.php',
     'Area' => $baseDir . '/app/models/Area.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
     'Category' => $baseDir . '/app/models/Category.php',
@@ -48,6 +49,7 @@ return array(
     'Role' => $baseDir . '/app/models/Role.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
     'SpecialMethod' => $baseDir . '/app/models/SpecialMethod.php',
+    'Table' => $baseDir . '/app/models/Table.php',
     'TableController' => $baseDir . '/app/controllers/report/TableController.php',
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
     'Threat' => $baseDir . '/app/models/Threat.php',

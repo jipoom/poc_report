@@ -1,14 +1,5 @@
-@extends("layout")
-@section('styles')
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-@stop
-@section("content")
-
 {{ Form::open(array('url'=>'report/add', 'class'=>'form-signup', 'id'=>'infoForm')) }}
-
 <br />
-<b>Step 1: &nbsp; &nbsp; </b>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" onchange="getUnconfirmedData()" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
-<br /><br />
 <b>Step 2: &nbsp; &nbsp; </b>วิธีการจู่โจม {{ Form::select('method', Method::getArray(),"", array('id' => 'method')) }}{{ Form::select('special_method', SpecialMethod::all()->lists('name','id'),"",array('id'=>'special_method','style'=>'display: none')) }}
 <br /><br />
 <b>Step 3: &nbsp; &nbsp; </b>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบสิ่งของต้องห้าม  &nbsp; &nbsp; {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบสิ่งของต้องห้าม  {{{ $errors->first('isFound', ':message') }}}
@@ -38,24 +29,12 @@
 	</table>
 	</div>
 {{ Form::close() }}
-	
-
-
-	
-	<div id="data">
-
-	</div>
-	
-	
-	
-@stop
 @section('scripts')
-
- 		<script>
+<script>
  		// Get unconfirmed data
-		function getData(){
+		function getUnconfirmedData(){
 			var date = $("#found_date").val();
-
+			var locationId = $("#location_id").val();
 					if (window.XMLHttpRequest) {
 						// code for IE7+, Firefox, Chrome, Opera, Safari
 						xmlhttp = new XMLHttpRequest();
@@ -67,7 +46,7 @@
 							document.getElementById("data").innerHTML = xmlhttp.responseText;
 						}
 					}
-					xmlhttp.open("GET", "{{{ URL::to('report/unconfirmedData') }}}/" + date, true);
+					xmlhttp.open("GET", "{{{ URL::to('report/admin/unconfirmedData') }}}/" + date+"/"+locationId, false);
 			xmlhttp.send();
 			
 		}	  
@@ -301,7 +280,7 @@
             }
             });
             
-            getData();
+            
             
 		  });
 		  
@@ -405,6 +384,11 @@
               monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
 			 
 			});
+			
+			
+			
 
 		  </script>
 @stop
+
+	
