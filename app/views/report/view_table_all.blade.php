@@ -27,9 +27,7 @@
 บริเวณที่มีการค้นพบ: {{ Form::select('found_at_id', FoundAt::getArray(),Input::old('found_at_id',(isset($found_at_id))? $found_at_id : 0),array('id'=>'found_at_id')) }}
 </div>
 </p>
-<p>
-ระบุประเภทสิ่งของต้องห้าม: {{ Form::select('category_id', Category::getArrayWithAll(),Input::old('category_id',(isset($category_id))? $category_id : 0),array('id'=>'category_id')) }}
-</p>
+
 
 {{ Form::submit('ดูรายงาน') }}
 {{ Form::close() }}
