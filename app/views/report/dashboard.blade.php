@@ -870,7 +870,7 @@ function combinationAll() {
 		xAxis: {
 			categories: ['เขตอิสระ','เขต 1', 'เขต 2', 'เขต 3', 'เขต 4', 'เขต 5','เขต 6', 'เขต 7', 'เขต 8', 'เขต 9']
 		},
-		labels: {
+		/*labels: {
 			items: [{
 			html: 'กราฟสรุปผลการจู่โจมตรวจค้นรวมทั้งประเทศ',
 			style: {
@@ -879,21 +879,22 @@ function combinationAll() {
 				color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
 				}
 			}]
-		},
+		},*/
 		 plotOptions: {
             column: {
                 dataLabels: {
                     enabled: true
                 }
-            },
-            pie: {
-            	center: [60, 0],
-				size: 100,
-				showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
             }
+            //,
+            //pie: {
+            //	center: [60, 0],
+			//	size: 100,
+			//	showInLegend: false,
+            //    dataLabels: {
+            //        enabled: false
+            //    }
+            //}
         },
 		exporting : {
 			url: "{{asset('assets/exporting-server/php/php-batik/index.php')}}"

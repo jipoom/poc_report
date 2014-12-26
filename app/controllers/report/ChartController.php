@@ -35,14 +35,15 @@ class ChartController extends BaseController {
 		$data1 = Report::notFoundCountAll($startDate,$endDate);
 		$data2 = Report::drugFoundCountAll($startDate,$endDate);
 		$data3 = Report::itemFoundCountAll($startDate,$endDate);
-		$data4 = Report::summaryCount($startDate,$endDate);
+		//$data4 = Report::summaryCount($startDate,$endDate);
 		$serie1[] = array('type'=>'column', 'name' => 'ไม่พบ', 'data' => $data1);
 		$serie1[] = array('type'=>'column', 'name' => 'พบสารเสพติด', 'data' => $data2);
 		$serie1[] = array('type'=>'column', 'name' => 'พบสิ่งของต้องห้าม', 'data' => $data3);
-		$serie1[] = array('type'=>'pie', 'name' => 'รวมทั้งประเทศ', 'data' => $data4);		
+		//$serie1[] = array('type'=>'pie', 'name' => 'รวมทั้งประเทศ', 'data' => $data4);		
 		echo json_encode($serie1);	
 		
 	}
+
 	public function getKhet10Data($startDate,$endDate){
 		$rows = array();	
 		$row[0] = 'พบสิ่งของต้องห้าม';
