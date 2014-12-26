@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 @stop
 @section("content")
-{{ Form::open(array('url'=>'report/admin', 'class'=>'form-signup', 'id'=>'infoForm')) }}
+{{ Form::open(array('url'=>'report/admin/report', 'class'=>'form-signup', 'id'=>'infoForm')) }}
 <h4>แก้ไขข้อมูล</h4>
 วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
 <br /><br />
@@ -17,7 +17,7 @@
 
 @if(isset($isUserRequest))
 	@if($isUserRequest)
-		{{ Form::open(array('url'=>'report/admin/add', 'class'=>'form-signup', 'id'=>'updateReportForm')) }}
+		{{ Form::open(array('url'=>'report/admin/report/add', 'class'=>'form-signup', 'id'=>'updateReportForm')) }}
 		<input type="hidden" name="date" value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
 		<input type="hidden" name="location_id" value="{{Input::old('location_id',(isset($location_id))? $location_id : 0)}}"> 
 		<input type="hidden" name="khetId" value="{{Input::old('khetId',(isset($khetId))? $khetId : 0)}}"> 
@@ -121,7 +121,7 @@
 					
 				</td>			
 				<td>
-					{{ HTML::link(URL::to('report/admin/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
+					{{ HTML::link(URL::to('report/admin/report/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
 				</td>
 					
 			</tr>
@@ -198,7 +198,7 @@
 					@endif
 				</td>
 				<td>
-					{{ HTML::link(URL::to('report/admin/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
+					{{ HTML::link(URL::to('report/admin/report/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
 				</td>
 				
 			</tr>
@@ -258,7 +258,7 @@
 						-
 					</td>
 					<td>
-						{{ HTML::link(URL::to('report/admin/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
+						{{ HTML::link(URL::to('report/admin/report/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
 					</td>
 					
 				</tr>
@@ -269,7 +269,7 @@
 		</section>
 	@endif
 	@if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
-    	{{ Form::open(array('url'=>'report/admin/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}
+    	{{ Form::open(array('url'=>'report/admin/report/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}
     	<div id="note_area1" style="width: 500px">
 
 	    	หมายเหตุ <font size="2px"> ( กรอกข้อมูลที่จำเป็นเท่านั้น )</font> 
@@ -330,7 +330,7 @@
 						document.getElementById("location").innerHTML = xmlhttp.responseText;
 					}
 				}
-				xmlhttp.open("GET", "{{{ URL::to('report/admin/loadLocation') }}}/"+khetId+"/"+locationId, false);
+				xmlhttp.open("GET", "{{{ URL::to('report/admin/report/loadLocation') }}}/"+khetId+"/"+locationId, false);
 				xmlhttp.send();
 	 }
 	 $(function () {
@@ -373,7 +373,7 @@
 							document.getElementById("data").innerHTML = xmlhttp.responseText;
 						}
 					}
-					xmlhttp.open("GET", "{{{ URL::to('report/admin/unconfirmedData') }}}/" + date+"/"+locationId, false);
+					xmlhttp.open("GET", "{{{ URL::to('report/admin/report/unconfirmedData') }}}/" + date+"/"+locationId, false);
 			xmlhttp.send();
 			
 		}	  
@@ -507,7 +507,7 @@
 		  
 		  function checkIfRecordExist(date,itemId,itemName,foundAt,area,areaOther,itemOwner,itemOther,methodId,specialId,locationId){
 		     	var result = $.ajax({
-		          url: "{{URL::to('report/admin/exist/')}}",
+		          url: "{{URL::to('report/admin/report/exist/')}}",
 		          data : { date : date , itemId : itemId, foundAt:foundAt, area:area, itemOwner:itemOwner,itemOther:itemOther,areaOther:areaOther,methodId:methodId,specialId:specialId,locationId:locationId},
 		          dataType:"text",
 		          async: false

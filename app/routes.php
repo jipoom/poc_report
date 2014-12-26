@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -25,13 +24,37 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('hdashboard', 'ReportController@showHDashBoard');
 	
 	//Admin Panel
-	Route::get('admin', 'AdminController@getAdminPanel');
-	Route::post('admin', 'AdminController@postAdminPanel');
-	Route::post('admin/add', 'AdminController@postAddData');
-	Route::post('admin/confirm', 'AdminController@postConfirm');
-	Route::get('admin/loadLocation/{khet_id}/{location_id}', 'AdminController@loadLocation');
-	Route::get('admin/exist', 'AdminController@checkIfRecordExist');
-	Route::get('admin/delete/{id}/{foundDate}/{locationId}/{khetId}', 'AdminController@deleteData');
+	//report mgmt
+	Route::get('admin/report', 'AdminController@getAdminPanel');
+	Route::post('admin/report', 'AdminController@postAdminPanel');
+	Route::post('admin/report/add', 'AdminController@postAddData');
+	Route::post('admin/report/confirm', 'AdminController@postConfirm');
+	Route::get('admin/report/loadLocation/{khet_id}/{location_id}', 'AdminController@loadLocation');
+	Route::get('admin/report/exist', 'AdminController@checkIfRecordExist');
+	Route::get('admin/report/delete/{id}/{foundDate}/{locationId}/{khetId}', 'AdminController@deleteData');
+	
+	
+	//khet mgmt
+	Route::get('admin/khet', 'AdminKhetController@getIndex');
+	Route::get('admin/khet/data', 'AdminKhetController@getData');
+	Route::get('admin/khet/create', 'AdminKhetController@getCreate');
+	Route::post('admin/khet/create', 'AdminKhetController@postCreate');
+	Route::get('admin/khet/{khetId}/edit', 'AdminKhetController@getEdit');
+	Route::post('admin/khet/{khetId}/edit', 'AdminKhetController@postEdit');
+	Route::get('admin/khet/{khetId}/delete', 'AdminKhetController@getDelete');
+	Route::post('admin/khet/{khetId}/delete', 'AdminKhetController@postDelete');
+	
+	
+	//prison  mgmt
+	Route::get('admin/location', 'AdminLocationController@getIndex');
+	Route::get('admin/location/data', 'AdminLocationController@getData');
+	Route::get('admin/location/create', 'AdminLocationController@getCreate');
+	Route::post('admin/location/create', 'AdminLocationController@postCreate');
+	Route::get('admin/location/{locationId}/edit', 'AdminLocationController@getEdit');
+	Route::post('admin/location/{locationId}/edit', 'AdminLocationController@postEdit');
+	Route::get('admin/location/{locationId}/delete', 'AdminLocationController@getDelete');
+	Route::post('admin/location/{locationId}/delete', 'AdminLocationController@postDelete');
+	
 	
 	//admin view report
 	Route::post('view_all', 'TableController@postAdminReport');

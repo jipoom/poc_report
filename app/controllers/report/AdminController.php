@@ -337,6 +337,7 @@ class AdminController extends BaseController {
 			$date = Input::get('date');
 			$location_id = $locationId;
 			$isUserRequest=true;
+			$khetId = Location::find($locationId)->khet_id;
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			//return to table page
 			return View::make('admin/admin_panel',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));

@@ -7,6 +7,11 @@
 		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
 		<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
 		<link rel="stylesheet" href="{{asset('assets/css/jquery.simple-dtpicker.css')}}" />
+		<link rel="stylesheet" href="{{asset('assets/css/wysihtml5/prettify.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/css/wysihtml5/bootstrap-wysihtml5.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/css/datatables-bootstrap.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/css/colorbox.css')}}">
+		<link rel="stylesheet" href="//cdn.datatables.net/1.10.1/css/jquery.dataTables.css">
 		@yield('styles')
 	</head>
     <body>
@@ -37,8 +42,10 @@
 						        @elseif(Auth::user()->location->id == 1)
 									  <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
 									  <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> dashboard</a></li>
-									  <li{{ (Request::is('report/admin*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin') }}}"><span class="glyphicon glyphicon-book"></span> Admin Panel</a></li>
-									
+									  <li{{ (Request::is('report/admin/report*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/report') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขรายงาน</a></li>
+									  <li{{ (Request::is('report/admin/khet*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/khet') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเขต</a></li>
+									  <li{{ (Request::is('report/admin/location*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/location') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเรือนจำ</a></li>
+								
 								@else
 						        	<li{{ (Request::is('report/add*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/add') }}}"><span class="glyphicon glyphicon-book"></span> เพิ่มรายงาน การจู่โจมตรวจค้น</a></li>
 						            <li{{ (Request::is('report/view*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
@@ -71,6 +78,15 @@
         <script src="{{asset('assets/js/jquery-1.4.4.min.js')}}"></script>
         <script src="{{asset('assets/js/jquery-ui-1.8.10.offset.datepicker.min.js')}}"></script>
         <!--<script src="{{asset('assets/js/jquery-ui.js')}}"></script> 1.11.1-->
+        
+        <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+		<script src="{{asset('assets/js/wysihtml5/wysihtml5-0.3.0.js')}}"></script>
+		<script src="{{asset('assets/js/wysihtml5/bootstrap-wysihtml5.js')}}"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+		<script src="{{asset('assets/js/datatables-bootstrap.js')}}"></script>
+		<script src="{{asset('assets/js/datatables.fnReloadAjax.js')}}"></script>
+		<script src="{{asset('assets/js/jquery.colorbox.js')}}"></script>
+		<script src="{{asset('assets/js/prettify.js')}}"></script>
         
         	
         @yield('scripts')
