@@ -16,7 +16,7 @@ class ChartController extends BaseController {
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',$khet->id)
 				->where(function($query) {
-					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0);
+					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0) -> orwhere('p', '>', 0) -> orwhere('r', '>', 0);
 				})
 				->distinct()
 				->get(array('location_id'));

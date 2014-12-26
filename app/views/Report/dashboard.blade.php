@@ -824,7 +824,12 @@ function pieAll (data) {
 	plotShadow: false
 	},
 	title: {
-	text: 'สรุปการจู่โจมตรวจค้นทั้งประเทศ (ประเภทยาเสพติด)'
+	text: 'สรุปการจู่โจมตรวจค้นทั้งประเทศ (ยาเสพติด-มือถือ-ซิมการ์ด)',
+	style: {
+         fontSize: '14px',
+         fontWeight: 'bold'
+      		
+      }
 	},
 	tooltip: {
 	pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
@@ -832,6 +837,7 @@ function pieAll (data) {
 	credits: {
 	enabled: false
 	},
+	
 	plotOptions: {
 	pie: {
 	allowPointSelect: true,
