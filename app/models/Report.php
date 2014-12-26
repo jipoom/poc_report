@@ -223,7 +223,7 @@ class Report extends Eloquent {
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',10)
 				->where(function($query) {
-					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0);
+					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0) -> orwhere('p', '>', 0) -> orwhere('r', '>', 0);
 				})
 				->distinct()
 				->get(array('location_id')));
@@ -235,7 +235,7 @@ class Report extends Eloquent {
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',$i)
 				->where(function($query) {
-					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0);
+					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0)-> orwhere('p', '>', 0) -> orwhere('r', '>', 0);;
 				})
 				->distinct()
 				->get(array('location_id')));
@@ -253,7 +253,10 @@ class Report extends Eloquent {
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',10)
 				->where(function($query) {
-					$query -> where('p', '>', 0) -> orwhere('r', '>', 0);
+					$query -> where('g', '>', 0) -> orwhere('h', '>', 0) -> orwhere('i', '>', 0) -> orwhere('j', '>', 0) 
+					-> orwhere('k', '>', 0) -> orwhere('l', '>', 0)-> orwhere('m', '>', 0) -> orwhere('n', '>', 0)
+					-> orwhere('o', '>', 0) -> orwhere('q', '>', 0)-> orwhere('s', '>', 0) -> orwhere('t', '>', 0)
+					-> orwhere('u', '>', 0) -> orwhere('v', '>', 0) -> orwhere('w', '>', 0);
 				})
 				->distinct()
 				->get(array('location_id')));
@@ -265,7 +268,10 @@ class Report extends Eloquent {
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',$i)
 				->where(function($query) {
-					$query -> where('p', '>', 0) -> orwhere('r', '>', 0);
+					$query -> where('g', '>', 0) -> orwhere('h', '>', 0) -> orwhere('i', '>', 0) -> orwhere('j', '>', 0) 
+					-> orwhere('k', '>', 0) -> orwhere('l', '>', 0)-> orwhere('m', '>', 0) -> orwhere('n', '>', 0)
+					-> orwhere('o', '>', 0) -> orwhere('q', '>', 0)-> orwhere('s', '>', 0) -> orwhere('t', '>', 0)
+					-> orwhere('u', '>', 0) -> orwhere('v', '>', 0) -> orwhere('w', '>', 0);
 				})
 				->distinct()
 				->get(array('location_id')));
@@ -326,7 +332,7 @@ class Report extends Eloquent {
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',$khetId)
 				->where(function($query) {
-					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0);
+					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0)-> orwhere('p', '>', 0) -> orwhere('r', '>', 0);
 				})
 				->distinct()
 				->get(array('location_id')));
@@ -341,7 +347,10 @@ class Report extends Eloquent {
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',$khetId)
 				->where(function($query) {
-					$query -> where('p', '>', 0) -> orwhere('r', '>', 0);
+					$query -> where('g', '>', 0) -> orwhere('h', '>', 0) -> orwhere('i', '>', 0) -> orwhere('j', '>', 0) 
+					-> orwhere('k', '>', 0) -> orwhere('l', '>', 0)-> orwhere('m', '>', 0) -> orwhere('n', '>', 0)
+					-> orwhere('o', '>', 0) -> orwhere('q', '>', 0)-> orwhere('s', '>', 0) -> orwhere('t', '>', 0)
+					-> orwhere('u', '>', 0) -> orwhere('v', '>', 0) -> orwhere('w', '>', 0);
 				})
 				->distinct()
 				->get(array('location_id')));

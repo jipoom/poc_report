@@ -36,9 +36,11 @@ class ChartController extends BaseController {
 		$data2 = Report::drugFoundCountAll($startDate,$endDate);
 		$data3 = Report::itemFoundCountAll($startDate,$endDate);
 		//$data4 = Report::summaryCount($startDate,$endDate);
+		$serie1[] = array('type'=>'column', 'name' => 'พบสิ่งของต้องห้ามอื่นๆ', 'data' => $data3);
+		$serie1[] = array('type'=>'column', 'name' => 'พบสารเสพติด-มือถือ-ซิมการ์ด', 'data' => $data2);
 		$serie1[] = array('type'=>'column', 'name' => 'ไม่พบ', 'data' => $data1);
-		$serie1[] = array('type'=>'column', 'name' => 'พบสารเสพติด', 'data' => $data2);
-		$serie1[] = array('type'=>'column', 'name' => 'พบสิ่งของต้องห้าม', 'data' => $data3);
+		
+	
 		//$serie1[] = array('type'=>'pie', 'name' => 'รวมทั้งประเทศ', 'data' => $data4);		
 		echo json_encode($serie1);	
 		
