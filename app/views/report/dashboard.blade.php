@@ -12,51 +12,66 @@
 </p>
 
 {{ Form::close() }}
-<h3 align="center">สรุปการรายงานการจู่โจมตรวจค้นประจำวันที่  {{$startDate}} ถึง {{$endDate}}</h3>
-<table cellpadding="10" style="position: absolute; margin: 15px 0 0 45px;">
+<h3 align="center">สรุปรายงานการจู่โจมตรวจค้นประจำวันที่  {{$startDate}} ถึง {{$endDate}}</h3>
+<table cellpadding="10" style="position: absolute; margin: 15px 0 0 45px; font-size: 13.5px;">
 	<tr>
 		<th><img src="{{asset('assets/images/po.png')}}" width="60px" style="position: relative;"></th>
-		<th> มีการจู่โจมตรวจค้นทั้งสิ้น</th>
+		<th> มีการจู่โจมตรวจค้นทั้งสิ้น&nbsp;</th>
 		<th> {{count($inspect)}}</th>
-		<th> เรือนจำ</th>
+		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
+		<th> {{count($inspect)}}</th>
+		<th> &nbsp;เรือนจำ</th>
+	</tr>
+	<tr>
+		<td><img src="{{asset('assets/images/cr5.png')}}" width="60px" style="position: relative;"></td>
+		<th> ตรวจค้นเเล้วไม่พบ&nbsp;</th>
+		<th> {{count($inspect)}}</th>
+		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
+		<th> {{count($other)}}</th>
+		<th> &nbsp;เรือนจำ</th>
 	</tr>
 	<tr>
 		<td><img src="{{asset('assets/images/cr3.png')}}" width="60px" style="position: relative;"></td>
-		<th> พบยาเสพติด / มือถือ/ ซิมการ์ด</th>
+		<th> พบสารเสพติด/มือถือ/ซิมการ์ด  &nbsp;</th>
+		<th> {{count($inspect)}}</th>
+		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
 		<th> {{count($drugAndItem)}}</th>
-		<th> เรือนจำ</th>
+		<th> &nbsp;เรือนจำ</th>
 	</tr>
 	<tr>
 		<td><img src="{{asset('assets/images/cr4.png')}}" width="60px" style="position: relative;"></td>
-		<th> พบสิ่งต้องห้ามอื่นๆ</th>
+		<th> พบสิ่งต้องห้ามอื่นๆ&nbsp;</th>
+		<th> {{count($inspect)}}</th>
+		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
 		<th> {{count($other)}}</th>
-		<th> เรือนจำ</th>
+		<th> &nbsp;เรือนจำ</th>
 	</tr>
+	
 </table>
 <div id="all2" style="float: right; height: 300px; width: 450px; padding: 0"></div>
 
 <div id="all" style=""></div>
 <br />
-<table frame="box" style="margin: 0px auto; border-width: 1px; border-coler:gray">
+<table frame="box" style="margin: 0px auto; border-width: 1px; border-coler:gray; font-size: 13px;">
 		<tr>
 		<th><div id="c10" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t10" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
 			@foreach($inspect as $t)
 				@if($t->khet_id == 10)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 10)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 10)
 					{{Location::find($t->location_id)->name}},
@@ -68,21 +83,21 @@
 		<th><div id="c1" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t1" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
 			@foreach($inspect as $t)
 				@if($t->khet_id == 1)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 1)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 1)
 					{{Location::find($t->location_id)->name}},
@@ -96,21 +111,21 @@
 		<th><div id="c2" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t2" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
 			@foreach($inspect as $t)
 				@if($t->khet_id == 2)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 2)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 2)
 					{{Location::find($t->location_id)->name}},
@@ -122,21 +137,21 @@
 		<th><div id="c3" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t3" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div>  
 			@foreach($inspect as $t)
 				@if($t->khet_id == 3)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 3)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 3)
 					{{Location::find($t->location_id)->name}},
@@ -148,21 +163,21 @@
 		<th><div id="c4" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t4" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
 			@foreach($inspect as $t)
 				@if($t->khet_id == 4)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 4)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 4)
 					{{Location::find($t->location_id)->name}},
@@ -174,21 +189,21 @@
 		<th><div id="c5" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t5" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div>  
 			@foreach($inspect as $t)
 				@if($t->khet_id == 5)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 5)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 5)
 					{{Location::find($t->location_id)->name}},
@@ -200,21 +215,21 @@
 		<th><div id="c6" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t6" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div>  
 			@foreach($inspect as $t)
 				@if($t->khet_id == 6)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 6)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 6)
 					{{Location::find($t->location_id)->name}},
@@ -226,21 +241,21 @@
 		<th><div id="c7" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t7" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
 			@foreach($inspect as $t)
 				@if($t->khet_id == 7)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 7)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 7)
 					{{Location::find($t->location_id)->name}},
@@ -252,21 +267,21 @@
 		<th><div id="c8" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t8" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
 			@foreach($inspect as $t)
 				@if($t->khet_id == 8)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 8)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div> 
 			@foreach($other as $t)
 				@if($t->khet_id == 8)
 					{{Location::find($t->location_id)->name}},
@@ -278,21 +293,21 @@
 		<th><div id="c9" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t9" style="width: 600px; right: 0px">
-			ตรวจค้นแล้ว ไม่พบ : 
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
 			@foreach($inspect as $t)
 				@if($t->khet_id == 9)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบยาเสพติด/มือถือ/ซิมการ์ด: 
+			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 9)
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
 			<br>
-			พบสิ่งของต้องห้ามอื่นๆ: 
+			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
 			@foreach($other as $t)
 				@if($t->khet_id == 9)
 					{{Location::find($t->location_id)->name}},
@@ -824,9 +839,9 @@ function pieAll (data) {
 	plotShadow: false
 	},
 	title: {
-	text: 'สรุปการจู่โจมตรวจค้นทั้งประเทศ (ยาเสพติด-มือถือ-ซิมการ์ด)',
+	text: 'สรุปการจู่โจมตรวจค้นทั้งประเทศ (สารเสพติด/มือถือ/ซิมการ์ด)',
 	style: {
-         fontSize: '14px',
+         fontSize: '13.5px',
          fontWeight: 'bold'
       		
       }
