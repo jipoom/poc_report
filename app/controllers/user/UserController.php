@@ -56,10 +56,10 @@ class UserController extends BaseController {
         );
 	  	if (Auth::attempt($user))
 		{
-			if(Auth::user()->location->id == 1){
-				return Redirect::to('report/view_all');
+			if(Auth::user()->role_id == 3){
+				return Redirect::to('report/add');				
 			}	
-			return Redirect::to('report/add');
+			return Redirect::to('report/dashboard');
 			
 			//return View::make('user/profile');
 		}

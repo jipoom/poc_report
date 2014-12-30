@@ -229,8 +229,8 @@ class AdminLocationController extends AdminController {
     public function getData()
    {
         	
-        
-        $khet = Location::select(array('id', 'name'));
+       
+        $khet = Location::leftjoin('users', 'users.location_id', '=', 'locations.id')->where('role_id','=',3)->select(array('locations.id', 'locations.name'));
 
         return Datatables::of($khet)
 

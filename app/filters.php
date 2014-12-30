@@ -54,6 +54,28 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+
+Route::filter('role_1', function()
+{ 
+  	if ( Auth::user()->role_id != 1 ) {
+     // do something
+     return Redirect::to('/'); 
+   }
+}); 
+Route::filter('role_2', function()
+{ 
+  	if ( Auth::user()->role_id != 2 ) {
+     // do something
+     return Redirect::to('/'); 
+   }
+}); 
+Route::filter('role_1_2', function()
+{ 
+  	if ( Auth::user()->role_id == 3 ) {
+     // do something
+     return Redirect::to('/'); 
+   }
+}); 
 /*
 |--------------------------------------------------------------------------
 | Guest Filter

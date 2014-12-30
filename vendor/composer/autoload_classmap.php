@@ -9,6 +9,7 @@ return array(
     'AdminController' => $baseDir . '/app/controllers/report/AdminController.php',
     'AdminKhetController' => $baseDir . '/app/controllers/report/AdminKhetController.php',
     'AdminLocationController' => $baseDir . '/app/controllers/report/AdminLocationController.php',
+    'AdminUserController' => $baseDir . '/app/controllers/report/AdminUserController.php',
     'Area' => $baseDir . '/app/models/Area.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
     'Category' => $baseDir . '/app/models/Category.php',

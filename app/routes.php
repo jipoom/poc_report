@@ -19,49 +19,58 @@ Route::get('report/area_option/{found_at_id}','ReportController@loadAreaOption')
 Route::get('report/loadLocation/{khet_id}/{location_id}','ReportController@loadLocation');
 Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {
-	Route::get('poc', 'ReportController@showPOC');
-	Route::get('stand_alone', 'ReportController@showStandAlone');
-	Route::get('hdashboard', 'ReportController@showHDashBoard');
+	//Route::get('poc', 'ReportController@showPOC');
+	//Route::get('stand_alone', 'ReportController@showStandAlone');
+	//Route::get('hdashboard', 'ReportController@showHDashBoard');
 	
 	//Admin Panel
 	//report mgmt
-	Route::get('admin/report', 'AdminController@getAdminPanel');
-	Route::post('admin/report', 'AdminController@postAdminPanel');
-	Route::post('admin/report/add', 'AdminController@postAddData');
-	Route::post('admin/report/confirm', 'AdminController@postConfirm');
-	Route::get('admin/report/loadLocation/{khet_id}/{location_id}', 'AdminController@loadLocation');
-	Route::get('admin/report/exist', 'AdminController@checkIfRecordExist');
-	Route::get('admin/report/delete/{id}/{foundDate}/{locationId}/{khetId}', 'AdminController@deleteData');
+	Route::get('admin/report', array('before' => 'role_1', 'uses' => 'AdminController@getAdminPanel'));
+	Route::post('admin/report', array('before' => 'role_1', 'uses' =>'AdminController@postAdminPanel'));
+	Route::post('admin/report/add', array('before' => 'role_1', 'uses' =>'AdminController@postAddData'));
+	Route::post('admin/report/confirm', array('before' => 'role_1', 'uses' =>'AdminController@postConfirm'));
+	Route::get('admin/report/loadLocation/{khet_id}/{location_id}', array('before' => 'role_1', 'uses' =>'AdminController@loadLocation'));
+	Route::get('admin/report/exist', array('before' => 'role_1', 'uses' =>'AdminController@checkIfRecordExist'));
+	Route::get('admin/report/delete/{id}/{foundDate}/{locationId}/{khetId}', array('before' => 'role_1', 'uses' =>'AdminController@deleteData'));
 	
 	
 	//khet mgmt
-	Route::get('admin/khet', 'AdminKhetController@getIndex');
-	Route::get('admin/khet/data', 'AdminKhetController@getData');
-	Route::get('admin/khet/create', 'AdminKhetController@getCreate');
-	Route::post('admin/khet/create', 'AdminKhetController@postCreate');
-	Route::get('admin/khet/{khetId}/edit', 'AdminKhetController@getEdit');
-	Route::post('admin/khet/{khetId}/edit', 'AdminKhetController@postEdit');
-	Route::get('admin/khet/{khetId}/delete', 'AdminKhetController@getDelete');
-	Route::post('admin/khet/{khetId}/delete', 'AdminKhetController@postDelete');
+	Route::get('admin/khet',  array('before' => 'role_1', 'uses' => 'AdminKhetController@getIndex'));
+	Route::get('admin/khet/data',  array('before' => 'role_1', 'uses' => 'AdminKhetController@getData'));
+	Route::get('admin/khet/create',  array('before' => 'role_1', 'uses' => 'AdminKhetController@getCreate'));
+	Route::post('admin/khet/create',  array('before' => 'role_1', 'uses' => 'AdminKhetController@postCreate'));
+	Route::get('admin/khet/{khetId}/edit',  array('before' => 'role_1', 'uses' => 'AdminKhetController@getEdit'));
+	Route::post('admin/khet/{khetId}/edit',  array('before' => 'role_1', 'uses' => 'AdminKhetController@postEdit'));
+	Route::get('admin/khet/{khetId}/delete',  array('before' => 'role_1', 'uses' => 'AdminKhetController@getDelete'));
+	Route::post('admin/khet/{khetId}/delete',  array('before' => 'role_1', 'uses' => 'AdminKhetController@postDelete'));
 	
 	
 	//prison  mgmt
-	Route::get('admin/location', 'AdminLocationController@getIndex');
-	Route::get('admin/location/data', 'AdminLocationController@getData');
-	Route::get('admin/location/create', 'AdminLocationController@getCreate');
-	Route::post('admin/location/create', 'AdminLocationController@postCreate');
-	Route::get('admin/location/{locationId}/edit', 'AdminLocationController@getEdit');
-	Route::post('admin/location/{locationId}/edit', 'AdminLocationController@postEdit');
-	Route::get('admin/location/{locationId}/delete', 'AdminLocationController@getDelete');
-	Route::post('admin/location/{locationId}/delete', 'AdminLocationController@postDelete');
+	Route::get('admin/location',  array('before' => 'role_1', 'uses' => 'AdminLocationController@getIndex'));
+	Route::get('admin/location/data',  array('before' => 'role_1', 'uses' => 'AdminLocationController@getData'));
+	Route::get('admin/location/create',  array('before' => 'role_1', 'uses' => 'AdminLocationController@getCreate'));
+	Route::post('admin/location/create',  array('before' => 'role_1', 'uses' => 'AdminLocationController@postCreate'));
+	Route::get('admin/location/{locationId}/edit',  array('before' => 'role_1', 'uses' => 'AdminLocationController@getEdit'));
+	Route::post('admin/location/{locationId}/edit',  array('before' => 'role_1', 'uses' => 'AdminLocationController@postEdit'));
+	Route::get('admin/location/{locationId}/delete', array('before' => 'role_1', 'uses' =>  'AdminLocationController@getDelete'));
+	Route::post('admin/location/{locationId}/delete',  array('before' => 'role_1', 'uses' => 'AdminLocationController@postDelete'));
+	
+	Route::get('admin/user',  array('before' => 'role_1', 'uses' => 'AdminUserController@getIndex'));
+	Route::get('admin/user/data',  array('before' => 'role_1', 'uses' => 'AdminUserController@getData'));
+	Route::get('admin/user/create',  array('before' => 'role_1', 'uses' => 'AdminUserController@getCreate'));
+	Route::post('admin/user/create',  array('before' => 'role_1', 'uses' => 'AdminUserController@postCreate'));
+	Route::get('admin/user/{userId}/edit',  array('before' => 'role_1', 'uses' => 'AdminUserController@getEdit'));
+	Route::post('admin/user/{userId}/edit',  array('before' => 'role_1', 'uses' => 'AdminUserController@postEdit'));
+	Route::get('admin/user/{userId}/delete',  array('before' => 'role_1', 'uses' => 'AdminUserController@getDelete'));
+	Route::post('admin/user/{userId}/delete',  array('before' => 'role_1', 'uses' => 'AdminUserController@postDelete'));
 	
 	
 	//admin view report
-	Route::post('view_all', 'TableController@postAdminReport');
-	Route::get('view_all/{startDate?}/{endDate?}', 'TableController@getAdminReport');
-	Route::post('view_category', 'TableController@postAdminReportCategory');
-	Route::get('view_category/{startDate?}/{endDate?}', 'TableController@getAdminReportCategory');
-	Route::get('export/{categoryId}/{khetId}/{methodId}/{foundAtId}/{locationId}/{startDate}/{endDate}', 'TableController@export');
+	Route::post('view_all', array('before' => 'role_1_2', 'uses' => 'TableController@postAdminReport'));
+	Route::get('view_all/{startDate?}/{endDate?}', array('before' => 'role_1_2', 'uses' =>'TableController@getAdminReport'));
+	Route::post('view_category', array('before' => 'role_1_2', 'uses' =>'TableController@postAdminReportCategory'));
+	Route::get('view_category/{startDate?}/{endDate?}', array('before' => 'role_1_2', 'uses' =>'TableController@getAdminReportCategory'));
+	Route::get('export/{categoryId}/{khetId}/{methodId}/{foundAtId}/{locationId}/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'TableController@export'));
 	//Route::get('map', 'ReportController@showPOC');
 	//Route::get('overall', 'ReportController@showOverall');
 	
@@ -78,25 +87,25 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	//Route::get('create', 'ReportController@getCreate');
 	//Route::post('create', 'ReportController@postCreate');
 	
-	Route::get('export', 'ReportController@export');
-	Route::get('getData/{startDate}/{endDate}/{location_id}/{found_at}', 'ReportController@getData');
-	Route::get('getDashBoardData/{date}/{khetId}', 'ReportController@getDashBoardData');
+	//Route::get('export', 'ReportController@export');
+	//Route::get('getData/{startDate}/{endDate}/{location_id}/{found_at}', 'ReportController@getData');
+	//Route::get('getDashBoardData/{date}/{khetId}', 'ReportController@getDashBoardData');
 		
 	//DashBoard
-	Route::get('dashboard/{startDate?}/{endDate?}', 'ReportController@getDashBoard');
-	Route::post('dashboard', 'ReportController@postDashBoard');
-	Route::get('getPieAllData/{startDate}/{endDate}', 'ChartController@getDashBoardDrugData');
-	Route::get('getCombinationAllData/{startDate}/{endDate}', 'ChartController@getCombinationAllData');
-	Route::get('Khet10Data/{startDate}/{endDate}', 'ChartController@getKhet10Data');
-	Route::get('Khet01Data/{startDate}/{endDate}', 'ChartController@getKhet01Data');
-	Route::get('Khet02Data/{startDate}/{endDate}', 'ChartController@getKhet02Data');
-	Route::get('Khet03Data/{startDate}/{endDate}', 'ChartController@getKhet03Data');
-	Route::get('Khet04Data/{startDate}/{endDate}', 'ChartController@getKhet04Data');
-	Route::get('Khet05Data/{startDate}/{endDate}', 'ChartController@getKhet05Data');
-	Route::get('Khet06Data/{startDate}/{endDate}', 'ChartController@getKhet06Data');
-	Route::get('Khet07Data/{startDate}/{endDate}', 'ChartController@getKhet07Data');
-	Route::get('Khet08Data/{startDate}/{endDate}', 'ChartController@getKhet08Data');
-	Route::get('Khet09Data/{startDate}/{endDate}', 'ChartController@getKhet09Data');
+	Route::get('dashboard/{startDate?}/{endDate?}', array('before' => 'role_1_2', 'uses' => 'ReportController@getDashBoard'));
+	Route::post('dashboard', array('before' => 'role_1_2', 'uses' =>'ReportController@postDashBoard'));
+	Route::get('getPieAllData/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getDashBoardDrugData'));
+	Route::get('getCombinationAllData/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getCombinationAllData'));
+	Route::get('Khet10Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet10Data'));
+	Route::get('Khet01Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet01Data'));
+	Route::get('Khet02Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet02Data'));
+	Route::get('Khet03Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet03Data'));
+	Route::get('Khet04Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet04Data'));
+	Route::get('Khet05Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet05Data'));
+	Route::get('Khet06Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet06Data'));
+	Route::get('Khet07Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet07Data'));
+	Route::get('Khet08Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet08Data'));
+	Route::get('Khet09Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet09Data'));
 });
 
 Route::group(array('prefix' => 'user'), function()

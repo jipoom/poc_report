@@ -33,19 +33,19 @@
 						<ul class="nav navbar-nav">
 							@if(Auth::check())
 								<!-- check อธิบดี-->
-								@if(Auth::user()->location->id == 0)
-								    <li><a href="{{{ URL::to('report/overall') }}}"><span class="glyphicon glyphicon-book"></span> รายงานการจู่โจมตรวจค้นทั้งหมด</a></li>
-						            <li><a href="{{{ URL::to('report/byitems') }}}"><span class="glyphicon glyphicon-book"></span> รายงานการจู่โจมตรวจค้นแยกตามประเภทสิ่งของต้องห้าม</a></li>
-						            <li><a href="{{{ URL::to('report/map') }}}"><span class="glyphicon glyphicon-book"></span> ภาพรวมการจู่โจมตรวจค้น</a></li>
-						        <!-- check ศปส-->
-						        @elseif(Auth::user()->location->id == 1)
+								@if(Auth::user()->role_id == 2)
+									 <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> Home</a></li>
+									 <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
+									     
+								<!-- check ศปส-->
+						        @elseif(Auth::user()->role_id == 1)
 						      		  <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> Home</a></li>
 									  <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
 									  <li{{ (Request::is('report/admin/report*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/report') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขรายงาน</a></li>
 									  <li{{ (Request::is('report/admin/khet*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/khet') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเขต</a></li>
 									  <li{{ (Request::is('report/admin/location*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/location') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเรือนจำ</a></li>
-								
-								@else
+									  <li{{ (Request::is('report/admin/user*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/user') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลผู้ใช้</a></li>
+								 @elseif(Auth::user()->role_id == 3)
 						        	<li{{ (Request::is('report/add*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/add') }}}"><span class="glyphicon glyphicon-book"></span> เพิ่มรายงาน การจู่โจมตรวจค้น</a></li>
 						            <li{{ (Request::is('report/view*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
 						       
