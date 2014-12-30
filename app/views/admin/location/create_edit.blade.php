@@ -32,18 +32,21 @@
 						{{{ $errors->first('khet_id', ':message') }}}
 						
 						<label class="control-label" for="category">username</label>
-						{{ Form::text('username',Input::old('username', isset($locationId) ? User::where('location_id','=',$locationId)->first()->username : null) , array('class'=>'form-control', 'placeholder'=>'ชื่อเต็มเรือนจำ'))}} </p>
-						{{{ $errors->first('username', ':message') }}}
-						
-						
+						@if(isset($locationId))
+							{{ Form::text('username',Input::old('username', User::where('location_id','=',$locationId)->first()->username) , array('class'=>'form-control', 'placeholder'=>'ชื่อเต็มเรือนจำ','readonly'=>'true'))}} </p>
+							{{{ $errors->first('username', ':message') }}}
+						@else
+							{{ Form::text('username',Input::old('username', null) , array('class'=>'form-control', 'placeholder'=>'ชื่อเต็มเรือนจำ'))}} </p>
+							{{{ $errors->first('username', ':message') }}}
+						@endif
 						<label class="control-label" for="category">password</label>
-						{{ Form::password('password', null , array('class'=>'form-control', 'placeholder'=>'password'))}} </p>
+						<input class="form-control" placeholder="รหัสผ่าน" type="password" name="password" id="password"></p>
 						{{{ $errors->first('password', ':message') }}}
 						
 						<label class="control-label" for="category">ยืนยัน password</label>
-						{{ Form::password('password_confirm', null , array('class'=>'form-control', 'placeholder'=>'ยืนยัน password'))}} </p>
+						<input class="form-control" placeholder="ยืนยันรหัสผ่าน" type="password" name="password_confirm" id="password_confirm"> </p>
 						{{{ $errors->first('password_confirm', ':message') }}}
-						  
+												  
 					</div>
 				</div>
 				<!-- ./ post title -->

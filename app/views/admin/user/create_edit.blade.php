@@ -21,10 +21,10 @@
                     <div class="col-md-12">
                         <label class="control-label" for="category">username</label>
 						@if(isset($userId))
-							{{ Form::text('username',Input::old('user', isset($userId) ? User::find($userId)->username : null) , array('class'=>'form-control', 'placeholder'=>'username','readonly'=>'true'))}} </p>
+							{{ Form::text('username',Input::old('user', User::find($userId)->username) , array('class'=>'form-control', 'placeholder'=>'username','readonly'=>'true'))}} </p>
 							{{{ $errors->first('khet', ':message') }}}
 						@else
-							{{ Form::text('username',Input::old('user', isset($userId) ? User::find($userId)->username : null) , array('class'=>'form-control', 'placeholder'=>'username'))}} </p>
+							{{ Form::text('username',Input::old('user', null) , array('class'=>'form-control', 'placeholder'=>'username'))}} </p>
 							{{{ $errors->first('khet', ':message') }}}
 						@endif
 						
@@ -38,10 +38,10 @@
 						
 						<label class="control-label" for="category">Comment</label>
 						@if(isset($userId))
-							{{ Form::text('comment', null , array('class'=>'form-control', 'placeholder'=>'Comment','readonly'=>'true'))}} </p>
+							{{ Form::text('comment', Input::old('user', User::find($userId)->comment) , array('class'=>'form-control', 'placeholder'=>'Comment','readonly'=>'true'))}} </p>
 							{{{ $errors->first('comment', ':message') }}}
 						@else
-							{{ Form::text('comment', null , array('class'=>'form-control', 'placeholder'=>'Comment'))}} </p>
+							{{ Form::text('comment', Input::old('user', null)  , array('class'=>'form-control', 'placeholder'=>'Comment'))}} </p>
 							{{{ $errors->first('comment', ':message') }}}
 						@endif
 						

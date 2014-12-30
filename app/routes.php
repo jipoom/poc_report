@@ -70,7 +70,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('view_all/{startDate?}/{endDate?}', array('before' => 'role_1_2', 'uses' =>'TableController@getAdminReport'));
 	Route::post('view_category', array('before' => 'role_1_2', 'uses' =>'TableController@postAdminReportCategory'));
 	Route::get('view_category/{startDate?}/{endDate?}', array('before' => 'role_1_2', 'uses' =>'TableController@getAdminReportCategory'));
-	Route::get('export/{categoryId}/{khetId}/{methodId}/{foundAtId}/{locationId}/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'TableController@export'));
+	//Route::get('export/{categoryId}/{khetId}/{methodId}/{foundAtId}/{locationId}/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'TableController@export'));
 	//Route::get('map', 'ReportController@showPOC');
 	//Route::get('overall', 'ReportController@showOverall');
 	
@@ -80,8 +80,8 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('delete/{id}/{foundDate}', 'ReportController@deleteData');
 	Route::post('confirm', array('before' => 'csrf', 'uses' => 'ReportController@postConfirm'));
 	//Route::get('view', 'ReportController@showReport');
-	Route::post('view', 'ReportController@postReport');
-	Route::get('view/{startDate?}/{endDate?}', 'ReportController@getReport');
+	Route::post('view', 'TableController@postReport');
+	Route::get('view/{startDate?}/{endDate?}', 'TableController@getReport');
 	Route::get('exist', 'ReportController@checkIfRecordExist');
 	
 	//Route::get('create', 'ReportController@getCreate');
