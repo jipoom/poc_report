@@ -1,3 +1,14 @@
+<?php 
+			$inspectNotDistinct = $inspect->get(array('location_id','khet_id'));
+			$otherNotDistinct = $other->get(array('location_id','khet_id'));
+			$drugAndItemNotDistinct = $drugAndItem->get(array('location_id','khet_id'));
+			$notFoundNotDistinct  = $notFound->get(array('location_id','khet_id'));
+			$inspect = $inspect->distinct()->get(array('location_id','khet_id'));
+			$other = $other->distinct()->get(array('location_id','khet_id'));
+			$drugAndItem = $drugAndItem->distinct()->get(array('location_id','khet_id'));
+			$notFound = $notFound->distinct()->get(array('location_id','khet_id'));
+			
+?>
 @extends("layout")
 @section('styles')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
@@ -17,7 +28,7 @@
 	<tr>
 		<th><img src="{{asset('assets/images/po.png')}}" width="60px" style="position: relative;"></th>
 		<th> มีการจู่โจมตรวจค้นทั้งสิ้น&nbsp;</th>
-		<th> {{count($inspect)}}</th>
+		<th> {{count($inspectNotDistinct)}}</th>
 		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
 		<th> {{count($inspect)}}</th>
 		<th> &nbsp;เรือนจำ</th>
@@ -25,15 +36,15 @@
 	<tr>
 		<td><img src="{{asset('assets/images/cr5.png')}}" width="60px" style="position: relative;"></td>
 		<th> ตรวจค้นเเล้วไม่พบ&nbsp;</th>
-		<th> {{count($inspect)}}</th>
+		<th> {{count($notFoundNotDistinct)}}</th>
 		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
-		<th> {{count($other)}}</th>
+		<th> {{count($notFound)}}</th>
 		<th> &nbsp;เรือนจำ</th>
 	</tr>
 	<tr>
 		<td><img src="{{asset('assets/images/cr3.png')}}" width="60px" style="position: relative;"></td>
 		<th> พบสารเสพติด/มือถือ/ซิมการ์ด  &nbsp;</th>
-		<th> {{count($inspect)}}</th>
+		<th> {{count($drugAndItemNotDistinct)}}</th>
 		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
 		<th> {{count($drugAndItem)}}</th>
 		<th> &nbsp;เรือนจำ</th>
@@ -41,7 +52,7 @@
 	<tr>
 		<td><img src="{{asset('assets/images/cr4.png')}}" width="60px" style="position: relative;"></td>
 		<th> พบสิ่งต้องห้ามอื่นๆ&nbsp;</th>
-		<th> {{count($inspect)}}</th>
+		<th> {{count($otherNotDistinct)}}</th>
 		<th> &nbsp;ครั้ง  จำนวน &nbsp;</th>
 		<th> {{count($other)}}</th>
 		<th> &nbsp;เรือนจำ</th>
@@ -58,25 +69,40 @@
 		<th>
 		<div id="t10" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 10)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 10)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 10)
+					<?php $check = true;?>	
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
@@ -84,25 +110,40 @@
 		<th>
 		<div id="t1" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 1)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 1)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 1)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 
 	</tr>
@@ -112,51 +153,81 @@
 		<th>
 		<div id="t2" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 2)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 2)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 2)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
 		<th><div id="c3" style="width: 400px; height: 250px"></div></th>
 		<th>
 		<div id="t3" style="width: 600px; right: 0px">
-			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div>  
-			@foreach($inspect as $t)
+			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
+			<?php $check = false;?> 
+			@foreach($notFound as $t)
 				@if($t->khet_id == 3)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 3)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 3)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
@@ -164,25 +235,40 @@
 		<th>
 		<div id="t4" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 4)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 4)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 4)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
@@ -190,25 +276,40 @@
 		<th>
 		<div id="t5" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div>  
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 5)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 5)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 5)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
@@ -216,25 +317,40 @@
 		<th>
 		<div id="t6" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div>  
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 6)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 6)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 6)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
@@ -242,25 +358,40 @@
 		<th>
 		<div id="t7" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 7)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 7)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 7)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
@@ -268,25 +399,40 @@
 		<th>
 		<div id="t8" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 8)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div>
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 8)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div> 
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 8)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 	<tr>
@@ -294,25 +440,40 @@
 		<th>
 		<div id="t9" style="width: 600px; right: 0px">
 			<div style="font-size: 14px; color: #44ff44;"><u>ตรวจค้นแล้ว ไม่พบ :</u></div> 
-			@foreach($inspect as $t)
+			<?php $check = false;?>
+			@foreach($notFound as $t)
 				@if($t->khet_id == 9)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #111111"><u>พบสารเสพติด/มือถือ/ซิมการ์ด: </u></div> 
+			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 9)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 			<br>
 			<div style="font-size: 14px; color: #434fff;"><u>พบสิ่งของต้องห้ามอื่นๆ: </u></div>
+			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 9)
+					<?php $check = true;?>
 					{{Location::find($t->location_id)->name}},
 				@endif
 			@endforeach
+			@if(!$check)
+				-
+			@endif
 		</div></th>
 	</tr>
 </table>
@@ -890,6 +1051,12 @@ function combinationAll() {
 		},
 		xAxis: {
 			categories: ['เขตอิสระ','เขต 1', 'เขต 2', 'เขต 3', 'เขต 4', 'เขต 5','เขต 6', 'เขต 7', 'เขต 8', 'เขต 9']
+		},
+		yAxis:{
+			title:{text: 'จำนวน(เรือนจำ)'}
+		},
+		tooltip: {
+			pointFormat: '{series.name}: <b>{point.y} เรือนจำ</b>'
 		},
 		/*labels: {
 			items: [{

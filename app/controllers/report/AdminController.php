@@ -40,7 +40,7 @@ class AdminController extends BaseController {
 		}
 		else
 		{
-			return Redirect::to('report/admin')->withInput();
+			return Redirect::to('report/admin/report')->withInput()->with('error','กรุณาระบุเขต');
 			
 		}
 	}

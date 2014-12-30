@@ -36,18 +36,18 @@ class ReportController extends BaseController {
 			
 			$inspect = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
-				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
-				->distinct('location_id')
-				->get(array('location_id','khet_id'));
+				->where('found_date','<=',date("Y-m-d", strtotime($endDate)));
+				//->distinct('location_id')
+				//->get(array('location_id','khet_id'));
 			
 			$drugAndItem = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
 				->where(function($query) {
 					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0) -> orwhere('p', '>', 0) -> orwhere('r', '>', 0);
-				})
-				->distinct('location_id')
-				->get(array('location_id','khet_id'));
+				});
+				//->distinct('location_id')
+				//->get(array('location_id','khet_id'));
 				
 			$other = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
@@ -55,16 +55,21 @@ class ReportController extends BaseController {
 				->where(function($query) {
 					$query -> where('g', '>', 0) -> orwhere('h', '>', 0) -> orwhere('i', '>', 0) -> orwhere('j', '>', 0) -> orwhere('k', '>', 0) -> orwhere('l', '>', 0) -> orwhere('m', '>', 0) -> orwhere('n', '>', 0) 
 					-> orwhere('o', '>', 0) -> orwhere('q', '>', 0) -> orwhere('s', '>', 0) -> orwhere('t', '>', 0) -> orwhere('u', '>', 0) -> orwhere('v', '>', 0) -> orwhere('w', '>', 0);
-				})
-				->distinct('location_id')
-				->get(array('location_id','khet_id'));
+				});
+				//->distinct('location_id')
+				//->get(array('location_id','khet_id'));
+				
+			$notFound = ReportSummaryByFoundAt::
+				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
+				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
+				->where('found_at_id','=',0);
 			
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 			
 			
 			
-			return View::make('report/dashboard',compact('buddhistYear','startDate','endDate','inspect','drugAndItem','other'));
+			return View::make('report/dashboard',compact('buddhistYear','startDate','endDate','inspect','drugAndItem','other','notFound'));
 		}
 		else {
 			echo "permission denied";
@@ -85,18 +90,18 @@ class ReportController extends BaseController {
 			}
 			$inspect = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
-				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
-				->distinct('location_id')
-				->get(array('location_id','khet_id'));
+				->where('found_date','<=',date("Y-m-d", strtotime($endDate)));
+				//->distinct('location_id')
+				//->get(array('location_id','khet_id'));
 			
 			$drugAndItem = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
 				->where(function($query) {
 					$query -> where('a', '>', 0) -> orwhere('b', '>', 0) -> orwhere('c', '>', 0) -> orwhere('d', '>', 0) -> orwhere('e', '>', 0) -> orwhere('f', '>', 0) -> orwhere('p', '>', 0) -> orwhere('r', '>', 0);
-				})
-				->distinct('location_id')
-				->get(array('location_id','khet_id'));
+				});
+				//->distinct('location_id')
+				//->get(array('location_id','khet_id'));
 				
 			$other = ReportSummary::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
@@ -104,15 +109,21 @@ class ReportController extends BaseController {
 				->where(function($query) {
 					$query -> where('g', '>', 0) -> orwhere('h', '>', 0) -> orwhere('i', '>', 0) -> orwhere('j', '>', 0) -> orwhere('k', '>', 0) -> orwhere('l', '>', 0) -> orwhere('m', '>', 0) -> orwhere('n', '>', 0) 
 					-> orwhere('o', '>', 0) -> orwhere('q', '>', 0) -> orwhere('s', '>', 0) -> orwhere('t', '>', 0) -> orwhere('u', '>', 0) -> orwhere('v', '>', 0) -> orwhere('w', '>', 0);
-				})
-				->distinct('location_id')
-				->get(array('location_id','khet_id'));
+				});
+				//->distinct('location_id')
+				//->get(array('location_id','khet_id'));
+				
+			$notFound = ReportSummaryByFoundAt::
+				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
+				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
+				->where('found_at_id','=',0);
+			
 			
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
 			
 			
-			return View::make('report/dashboard',compact('buddhistYear','startDate','endDate','inspect','drugAndItem','other'));
+			return View::make('report/dashboard',compact('buddhistYear','startDate','endDate','inspect','drugAndItem','other','notFound'));
 		}
 		else {
 			echo "permission denied";

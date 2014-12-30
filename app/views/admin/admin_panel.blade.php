@@ -8,204 +8,215 @@
 วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
 <br /><br />
 ระบุเขต: {{ Form::select('khet_id', Khet::getArrayNotAll(),Input::old('khet_id',(isset($khetId))? $khetId : 0),array('id'=>'khet_id')) }}
+@if ($message = Session::get('error'))
+ @if(is_array($message))
+    @foreach ($message as $m)
+    	<font color="red"> *{{ $m }}</font>
+    @endforeach
+ @else
+    <font color="red"> *{{ $message }}</font>
+ @endif
+@endif
 <br /><br />
 <div id='location'>
 </div>
 <br />
-{{ Form::submit() }}
+{{ Form::submit('แก้ไขรายงาน') }}
 {{ Form::close() }}
 
 @if(isset($isUserRequest))
 	@if($isUserRequest)
-		{{ Form::open(array('url'=>'report/admin/report/add', 'class'=>'form-signup', 'id'=>'updateReportForm')) }}
-		<input type="hidden" name="date" value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
-		<input type="hidden" name="location_id" value="{{Input::old('location_id',(isset($location_id))? $location_id : 0)}}"> 
-		<input type="hidden" name="khetId" value="{{Input::old('khetId',(isset($khetId))? $khetId : 0)}}"> 
-		<br />
-		<b>Step 2: &nbsp; &nbsp; </b>วิธีการจู่โจม {{ Form::select('method', Method::getArray(),"", array('id' => 'method')) }}{{ Form::select('special_method', SpecialMethod::all()->lists('name','id'),"",array('id'=>'special_method','style'=>'display: none')) }}
-		<br /><br />
-		<b>Step 3: &nbsp; &nbsp; </b>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบสิ่งของต้องห้าม  &nbsp; &nbsp; {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบสิ่งของต้องห้าม  {{{ $errors->first('isFound', ':message') }}}
-		<br />
-		
-			<div id='detail' style="display: none">
-			<table border="1" style="width:100%">
-				<tr>
-					<td style="padding: 20px">
-						<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
-						<p><div id='area_found'>
-						</div>
-						{{Form::text('other_area','',array('id'=>'other_area','placeholder'=>'โปรดระบุ', 'style'=>'display: none','maxlength' =>'50'))}}</p>
-						<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item','style' => 'width:200px')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none','maxlength' =>'50'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
-						 {{$errors->first('qty', ':message')}}</p>
-						
-						<p>{{ Form::radio('hasOwner', 'no', '',array('id'=>'noOwner')) }} ไม่พบผู้ครอบครอง  {{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} พบผู้ครอบครอง          
-						
-						<div id='owner_area' style="display: none">
-							ชื่อผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner','maxlength' =>'50'))}}  
-						</div>
-						</p>
-						<input type="button" class="btn btn-primary" onclick="save()" value="เพิ่มรายการ">
-					</td>
-						
-				</tr>
-			</table>
-			</div>
-		{{ Form::close() }}
+		@if(false)
+			{{ Form::open(array('url'=>'report/admin/report/add', 'class'=>'form-signup', 'id'=>'updateReportForm')) }}
+			<input type="hidden" name="date" value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
+			<input type="hidden" name="location_id" value="{{Input::old('location_id',(isset($location_id))? $location_id : 0)}}"> 
+			<input type="hidden" name="khetId" value="{{Input::old('khetId',(isset($khetId))? $khetId : 0)}}"> 
+			<br />
+			<b>Step 2: &nbsp; &nbsp; </b>วิธีการจู่โจม {{ Form::select('method', Method::getArray(),"", array('id' => 'method')) }}{{ Form::select('special_method', SpecialMethod::all()->lists('name','id'),"",array('id'=>'special_method','style'=>'display: none')) }}
+			<br /><br />
+			<b>Step 3: &nbsp; &nbsp; </b>{{ Form::radio('isFound', 'yes','',array('id'=>'found')) }} พบสิ่งของต้องห้าม  &nbsp; &nbsp; {{ Form::radio('isFound', 'no', '',array('id'=>'not_found')) }}  ไม่พบสิ่งของต้องห้าม  {{{ $errors->first('isFound', ':message') }}}
+			<br />
+			
+				<div id='detail' style="display: none">
+				<table border="1" style="width:100%">
+					<tr>
+						<td style="padding: 20px">
+							<p>{{ Form::radio('before', '1','',array('id'=>'before')) }} สกัดกั้นก่อนเข้าเรือนจำ  {{ Form::radio('before', '2', '',array('id'=>'after')) }}  พบภายในเรือนจำ</p>
+							<p><div id='area_found'>
+							</div>
+							{{Form::text('other_area','',array('id'=>'other_area','placeholder'=>'โปรดระบุ', 'style'=>'display: none','maxlength' =>'50'))}}</p>
+							<p>สิ่งของต้องห้าม: {{ Form::select('item', Item::getAllItemArray(),"",array('id'=>'item','style' => 'width:200px')) }} {{Form::text('other','',array('id'=>'other','placeholder'=>'โปรดระบุ', 'style'=>'display: none','maxlength' =>'50'))}}{{Form::text('qty','',array('id'=>'qty','placeholder'=>'จำนวน'))}} <label id ="unit"> เม็ด</label>  
+							 {{$errors->first('qty', ':message')}}</p>
+							
+							<p>{{ Form::radio('hasOwner', 'no', '',array('id'=>'noOwner')) }} ไม่พบผู้ครอบครอง  {{ Form::radio('hasOwner', 'yes','',array('id'=>'hasOwner')) }} พบผู้ครอบครอง          
+							
+							<div id='owner_area' style="display: none">
+								ชื่อผู้ครอบครอง: {{Form::text('owner','',array('id'=>'owner','maxlength' =>'50'))}}  
+							</div>
+							</p>
+							<input type="button" class="btn btn-primary" onclick="save()" value="เพิ่มรายการ">
+						</td>
+							
+					</tr>
+				</table>
+				</div>
+			{{ Form::close() }}
+		@endif
 		<div id="data">
 			<section class="container" style="width: 90%;">
 	<!-- 
 	<input type="search" class="light-table-filter" data-table="order-table" placeholder="Filter">
 	-->
 	@if(isset($unconfirmInsideReport))
-	@if(count($unconfirmInsideReport)>0)
-	<h4 style="background-color: #efefef; text-align: center">พบภายในเรือนจำ</h4>
-	
-	<table class="order-table table" border="1px" bordercolor="#cfcfcf">
-		<thead>
-			<tr>			
-				<th style="width: 36%">
-					สิ่งของต้องห้าม
-				</th>
-				
-				<th style="width: 7%">
-					จำนวน 
-				</th>
-				<th style="width: 13%">
-					ผู้ครอบครอง
-				</th>	
-				<th style="width: 18%">
-					บริเวณที่พบ 
-				</th>
-				<th style="width: 14%">
-					วิธีการ 
-				</th>
-				<th style="width: 12%">
-					ต้องการลบ?
-				</th>
-			</tr>
-			</thead>
-		<tbody>
-		@foreach($unconfirmInsideReport as $value)
-			<tr>			
-				<td>
-					@if($value->item_id==Item::where('name','=','อื่นๆ')->first()->id)
-						{{$value->other_item}}
-					@else
-						{{Item::find($value->item_id)->name}}
-					@endif
-				</td>	
-				
-				<td>
-					{{$value->qty}} {{Item::find($value->item_id)->unit}}
-				</td>	
-				<td>
-					@if($value->item_owner!='')
-						{{$value->item_owner}}
-					@else
-						ไม่พบ
-					@endif
-				</td>
-				<td>
-					@if($value->area_id == 37 || $value->area_id == 38)
-						{{$value->other_area}}
-					@else
-						{{Area::find($value->area_id)->name}}
-					@endif
-				</td>	
-				<td>
-					@if($value->method_id==1)
-						{{Method::find($value->method_id)->name}}  
-					@else
-						{{Method::find($value->method_id)->name}} {{SpecialMethod::find($value->special_method_id)->name}}  
-					@endif
+		@if(count($unconfirmInsideReport)>0)
+		<h4 style="background-color: #efefef; text-align: center">พบภายในเรือนจำ</h4>
+		
+		<table class="order-table table" border="1px" bordercolor="#cfcfcf">
+			<thead>
+				<tr>			
+					<th style="width: 36%">
+						สิ่งของต้องห้าม
+					</th>
 					
-				</td>			
-				<td>
-					{{ HTML::link(URL::to('report/admin/report/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
-				</td>
+					<th style="width: 7%">
+						จำนวน 
+					</th>
+					<th style="width: 13%">
+						ผู้ครอบครอง
+					</th>	
+					<th style="width: 18%">
+						บริเวณที่พบ 
+					</th>
+					<th style="width: 14%">
+						วิธีการ 
+					</th>
+					<th style="width: 12%">
+						ต้องการลบ?
+					</th>
+				</tr>
+				</thead>
+			<tbody>
+			@foreach($unconfirmInsideReport as $value)
+				<tr>			
+					<td>
+						@if($value->item_id==Item::where('name','=','อื่นๆ')->first()->id)
+							{{$value->other_item}}
+						@else
+							{{Item::find($value->item_id)->name}}
+						@endif
+					</td>	
 					
-			</tr>
-		@endforeach
-		</tbody>
-	</table>
-	@endif
+					<td>
+						{{$value->qty}} {{Item::find($value->item_id)->unit}}
+					</td>	
+					<td>
+						@if($value->item_owner!='')
+							{{$value->item_owner}}
+						@else
+							ไม่พบ
+						@endif
+					</td>
+					<td>
+						@if($value->area_id == 37 || $value->area_id == 38)
+							{{$value->other_area}}
+						@else
+							{{Area::find($value->area_id)->name}}
+						@endif
+					</td>	
+					<td>
+						@if($value->method_id==1)
+							{{Method::find($value->method_id)->name}}  
+						@else
+							{{Method::find($value->method_id)->name}} {{SpecialMethod::find($value->special_method_id)->name}}  
+						@endif
+						
+					</td>			
+					<td>
+						{{ HTML::link(URL::to('report/admin/report/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
+					</td>
+						
+				</tr>
+			@endforeach
+			</tbody>
+		</table>
+		@endif
 	@endif
 	</section>
 	<section class="container" style="width: 90%;">
 	@if(isset($unconfirmOutsideReport))
-	@if(count($unconfirmOutsideReport)>0)
-	<h4 style="background-color: #efefef; text-align: center">สกัดกั้นก่อนเข้าเรือนจำ</h4>
-	<table class="order-table table" border="1px" bordercolor="#cfcfcf">
-		<thead>
-		<tr>			
-				<th style="width: 36%">
-					สิ่งของต้องห้าม
-				</th>
-				
-				<th style="width: 7%">
-					จำนวน 
-				</th>
-				<th style="width: 13%">
-					ผู้ครอบครอง
-				</th>	
-				<th style="width: 18%">
-					บริเวณที่พบ 
-				</th>
-				<th style="width: 14%">
-					วิธีการ 
-				</th>
-				<th style="width: 12%">
-					ต้องการลบ?
-				</th>
-				
-			</tr>
-			</thead>
-		<tbody>
-		@foreach($unconfirmOutsideReport as $value)
+		@if(count($unconfirmOutsideReport)>0)
+		<h4 style="background-color: #efefef; text-align: center">สกัดกั้นก่อนเข้าเรือนจำ</h4>
+		<table class="order-table table" border="1px" bordercolor="#cfcfcf">
+			<thead>
 			<tr>			
-				<td>
-					@if($value->item_id==Item::where('name','=','อื่นๆ')->first()->id)
-						{{$value->other_item}}
-					@else
-						{{Item::find($value->item_id)->name}}
-					@endif
-				</td>
-				<td>
-					{{$value->qty}} {{Item::find($value->item_id)->unit}}
-				</td>
-				<td>
-					@if($value->item_owner!='')
-						{{$value->item_owner}}
-					@else
-						ไม่พบ
-					@endif
-						
-				</td>
-				
-				<td>
-					@if($value->area_id == 37 || $value->area_id == 38)
-						{{$value->other_area}}
-					@else
-						{{Area::find($value->area_id)->name}}
-					@endif
+					<th style="width: 36%">
+						สิ่งของต้องห้าม
+					</th>
 					
-				</td>
-				<td>
-					@if($value->method_id==1)
-						{{Method::find($value->method_id)->name}}  
-					@else
-						{{Method::find($value->method_id)->name}} {{SpecialMethod::find($value->special_method_id)->name}}  
-					@endif
-				</td>
-				<td>
-					{{ HTML::link(URL::to('report/admin/report/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
-				</td>
-				
-			</tr>
-		@endforeach
-		</tbody>
-	</table>
-	@endif
+					<th style="width: 7%">
+						จำนวน 
+					</th>
+					<th style="width: 13%">
+						ผู้ครอบครอง
+					</th>	
+					<th style="width: 18%">
+						บริเวณที่พบ 
+					</th>
+					<th style="width: 14%">
+						วิธีการ 
+					</th>
+					<th style="width: 12%">
+						ต้องการลบ?
+					</th>
+					
+				</tr>
+				</thead>
+			<tbody>
+			@foreach($unconfirmOutsideReport as $value)
+				<tr>			
+					<td>
+						@if($value->item_id==Item::where('name','=','อื่นๆ')->first()->id)
+							{{$value->other_item}}
+						@else
+							{{Item::find($value->item_id)->name}}
+						@endif
+					</td>
+					<td>
+						{{$value->qty}} {{Item::find($value->item_id)->unit}}
+					</td>
+					<td>
+						@if($value->item_owner!='')
+							{{$value->item_owner}}
+						@else
+							ไม่พบ
+						@endif
+							
+					</td>
+					
+					<td>
+						@if($value->area_id == 37 || $value->area_id == 38)
+							{{$value->other_area}}
+						@else
+							{{Area::find($value->area_id)->name}}
+						@endif
+						
+					</td>
+					<td>
+						@if($value->method_id==1)
+							{{Method::find($value->method_id)->name}}  
+						@else
+							{{Method::find($value->method_id)->name}} {{SpecialMethod::find($value->special_method_id)->name}}  
+						@endif
+					</td>
+					<td>
+						{{ HTML::link(URL::to('report/admin/report/delete/'.$value->id.'/'.$value->found_date.'/'.$value->location_id.'/'.$value->khet_id), 'Remove')}}
+					</td>
+					
+				</tr>
+			@endforeach
+			</tbody>
+		</table>
+		@endif
 	@endif
 	</section>
 	@if(isset($unconfirmNotfound))
@@ -275,7 +286,7 @@
 	    	หมายเหตุ <font size="2px"> ( กรอกข้อมูลที่จำเป็นเท่านั้น )</font> 
 	    	{{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','rows'=> '3', 'cols' => '5', 'maxlength' =>'200' ))}} 
 			<br />
-			<b>Step 4: &nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
+			<b>&nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
 		
 		</div>
 		{{form::close()}}
@@ -286,10 +297,14 @@
 		หมายเหตุ  <font size="2px"> ( กรอกข้อมูลที่จำเป็นเท่านั้น )</font>  
 		{{ Form::textarea('note2', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note2','rows'=> '3', 'cols' => '5', 'maxlength' =>'200' ))}} 
 		<br />
-		<b>Step 4: &nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
+		<b>&nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
 	
 	</div>
 	@endif
+	@if(count($unconfirmInsideReport)+count($unconfirmOutsideReport)+count($unconfirmNotfound) == 0)
+		<h4 style="background-color: #efefef; text-align: center">ระบบไม่พบข้อมูลในวันดังกล่าว</h4>
+	@endif
+	
 @endif
 	
 
