@@ -24,6 +24,12 @@ class Item extends Eloquent {
 		}
 		return $item;
 	}
+	public static function getArrayNotAll()
+	{
+		$item = array('0'=>'ระบุชนิดสิ่งของต้องห้าม');	
+		$item = array_merge($item,Item::where('id','<>',0)->get()->lists('name','id'));		
+		return $item;
+	}
 }
 
 ?>

@@ -39,11 +39,11 @@
 							{{ Form::text('username',Input::old('username', null) , array('class'=>'form-control', 'placeholder'=>'ชื่อเต็มเรือนจำ'))}} </p>
 							{{{ $errors->first('username', ':message') }}}
 						@endif
-						<label class="control-label" for="category">password</label>
+						<label class="control-label" for="category">รหัสผ่าน</label>
 						<input class="form-control" placeholder="รหัสผ่าน" type="password" name="password" id="password"></p>
 						{{{ $errors->first('password', ':message') }}}
 						
-						<label class="control-label" for="category">ยืนยัน password</label>
+						<label class="control-label" for="category">ยืนยันรหัสผ่าน</label>
 						<input class="form-control" placeholder="ยืนยันรหัสผ่าน" type="password" name="password_confirm" id="password_confirm"> </p>
 						{{{ $errors->first('password_confirm', ':message') }}}
 												  

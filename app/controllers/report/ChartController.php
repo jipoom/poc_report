@@ -207,5 +207,66 @@ class ChartController extends BaseController {
 		
 	}
 	
+	public function getByLocation($startDate,$endDate,$khetId,$itemId){
+		if($itemId == 0)
+		{
+			return "...";
+		}	
+		$category = array();
+		$category['name'] = 'Location';
+		$check	= array();
+		$series1 = array();
+		$series1['name'] = 'สกัดกั้นก่อนเข้าเรือนจำ';	
+		$series2 = array();
+		$series2['name'] = 'พบภายในเรือนจำ';
+		$startDate = Report::convertYearBtoC($startDate);
+		$endDate = Report::convertYearBtoC($endDate);
+		$itemAlias = Item::find($itemId)->alias;
+		//Specify khet_id
+		if($khetId != 0)
+		{
+			$data1 = ReportSummaryByFoundAt::where('khet_id','=',$khetId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',1)->orderBy('location_id')->get();
+			$data2 = ReportSummaryByFoundAt::where('khet_id','=',$khetId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('location_id')->get();		
+			$i=0;
+			foreach(Location::where('khet_id','=',$khetId)->get() as $temp)
+			{
+				$check[$temp->name] = $i;	
+				$category['data'][] = $temp->name;
+				$series1['data'][] = 0;
+				$series2['data'][] = 0;
+				$i++;
+			}
+			
+			foreach($data2 as $temp)
+			{
+				$index = $check[Location::find($temp->location_id)->name];	
+				$series2['data'][$index] = $series2['data'][$index]+$temp->$itemAlias;
+			}
+			foreach($data1 as $temp)
+			{
+				$index = $check[Location::find($temp->location_id)->name];	
+				$series1['data'][$index] = $series1['data'][$index]+$temp->$itemAlias;
+			}
+		}
+		//All khet
+		else{
+			foreach(Khet::all() as $temp)
+			{
+				$data1 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',1)->where('khet_id','=',$temp->id)->sum($itemAlias);
+				$data2 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->where('khet_id','=',$temp->id)->sum($itemAlias);		
+				$category['data'][] = $temp->name;
+				$series1['data'][] = $data1;
+				$series2['data'][] = $data2;
+			}
+		}
+		$result = array();
+		array_push($result,$category);
+		array_push($result,$series1);
+		array_push($result,$series2);
+		//$serie1[] = array('type'=>'pie', 'name' => 'รวมทั้งประเทศ', 'data' => $data4);		
+		echo json_encode($result, JSON_NUMERIC_CHECK);	
+		
+	}
+	
 }
 ?>

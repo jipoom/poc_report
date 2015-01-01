@@ -48,7 +48,7 @@ class AdminController extends BaseController {
 		if($khetId==0){
 			return null;
 		}
-		echo "เลือกเรือนจำ: "	;
+		echo "<b>Step 3: &nbsp; &nbsp; </b>เลือกเรือนจำ: "	;
 		$location = array();	
 		$allLocation = Location::where('khet_id','=',$khetId)->get();
 		foreach($allLocation as $temp)

@@ -5,9 +5,9 @@
 @section("content")
 {{ Form::open(array('url'=>'report/admin/report', 'class'=>'form-signup', 'id'=>'infoForm')) }}
 <h4>แก้ไขข้อมูล</h4>
-วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
+<b>Step 1: &nbsp; &nbsp; </b>วันที่ทำการจู่โจม: <input type="text" id="found_date" name="date" readonly="true"value="{{Input::old('date',(isset($date))? $date : date('d-m').'-'.$buddhistYear)}}"> 
 <br /><br />
-ระบุเขต: {{ Form::select('khet_id', Khet::getArrayNotAll(),Input::old('khet_id',(isset($khetId))? $khetId : 0),array('id'=>'khet_id')) }}
+<b>Step 2: &nbsp; &nbsp; </b>ระบุเขต: {{ Form::select('khet_id', Khet::getArrayNotAll(),Input::old('khet_id',(isset($khetId))? $khetId : 0),array('id'=>'khet_id')) }}
 @if ($message = Session::get('error'))
  @if(is_array($message))
     @foreach ($message as $m)

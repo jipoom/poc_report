@@ -29,7 +29,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::post('admin/report', array('before' => 'role_1', 'uses' =>'AdminController@postAdminPanel'));
 	Route::post('admin/report/add', array('before' => 'role_1', 'uses' =>'AdminController@postAddData'));
 	Route::post('admin/report/confirm', array('before' => 'role_1', 'uses' =>'AdminController@postConfirm'));
-	Route::get('admin/report/loadLocation/{khet_id}/{location_id}', array('before' => 'role_1', 'uses' =>'AdminController@loadLocation'));
+	Route::get('admin/report/loadLocation/{khet_id}/{location_id}', array('before' => 'role_1_2', 'uses' =>'AdminController@loadLocation'));
 	Route::get('admin/report/exist', array('before' => 'role_1', 'uses' =>'AdminController@checkIfRecordExist'));
 	Route::get('admin/report/delete/{id}/{foundDate}/{locationId}/{khetId}', array('before' => 'role_1', 'uses' =>'AdminController@deleteData'));
 	
@@ -106,6 +106,11 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::get('Khet07Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet07Data'));
 	Route::get('Khet08Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet08Data'));
 	Route::get('Khet09Data/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'ChartController@getKhet09Data'));
+	
+	//By Location
+	Route::get('bylocation', array('before' => 'role_1_2', 'uses' =>'ReportController@getByLocation'));
+	Route::post('bylocation', array('before' => 'role_1_2', 'uses' =>'ReportController@postByLocation'));
+	Route::get('getByLocationData/{startdDate}/{endDate}/{khet_id}/{item_id}', array('before' => 'role_1_2', 'uses' =>'ChartController@getByLocation'));
 });
 
 Route::group(array('prefix' => 'user'), function()
