@@ -900,4 +900,42 @@ class ReportController extends BaseController {
 		}
 	}
 
+
+	// By Date
+	public function getByDate(){
+		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;	
+		$khet_id = 0;
+		$location_id = 0;
+		$item_id = 0;
+		$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime("-7 days")));
+		$endDate = Report::convertYearCtoB(date('d-m-Y'));
+		return View::make('report/chart_by_date',compact('buddhistYear','khet_id','item_id','location_id','startDate','endDate'));
+	}
+	public function postByDate(){
+		if(Input::get('item_id') != 0)
+		{
+			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
+			$khet_id=Input::get('khet_id');
+			$item_id=Input::get('item_id');	
+			$locationId=Input::get('location_id');	
+			$startDate = Input::get('startDate');
+			$endDate = Input::get('endDate');	
+			if(Input::get('khet_id') != 0)	
+			{ 	
+				
+				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','locationId','khet_id','item_id'));
+			}
+			// Whole Country
+			else{
+				
+			}
+		}
+		else
+		{
+			return Redirect::to('report/bydate')->withInput()->with('error','กรุณาระบุชนิดสิ่งของต้องห้าม');
+			
+		}
+	}
+	
+
 }

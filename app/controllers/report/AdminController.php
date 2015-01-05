@@ -44,18 +44,25 @@ class AdminController extends BaseController {
 			
 		}
 	}
-	public function loadLocation($khetId,$locationId){
+	public function loadLocation($khetId,$locationId,$firstLocation=null){
 		if($khetId==0){
+			if($firstLocation!=null)
+				return "<b>Step 3: &nbsp; &nbsp; </b>ทุกเรือนจำ</br></br>";
 			return null;
 		}
 		echo "<b>Step 3: &nbsp; &nbsp; </b>เลือกเรือนจำ: "	;
-		$location = array();	
+		
+		if($firstLocation!=null)
+			$location = array('0'=>'ทุกเรือนจำในเขต');
+		else {
+			$location = array();	
+		}	
 		$allLocation = Location::where('khet_id','=',$khetId)->get();
 		foreach($allLocation as $temp)
 		{
 			$location = array_add($location, $temp->id, $temp->name);
 		}	
-		echo Form::select('location_id', $location,$locationId,array('id'=>'location_id'));
+		echo Form::select('location_id', $location,$locationId,array('id'=>'location_id'))."</br></br>";
 	}
 	public function postAddData()
 	{

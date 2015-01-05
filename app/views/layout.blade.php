@@ -43,6 +43,7 @@
 						      		  <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> Home</a></li>
 									  <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
 									  <li{{ (Request::is('report/bylocation*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bylocation') }}}"><span class="glyphicon glyphicon-book"></span> ดูกราฟตามสถานที่</a></li>
+									  <li{{ (Request::is('report/bydate*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bydate') }}}"><span class="glyphicon glyphicon-book"></span> ดูกราฟตามเวลา</a></li>
 									  <li{{ (Request::is('report/admin/report*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/report') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขรายงาน</a></li>
 									  <li{{ (Request::is('report/admin/khet*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/khet') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเขต</a></li>
 									  <li{{ (Request::is('report/admin/location*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/location') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเรือนจำ</a></li>
