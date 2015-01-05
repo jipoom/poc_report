@@ -319,7 +319,7 @@ class Report extends Eloquent {
 		return count(ReportSummaryByFoundAt::where('found_date','>=',$startDate)
 				->where('found_date','<=',$endDate)
 				->where('khet_id','=',$khetId)
-				->where('found_at_id','=',0)->distinct()
+				->where('found_at_id','=',0)->whereRaw('location_id not in (select location_id from summary_by_found_at where found_at_id <> 0)')->distinct()
 				->get(array('location_id')));
 	}
 	public static function drugFoundCountKhet($khetId,$startDate,$endDate){

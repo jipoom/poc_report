@@ -62,7 +62,7 @@ class ReportController extends BaseController {
 			$notFound = ReportSummaryByFoundAt::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
-				->where('found_at_id','=',0);
+				->where('found_at_id','=',0)->whereRaw('location_id not in (select location_id from summary_by_found_at where found_at_id <> 0)');
 			
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
 			$endDate = Report::convertYearCtoB(date('d-m-Y',strtotime($endDate)));
@@ -112,11 +112,11 @@ class ReportController extends BaseController {
 				});
 				//->distinct('location_id')
 				//->get(array('location_id','khet_id'));
-				
+			
 			$notFound = ReportSummaryByFoundAt::
 				where('found_date','>=',date("Y-m-d", strtotime($startDate)))
 				->where('found_date','<=',date("Y-m-d", strtotime($endDate)))
-				->where('found_at_id','=',0);
+				->where('found_at_id','=',0)->whereRaw('location_id not in (select location_id from summary_by_found_at where found_at_id <> 0)');
 			
 			
 			$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
