@@ -18,6 +18,11 @@ class Khet extends Eloquent {
 		$khet = array_merge($khet,Khet::all()->lists('name','id'));		
 		return $khet;
 	}
+	public static function getArrayCustomFirstRecord($customName){
+		$khet = array('0'=>$customName);	
+		$khet = array_merge($khet,Khet::all()->lists('name','id'));		
+		return $khet;
+	}
 }
 
 ?>
