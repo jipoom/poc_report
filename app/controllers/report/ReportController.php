@@ -917,13 +917,13 @@ class ReportController extends BaseController {
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			$khet_id=Input::get('khet_id');
 			$item_id=Input::get('item_id');	
-			$locationId=Input::get('location_id');	
+			$location_id=Input::get('location_id');	
 			$startDate = Input::get('startDate');
 			$endDate = Input::get('endDate');	
 			if(Input::get('khet_id') != 0)	
 			{ 	
 				
-				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','locationId','khet_id','item_id'));
+				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','location_id','khet_id','item_id'));
 			}
 			// Whole Country
 			else{
