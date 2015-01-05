@@ -267,7 +267,8 @@ class TableController extends BaseController {
 		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 		if($startDate==null || $endDate == null)
 		{
-			$startDate=date('Y-m-d',strtotime("-1 days"));
+			$startDate=ReportSummary::orderBy('found_date','desc')->first()->found_date;	
+			//$startDate=date('Y-m-d',strtotime("-1 days"));
 			$endDate = $startDate;
 		}	
 		else{
@@ -295,7 +296,8 @@ class TableController extends BaseController {
 		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 		if(Input::get('startDate')==null || Input::get('endDate') == null)
 		{
-			$startDate=date('Y-m-d',strtotime("-1 days"));
+			$startDate=ReportSummary::orderBy('found_date','desc')->first()->found_date;	
+			//$startDate=date('Y-m-d',strtotime("-1 days"));
 			$endDate = $startDate;
 		}	
 		else{
@@ -325,7 +327,8 @@ class TableController extends BaseController {
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			if($startDate==null || $endDate == null)
 			{
-				$startDate=date('Y-m-d',strtotime("-1 days"));
+				$startDate=ReportSummary::orderBy('found_date','desc')->first()->found_date;	
+				//$startDate=date('Y-m-d',strtotime("-1 days"));
 				$endDate = $startDate;
 			}	
 			else{
@@ -411,7 +414,8 @@ class TableController extends BaseController {
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			if(Input::get('startDate')==null || Input::get('endDate') == null)
 			{
-				$startDate=date('Y-m-d',strtotime("-1 days"));
+				$startDate=ReportSummary::orderBy('found_date','desc')->first()->found_date;	
+				//$startDate=date('Y-m-d',strtotime("-1 days"));
 				$endDate = $startDate;
 			}	
 			else{

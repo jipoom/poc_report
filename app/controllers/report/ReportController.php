@@ -26,7 +26,10 @@ class ReportController extends BaseController {
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			if($startDate==null || $endDate == null)
 			{
-				$startDate=date('Y-m-d',strtotime("-1 days"));
+				//grab most recent date
+				$startDate=ReportSummary::orderBy('found_date','desc')->first()->found_date;	
+				//$startDate=Report::convertYearCtoB(date('d-m-Y',strtotime($startDate)));
+				//$startDate=date('Y-m-d',strtotime("-1 days"));
 				$endDate = $startDate;
 			}	
 			else{
@@ -81,7 +84,8 @@ class ReportController extends BaseController {
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			if(Input::get('startDate')==null || Input::get('endDate') == null)
 			{
-				$startDate=date('Y-m-d',strtotime("-1 days"));
+				$startDate=ReportSummary::orderBy('found_date','desc')->first()->found_date;	
+				//$startDate=date('Y-m-d',strtotime("-1 days"));
 				$endDate = $startDate;
 			}	
 			else{
