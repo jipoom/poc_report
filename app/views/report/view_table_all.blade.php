@@ -32,7 +32,6 @@
 {{ Form::submit('ดูรายงาน') }}
 {{ Form::close() }}
 <br>
-<p><input type="button" value="select table" onclick="selectElementContents( document.getElementById('table') );"></p>	
 <table class="table table-striped table-bordered tabletest" id="table"border="1" style="font-size: 12px;">
 			<thead>
 					

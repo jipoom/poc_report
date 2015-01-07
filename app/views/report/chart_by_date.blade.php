@@ -113,7 +113,7 @@ $(document).ready(function() {
 	                    plotShadow: false
 	                },
 		title: {
-			text: 'กราฟสรุปผลการจู่โจมตรวจค้น {{Item::find($item_id)->name}}'
+			text: 'กราฟสรุปผลการจู่โจมตรวจค้น{{Item::find($item_id)->name}} <?php if($khet_id==0){ echo "ทั่วประเทศ";} else if($location_id==0){ echo Khet::find($khet_id)->name;} else { echo Location::find($location_id)->name;} echo " ตั้งแต่ ".$startDate." ถึง ".$endDate?>'
 		},
 		xAxis: {
 			categories: [],
@@ -157,10 +157,11 @@ $(document).ready(function() {
 		},
 		series: [{}]
 	}
-	 $.getJSON("{{URL::to('report/getByLocationData')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}"+"/"+"{{$khet_id}}"+"/"+"{{$item_id}}", function(json) {
+	 $.getJSON("{{URL::to('report/getByDateData')}}"+"/"+"{{$startDate}}"+"/"+"{{$endDate}}"+"/"+"{{$location_id}}"+"/"+"{{$khet_id}}"+"/"+"{{$item_id}}", function(json) {
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
                 options.series[1] = json[2];
+                options.series[2] = json[3];
                 chart = new Highcharts.Chart(options);
      });
 		

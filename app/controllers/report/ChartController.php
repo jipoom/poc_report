@@ -267,6 +267,133 @@ class ChartController extends BaseController {
 		echo json_encode($result, JSON_NUMERIC_CHECK);	
 		
 	}
+
+	public function getByDate($startDate,$endDate,$locationId,$khetId,$itemId){
+		if($itemId == 0)
+		{
+			return "...";
+		}	
+		$category = array();
+		$category['name'] = 'Date';
+		$check	= array();
+		$series1 = array();
+		$series1['name'] = 'สกัดกั้นก่อนเข้าเรือนจำ';	
+		$series2 = array();
+		$series2['name'] = 'พบภายในเรือนจำ';
+		$series3 = array('type'=>'line', 'name' => 'trend');
+		$startDate = Report::convertYearBtoC($startDate);
+		$endDate = Report::convertYearBtoC($endDate);
+		$itemAlias = Item::find($itemId)->alias;
+		//Specify khet_id
+		if($khetId != 0)
+		{
+			//Specify Location	
+			if($locationId != 0)
+			{		
+				$data1 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',1)->orderBy('found_date')->get();
+				$data2 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
+				$i=0;			
+				$j=strtotime($startDate);
+				while($j<=strtotime($endDate))
+				{
+					$check[$j] = $i;
+					$date = Report::convertYearCtoB(date("d-m-Y",$j));
+					$category['data'][] = $date;
+					$series1['data'][] = 0;
+					$series2['data'][] = 0;
+					$series3['data'][] = 0;
+					$i++;
+					$j = strtotime('+1 day', $j);
+
+				}
+				
+				foreach($data2 as $temp)
+				{
+					$index = $check[strtotime($temp->found_date)];	
+					$series2['data'][$index] = $series2['data'][$index]+$temp->$itemAlias;
+					$series3['data'][$index] = $series2['data'][$index];
+				}
+				foreach($data1 as $temp)
+				{
+					$index = $check[strtotime($temp->found_date)];	
+					$series1['data'][$index] = $series1['data'][$index]+$temp->$itemAlias;
+					$series3['data'][$index] = $series3['data'][$index]+$series1['data'][$index];
+				}
+			}
+			//All locations in this khet
+			else{
+				$data1 = ReportSummaryByFoundAt::where('khet_id','=',$khetId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',1)->orderBy('found_date')->get();
+				$data2 = ReportSummaryByFoundAt::where('khet_id','=',$khetId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
+				$i=0;			
+				$j=strtotime($startDate);
+				while($j<=strtotime($endDate))
+				{
+					$check[$j] = $i;
+					$date = Report::convertYearCtoB(date("d-m-Y",$j));
+					$category['data'][] = $date;
+					$series1['data'][] = 0;
+					$series2['data'][] = 0;
+					$series3['data'][] = 0;
+					$i++;
+					$j = strtotime('+1 day', $j);
+
+				}
+				
+				foreach($data2 as $temp)
+				{
+					$index = $check[strtotime($temp->found_date)];	
+					$series2['data'][$index] = $series2['data'][$index]+$temp->$itemAlias;
+					$series3['data'][$index] = $series2['data'][$index];
+				}
+				foreach($data1 as $temp)
+				{
+					$index = $check[strtotime($temp->found_date)];	
+					$series1['data'][$index] = $series1['data'][$index]+$temp->$itemAlias;
+					$series3['data'][$index] = $series3['data'][$index]+$series1['data'][$index];
+				}
+			}	
+			
+		}
+		//Whole country
+		else{
+			$data1 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',1)->orderBy('found_date')->get();
+			$data2 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
+			$i=0;			
+			$j=strtotime($startDate);
+			while($j<=strtotime($endDate))
+			{
+				$check[$j] = $i;
+				$date = Report::convertYearCtoB(date("d-m-Y",$j));
+				$category['data'][] = $date;
+				$series1['data'][] = 0;
+				$series2['data'][] = 0;
+				$series3['data'][] = 0;
+				$i++;
+				$j = strtotime('+1 day', $j);
+			}
+			
+				foreach($data2 as $temp)
+				{
+					$index = $check[strtotime($temp->found_date)];	
+					$series2['data'][$index] = $series2['data'][$index]+$temp->$itemAlias;
+					$series3['data'][$index] = $series2['data'][$index];
+				}
+				foreach($data1 as $temp)
+				{
+					$index = $check[strtotime($temp->found_date)];	
+					$series1['data'][$index] = $series1['data'][$index]+$temp->$itemAlias;
+					$series3['data'][$index] = $series3['data'][$index]+$series1['data'][$index];
+				}
+		}
+		$result = array();
+		array_push($result,$category);
+		array_push($result,$series1);
+		array_push($result,$series2);
+		array_push($result,$series3);
+		//$serie1[] = array('type'=>'pie', 'name' => 'รวมทั้งประเทศ', 'data' => $data4);		
+		echo json_encode($result, JSON_NUMERIC_CHECK);	
+		
+	}
 	
 }
 ?>

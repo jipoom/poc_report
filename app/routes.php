@@ -115,7 +115,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	//By Date
 	Route::get('bydate', array('before' => 'role_1_2', 'uses' =>'ReportController@getByDate'));
 	Route::post('bydate', array('before' => 'role_1_2', 'uses' =>'ReportController@postByDate'));
-	Route::get('getByDateData/{startdDate}/{endDate}/{khet_id}/{item_id}', array('before' => 'role_1_2', 'uses' =>'ChartController@getByDate'));
+	Route::get('getByDateData/{startdDate}/{endDate}/{location_id}/{khet_id}/{item_id}', array('before' => 'role_1_2', 'uses' =>'ChartController@getByDate'));
 	
 });
 

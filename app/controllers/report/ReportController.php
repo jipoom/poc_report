@@ -927,7 +927,9 @@ class ReportController extends BaseController {
 			}
 			// Whole Country
 			else{
-				
+				$location_id=0;	
+				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','location_id','khet_id','item_id'));
+		
 			}
 		}
 		else
