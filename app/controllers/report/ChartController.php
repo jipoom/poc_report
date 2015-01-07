@@ -280,7 +280,7 @@ class ChartController extends BaseController {
 		$series1['name'] = 'สกัดกั้นก่อนเข้าเรือนจำ';	
 		$series2 = array();
 		$series2['name'] = 'พบภายในเรือนจำ';
-		$series3 = array('type'=>'line', 'name' => 'trend');
+		$series3 = array('type'=>'spline', 'name' => 'trend');
 		$startDate = Report::convertYearBtoC($startDate);
 		$endDate = Report::convertYearBtoC($endDate);
 		$itemAlias = Item::find($itemId)->alias;
