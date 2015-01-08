@@ -311,7 +311,7 @@ class ChartController extends BaseController {
 				{
 					$index = $check[strtotime($temp->found_date)];	
 					$series2['data'][$index] = $series2['data'][$index]+$temp->$itemAlias;
-					$series3['data'][$index] = $series2['data'][$index];
+					$series3['data'][$index] = $series2['data'][$index]+$series1['data'][$index];
 				}
 				foreach($data1 as $temp)
 				{
@@ -343,7 +343,7 @@ class ChartController extends BaseController {
 				{
 					$index = $check[strtotime($temp->found_date)];	
 					$series2['data'][$index] = $series2['data'][$index]+$temp->$itemAlias;
-					$series3['data'][$index] = $series2['data'][$index];
+					$series3['data'][$index] = $series2['data'][$index]+$series1['data'][$index];
 				}
 				foreach($data1 as $temp)
 				{
@@ -376,13 +376,13 @@ class ChartController extends BaseController {
 				{
 					$index = $check[strtotime($temp->found_date)];	
 					$series2['data'][$index] = $series2['data'][$index]+$temp->$itemAlias;
-					$series3['data'][$index] = $series2['data'][$index];
+					$series3['data'][$index] = $series2['data'][$index]+$series1['data'][$index];
 				}
 				foreach($data1 as $temp)
 				{
 					$index = $check[strtotime($temp->found_date)];	
 					$series1['data'][$index] = $series1['data'][$index]+$temp->$itemAlias;
-					$series3['data'][$index] = $series3['data'][$index]+$series1['data'][$index];
+					$series3['data'][$index] = $series2['data'][$index]+$series1['data'][$index];
 				}
 		}
 		$result = array();
