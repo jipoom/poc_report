@@ -58,7 +58,7 @@
 
 							@if(Auth::check())
 								@if(Auth::user()->role_id == 1)
-									<li{{ (Request::is('report/admin_panel*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin_panel') }}}"><span class="glyphicon glyphicon-bookmark"></span> Admin Panel</a></li>  
+									<li{{ (Request::is('report/admin/report*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/report') }}}"><span class="glyphicon glyphicon-bookmark"></span> Admin Panel</a></li>  
 								@endif
 					          	<li><a href="{{{ URL::to('user/logout') }}}"><span class="glyphicon glyphicon-share"></span> Log out</a></li>
 					        @else						      
