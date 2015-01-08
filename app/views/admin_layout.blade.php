@@ -33,10 +33,10 @@
 						<ul class="nav navbar-nav">
 							@if(Auth::check())
 						        @if(Auth::user()->role_id == 1)
-						      		  <li{{ (Request::is('report/admin/report*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/report') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขรายงาน</a></li>
-									  <li{{ (Request::is('report/admin/khet*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/khet') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเขต</a></li>
+						      		  <li{{ (Request::is('report/admin/report*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/report') }}}"><span class="glyphicon glyphicon-envelope"></span> แก้ไขรายงาน</a></li>
+									  <li{{ (Request::is('report/admin/khet*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/khet') }}}"><span class="glyphicon glyphicon-paperclip"></span> แก้ไขข้อมูลเขต</a></li>
 									  <li{{ (Request::is('report/admin/location*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/location') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลเรือนจำ</a></li>
-									  <li{{ (Request::is('report/admin/user*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/user') }}}"><span class="glyphicon glyphicon-book"></span> แก้ไขข้อมูลผู้ใช้</a></li>
+									  <li{{ (Request::is('report/admin/user*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin/user') }}}"><span class="glyphicon glyphicon-user"></span> แก้ไขข้อมูลผู้ใช้</a></li>
 						    	 @endif 
 					  	    @endif 
 							</li>
@@ -45,7 +45,7 @@
 							
 							@if(Auth::check())
 					          	@if(Auth::user()->role_id == 1)
-									<li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> Home</a></li>	
+									<li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>	
 								@endif
 					          	<li><a href="{{{ URL::to('user/logout') }}}"><span class="glyphicon glyphicon-share"></span> Log out</a></li>
 					        @else						      

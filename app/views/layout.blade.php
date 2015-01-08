@@ -34,21 +34,21 @@
 							@if(Auth::check())
 								<!-- check อธิบดี-->
 								@if(Auth::user()->role_id == 2)
-									 <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> Home</a></li>
-									 <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
-									 <li{{ (Request::is('report/bylocation*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bylocation') }}}"><span class="glyphicon glyphicon-book"></span> ดูกราฟตามสถานที่</a></li>
-									 <li{{ (Request::is('report/bydate*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bydate') }}}"><span class="glyphicon glyphicon-book"></span> ดูกราฟตามเวลา</a></li>
+									 <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+									 <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-briefcase"></span> ดูรายงาน</a></li>
+									 <li{{ (Request::is('report/bylocation*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bylocation') }}}"><span class="glyphicon glyphicon-globe"></span> ดูกราฟตามสถานที่</a></li>
+									 <li{{ (Request::is('report/bydate*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bydate') }}}"><span class="glyphicon glyphicon-stats"></span> ดูกราฟตามเวลา</a></li>
 									    
 								<!-- check ศปส-->
 						        @elseif(Auth::user()->role_id == 1)
-						      		  <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-book"></span> Home</a></li>
-									  <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
-									  <li{{ (Request::is('report/bylocation*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bylocation') }}}"><span class="glyphicon glyphicon-book"></span> ดูกราฟตามสถานที่</a></li>
-									  <li{{ (Request::is('report/bydate*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bydate') }}}"><span class="glyphicon glyphicon-book"></span> ดูกราฟตามเวลา</a></li>
+						      		  <li{{ (Request::is('report/dashboard*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/dashboard') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+									  <li{{ (Request::is('report/view_all*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view_all') }}}"><span class="glyphicon glyphicon-briefcase"></span> ดูรายงาน</a></li>
+									  <li{{ (Request::is('report/bylocation*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bylocation') }}}"><span class="glyphicon glyphicon-globe"></span> ดูกราฟตามสถานที่</a></li>
+									  <li{{ (Request::is('report/bydate*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/bydate') }}}"><span class="glyphicon glyphicon-stats"></span> ดูกราฟตามเวลา</a></li>
 								<!-- รจ ธรรมดา -->
 								@elseif(Auth::user()->role_id == 3)
-						        	<li{{ (Request::is('report/add*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/add') }}}"><span class="glyphicon glyphicon-book"></span> เพิ่มรายงาน การจู่โจมตรวจค้น</a></li>
-						            <li{{ (Request::is('report/view*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-book"></span> ดูรายงาน</a></li>
+						        	<li{{ (Request::is('report/add*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/add') }}}"><span class="glyphicon glyphicon-pencil"></span> เพิ่มรายงาน การจู่โจมตรวจค้น</a></li>
+						            <li{{ (Request::is('report/view*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/view') }}}"><span class="glyphicon glyphicon-briefcase"></span> ดูรายงาน</a></li>
 						       
 						        @endif
 						     @endif    
@@ -58,7 +58,7 @@
 
 							@if(Auth::check())
 								@if(Auth::user()->role_id == 1)
-									<li{{ (Request::is('report/admin_panel*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin_panel') }}}"><span class="glyphicon glyphicon-book"></span> Admin Panel</a></li>  
+									<li{{ (Request::is('report/admin_panel*') ? ' class="active"' : '') }}><a href="{{{ URL::to('report/admin_panel') }}}"><span class="glyphicon glyphicon-bookmark"></span> Admin Panel</a></li>  
 								@endif
 					          	<li><a href="{{{ URL::to('user/logout') }}}"><span class="glyphicon glyphicon-share"></span> Log out</a></li>
 					        @else						      
