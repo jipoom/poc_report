@@ -137,7 +137,12 @@ Route::group(array('prefix' => 'user'), function()
 Route::get('/', function()
 {
 	if(Auth::check()){
-		return View::make('home');
+		if(Auth::user()->role_id == 1)
+			return Redirect::to('report/dashboard');
+		else if(Auth::user()->role_id == 2)
+			return Redirect::to('report/dashboard');
+		else if(Auth::user()->role_id == 3)
+			return Redirect::to('report/add');
 	}
 	else {
 		return View::make('user/login');
