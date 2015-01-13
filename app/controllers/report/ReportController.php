@@ -960,8 +960,8 @@ class ReportController extends BaseController {
 				//Specify Location	
 				if($location_id != 0)
 				{		
-					$data1 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',1)->orderBy('found_date')->get();
-					$data2 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',2)->orderBy('found_date')->get();		
+					$data1 = ReportSummaryByFoundAt::where('location_id','=',$location_id)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',1)->orderBy('found_date')->get();
+					$data2 = ReportSummaryByFoundAt::where('location_id','=',$location_id)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',2)->orderBy('found_date')->get();		
 				}
 				else{
 					$data1 = ReportSummaryByFoundAt::where('khet_id','=',$khet_id)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',1)->orderBy('found_date')->get();
