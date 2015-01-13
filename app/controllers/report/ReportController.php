@@ -907,9 +907,12 @@ class ReportController extends BaseController {
 		$khet_id = 0;
 		$location_id = 0;
 		$item_id = 0;
+		$foundBefore = 0;
+		$foundAfter = 0;
+		$foundTotal =0;
 		$startDate = Report::convertYearCtoB(date('d-m-Y',strtotime("-7 days")));
 		$endDate = Report::convertYearCtoB(date('d-m-Y'));
-		return View::make('report/chart_by_date',compact('buddhistYear','khet_id','item_id','location_id','startDate','endDate'));
+		return View::make('report/chart_by_date',compact('buddhistYear','khet_id','item_id','location_id','startDate','endDate','foundBefore','foundAfter','foundTotal'));
 	}
 	public function postByDate(){
 		if(Input::get('item_id') != 0)
