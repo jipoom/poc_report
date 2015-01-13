@@ -284,6 +284,7 @@ class ChartController extends BaseController {
 		$startDate = Report::convertYearBtoC($startDate);
 		$endDate = Report::convertYearBtoC($endDate);
 		$itemAlias = Item::find($itemId)->alias;
+		//echo strtotime($endDate)-strtotime($startDate); //86400 = 1 day
 		//Specify khet_id
 		if($khetId != 0)
 		{
@@ -294,18 +295,36 @@ class ChartController extends BaseController {
 				$data2 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
 				$i=0;			
 				$j=strtotime($startDate);
-				while($j<=strtotime($endDate))
-				{
-					$check[$j] = $i;
-					$date = Report::convertYearCtoB(date("d-m-Y",$j));
-					$category['data'][] = $date;
-					$series1['data'][] = 0;
-					$series2['data'][] = 0;
-					$series3['data'][] = 0;
-					$i++;
-					$j = strtotime('+1 day', $j);
-
+				
+				if(strtotime($endDate)-strtotime($startDate) > 518400){
+					while($j<=strtotime($endDate))
+					{
+						$check[$j] = $i;
+						$date = Report::convertYearCtoB(date("d-m-Y",$j));
+						$category['data'][] = "";
+						$series1['data'][] = 0;
+						$series2['data'][] = 0;
+						$series3['data'][] = 0;
+						$i++;
+						$j = strtotime('+1 day', $j);
+	
+					}
 				}
+				else {
+					while($j<=strtotime($endDate))
+					{
+						$check[$j] = $i;
+						$date = Report::convertYearCtoB(date("d-m-Y",$j));
+						$category['data'][] = $date;
+						$series1['data'][] = 0;
+						$series2['data'][] = 0;
+						$series3['data'][] = 0;
+						$i++;
+						$j = strtotime('+1 day', $j);
+	
+					}
+				}
+				
 				
 				foreach($data2 as $temp)
 				{
@@ -326,17 +345,34 @@ class ChartController extends BaseController {
 				$data2 = ReportSummaryByFoundAt::where('khet_id','=',$khetId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
 				$i=0;			
 				$j=strtotime($startDate);
-				while($j<=strtotime($endDate))
+				if(strtotime($endDate)-strtotime($startDate) > 518400){
+					while($j<=strtotime($endDate))
+					{
+						$check[$j] = $i;
+						$date = Report::convertYearCtoB(date("d-m-Y",$j));
+						$category['data'][] = "";
+						$series1['data'][] = 0;
+						$series2['data'][] = 0;
+						$series3['data'][] = 0;
+						$i++;
+						$j = strtotime('+1 day', $j);
+	
+					}
+				}
+				else
 				{
-					$check[$j] = $i;
-					$date = Report::convertYearCtoB(date("d-m-Y",$j));
-					$category['data'][] = $date;
-					$series1['data'][] = 0;
-					$series2['data'][] = 0;
-					$series3['data'][] = 0;
-					$i++;
-					$j = strtotime('+1 day', $j);
-
+					while($j<=strtotime($endDate))
+					{
+						$check[$j] = $i;
+						$date = Report::convertYearCtoB(date("d-m-Y",$j));
+						$category['data'][] = $date;
+						$series1['data'][] = 0;
+						$series2['data'][] = 0;
+						$series3['data'][] = 0;
+						$i++;
+						$j = strtotime('+1 day', $j);
+	
+					}
 				}
 				
 				foreach($data2 as $temp)
@@ -360,16 +396,31 @@ class ChartController extends BaseController {
 			$data2 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
 			$i=0;			
 			$j=strtotime($startDate);
-			while($j<=strtotime($endDate))
-			{
-				$check[$j] = $i;
-				$date = Report::convertYearCtoB(date("d-m-Y",$j));
-				$category['data'][] = $date;
-				$series1['data'][] = 0;
-				$series2['data'][] = 0;
-				$series3['data'][] = 0;
-				$i++;
-				$j = strtotime('+1 day', $j);
+			if(strtotime($endDate)-strtotime($startDate) > 518400){
+				while($j<=strtotime($endDate))
+				{
+					$check[$j] = $i;
+					$date = Report::convertYearCtoB(date("d-m-Y",$j));
+					$category['data'][] = "";
+					$series1['data'][] = 0;
+					$series2['data'][] = 0;
+					$series3['data'][] = 0;
+					$i++;
+					$j = strtotime('+1 day', $j);
+				}
+			}
+			else{
+				while($j<=strtotime($endDate))
+				{
+					$check[$j] = $i;
+					$date = Report::convertYearCtoB(date("d-m-Y",$j));
+					$category['data'][] = $date;
+					$series1['data'][] = 0;
+					$series2['data'][] = 0;
+					$series3['data'][] = 0;
+					$i++;
+					$j = strtotime('+1 day', $j);
+				}
 			}
 			
 				foreach($data2 as $temp)

@@ -920,15 +920,47 @@ class ReportController extends BaseController {
 			$location_id=Input::get('location_id');	
 			$startDate = Input::get('startDate');
 			$endDate = Input::get('endDate');	
+			$itemAlias = Item::find($item_id)->alias;
+			$foundBefore = 0;
+			$foundAfter = 0;
+			$foundTotal =0;
+			if($khet_id != 0)
+			{
+				//Specify Location	
+				if($location_id != 0)
+				{		
+					$data1 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',1)->orderBy('found_date')->get();
+					$data2 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',2)->orderBy('found_date')->get();		
+				}
+				else{
+					$data1 = ReportSummaryByFoundAt::where('khet_id','=',$khet_id)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',1)->orderBy('found_date')->get();
+					$data2 = ReportSummaryByFoundAt::where('khet_id','=',$khet_id)->where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',2)->orderBy('found_date')->get();		
+				}
+			}
+			else{
+				$data1 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d",strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',1)->orderBy('found_date')->get();
+				$data2 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d", strtotime(Report::convertYearBtoC($startDate))))->where('found_date','<=',date("Y-m-d", strtotime(Report::convertYearBtoC($endDate))))->where('found_at_id','=',2)->orderBy('found_date')->get();						
+			}
+			foreach($data2 as $temp)
+			{
+				$foundAfter = $foundAfter+$temp->$itemAlias;
+				//$foundTotal = $foundAfter+$foundTotal;
+			}
+			foreach($data1 as $temp)
+			{
+				$foundBefore = $foundBefore+$temp->$itemAlias;
+				//$foundTotal = $foundTotal+$foundBefore;
+			}
+			$foundTotal = $foundAfter+$foundBefore;
 			if(Input::get('khet_id') != 0)	
 			{ 	
 				
-				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','location_id','khet_id','item_id'));
+				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','location_id','khet_id','item_id','foundBefore','foundAfter','foundTotal'));
 			}
 			// Whole Country
 			else{
 				$location_id=0;	
-				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','location_id','khet_id','item_id'));
+				return View::make('report/chart_by_date',compact('buddhistYear','startDate','endDate','location_id','khet_id','item_id','foundBefore','foundAfter','foundTotal'));
 		
 			}
 		}
