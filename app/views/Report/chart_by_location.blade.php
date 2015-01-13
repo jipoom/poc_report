@@ -81,7 +81,10 @@ $(document).ready(function() {
 	                    plotShadow: false
 	                },
 		title: {
-			text: 'กราฟสรุปผลการจู่โจมตรวจค้น {{Item::find($item_id)->name}}'
+			text: 'การจู่โจมตรวจค้น <?php if($khet_id==0){ echo "ทั่วประเทศ";} else{ echo 'ประจำ'.Khet::find($khet_id)->name;} echo " ระหว่างวันที่ ".str_replace("-","/",$startDate)." - ".str_replace("-","/",$endDate)?> พบ {{Item::find($item_id)->name}} {{$foundTotal}} {{Item::find($item_id)->unit}}'
+		},
+		subtitle: {
+		    text: 'สกัดกั้นก่อนเข้าเรือนจำ {{$foundBefore}} {{Item::find($item_id)->unit}} พบภายในเรือนจำ {{$foundAfter}} {{Item::find($item_id)->unit}}'
 		},
 		xAxis: {
 			categories: [],
