@@ -125,8 +125,9 @@ $(document).ready(function() {
                 style: {
                     fontSize: '13px',
                     fontFamily: 'Verdana, sans-serif'
-                }
-            }
+                },
+                  step: Math.floor(parseInt('{{(strtotime(Report::convertYearBtoC($endDate))-strtotime(Report::convertYearBtoC($startDate)))/86400}}')/7)
+           }
 		},
 		yAxis:{
 			title:{text: 'จำนวน({{Item::find($item_id)->unit}})'}
