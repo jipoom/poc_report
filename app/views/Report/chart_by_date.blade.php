@@ -132,6 +132,7 @@ $(document).ready(function() {
 			title:{text: 'จำนวน({{Item::find($item_id)->unit}})'}
 		},
 		tooltip: {
+			headerFormat: '<b>{point.x}</b><br>',
 			pointFormat: '{series.name}: <b>{point.y} {{Item::find($item_id)->unit}}</b>'
 		},
 		/*labels: {
