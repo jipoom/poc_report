@@ -295,13 +295,18 @@ class ChartController extends BaseController {
 				$data2 = ReportSummaryByFoundAt::where('location_id','=',$locationId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
 				$i=0;			
 				$j=strtotime($startDate);
-				
-				if(strtotime($endDate)-strtotime($startDate) > 518400){
+				$dateDiff = strtotime($endDate)-strtotime($startDate);
+				if($dateDiff){
 					while($j<=strtotime($endDate))
 					{
 						$check[$j] = $i;
 						$date = Report::convertYearCtoB(date("d-m-Y",$j));
-						$category['data'][] = "";
+						if($i%(($dateDiff/86400)/4) == 0){
+							$category['data'][] = $date;
+						}
+						else{
+							$category['data'][] = "";
+						}		
 						$series1['data'][] = 0;
 						$series2['data'][] = 0;
 						$series3['data'][] = 0;
@@ -345,12 +350,18 @@ class ChartController extends BaseController {
 				$data2 = ReportSummaryByFoundAt::where('khet_id','=',$khetId)->where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
 				$i=0;			
 				$j=strtotime($startDate);
-				if(strtotime($endDate)-strtotime($startDate) > 518400){
+				$dateDiff = strtotime($endDate)-strtotime($startDate);
+				if($dateDiff > 518400){
 					while($j<=strtotime($endDate))
 					{
 						$check[$j] = $i;
 						$date = Report::convertYearCtoB(date("d-m-Y",$j));
-						$category['data'][] = "";
+						if($i%(($dateDiff/86400)/4) == 0){
+							$category['data'][] = $date;
+						}
+						else{
+							$category['data'][] = "";
+						}	
 						$series1['data'][] = 0;
 						$series2['data'][] = 0;
 						$series3['data'][] = 0;
@@ -396,12 +407,18 @@ class ChartController extends BaseController {
 			$data2 = ReportSummaryByFoundAt::where('found_date','>=',date("Y-m-d", strtotime($startDate)))->where('found_date','<=',date("Y-m-d", strtotime($endDate)))->where('found_at_id','=',2)->orderBy('found_date')->get();		
 			$i=0;			
 			$j=strtotime($startDate);
-			if(strtotime($endDate)-strtotime($startDate) > 518400){
+			$dateDiff = strtotime($endDate)-strtotime($startDate);
+			if($dateDiff > 518400){
 				while($j<=strtotime($endDate))
 				{
 					$check[$j] = $i;
 					$date = Report::convertYearCtoB(date("d-m-Y",$j));
-					$category['data'][] = "";
+					if($i%(($dateDiff/86400)/4) == 0){
+							$category['data'][] = $date;
+						}
+						else{
+							$category['data'][] = "";
+						}	
 					$series1['data'][] = 0;
 					$series2['data'][] = 0;
 					$series3['data'][] = 0;
