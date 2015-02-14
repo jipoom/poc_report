@@ -77,6 +77,7 @@
 					<th class="rotate"><div><span>อุปกรณ์ชาร์จแบตเตอรี่</span></div></th>
 					
 				</tr>
+			</thead>
 					@foreach($table as $transaction)
 						<tr>
 							<td>{{$transaction->found_date}}</td>
@@ -158,10 +159,10 @@
 						<td>{{$temp}}</td>
 					@endforeach
 					</tr>
-			</thead>
 		</table>
-		<input type="button" value="select table" onclick="selectElementContents( document.getElementById('table') );">
-		
+		<P><input type="button" value="select table" onclick="selectElementContents( document.getElementById('table') );"></P>
+		<P><a target = '_blank' href="{{{ URL::to('report/admin/export/0/'.$khet_id.'/'.$method_id.'/'.$found_at_id.'/'.$location_id.'/'.$startDate.'/'.$endDate) }}}" class="btn btn-default btn-xs">Export table to PDF format</a></p>
+
 @stop
 @section('scripts')
 <script>
@@ -174,6 +175,7 @@
 	    if($("#khet_id").val()!=0){
 	   	    loadLocation($( "#khet_id" ).val(),'{{$location_id}}');
 	    }
+	    $(".iframe").colorbox({iframe:true, width:"80%", height:"80%"})
 	 });
 	 function loadLocation(khetId,locationId){
 	 	if (window.XMLHttpRequest) {

@@ -11,7 +11,7 @@
 {{ Form::submit() }}
 {{ Form::close() }}
 
-<table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;">
+<table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;" >
 			<thead>
 					
 				<tr>
@@ -29,7 +29,7 @@
 					<th class="rotate" rowspan="2"><div><span>สุราหรือของมึนเมา</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>อุปกรณ์สำหรับเล่นการพนัน</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>เครื่องมืออันเป็นอุปกรณ์ในการหลบหนี</span></div></th>
-					<th class="rotate" rowspan="2"><div><span>อาวุธ เครื่องกระสุนปืน วัตถุระเบิด <br>ดอกไม้เพลิง และสิ่งเทียมอาวุธปืน</span></div></th>
+					<th class="rotate" rowspan="2"><div><span>อาวุธ เครื่องกระสุนปืน วัตถุระเบิด  <br>ดอกไม้เพลิง และสิ่งเทียมอาวุธปืน</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>อาวุธดัดแปลง เหล็กแหลม</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>ของเน่าเสีย หรือของมีพิษต่อร่างกาย</span></div></th>
 					<th class="rotate" rowspan="2"><div><span>น้ำมันเชื้อเพลิง</span></div></th>
@@ -56,11 +56,11 @@
 					<th class="rotate"><div><span>อุปกรณ์ชาร์จแบตเตอรี่</span></div></th>
 					
 				</tr>
-				
+			</thead>
 					@foreach($table as $transaction)
 						<tr>
 							<td>{{$transaction->found_date}}</td>
-							<td>{{$transaction->khet_id}}</td>
+							<td>{{($transaction->khet_id==10)? 'เขตอิสระ' : $transaction->khet_id}}</td>
 							<td>{{Location::find($transaction->location_id)->name}}</td>
 							@if($transaction->method == 1)
 							<td>1</td>	
@@ -135,9 +135,8 @@
 						</td>
 						@endforeach
 					</tr>
-			</thead>
 		</table>
-
+		<P><a target = '_blank' href="{{{ URL::to('report/location/export/'.$startDate.'/'.$endDate) }}}" class="btn btn-default btn-xs ">Export table to PDF format</a></p>
 	
 @stop
 @section('scripts')
@@ -159,7 +158,7 @@
              	 monthNames: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
              	 monthNamesShort: ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']});
 			 */
-			
+			$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"})
 			$("#startDate").datepicker({
 			    dateFormat: 'dd-mm-yy',
 			    maxDate: 0, // to disable past dates (skip if not needed)			 	

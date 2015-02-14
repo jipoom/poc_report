@@ -82,7 +82,7 @@
 		{
 			parent.oTable.fnReloadAjax();
 		}
-        	
+        </script>	
         @yield('scripts')
     </body>
 </html>

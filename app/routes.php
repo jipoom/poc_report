@@ -17,6 +17,8 @@ Route::get('report/method/{methodId}','ReportController@checkMethod');
 Route::get('report/area/need_other','ReportController@checkAreaName');
 Route::get('report/area_option/{found_at_id}','ReportController@loadAreaOption');
 Route::get('report/loadLocation/{khet_id}/{location_id}','ReportController@loadLocation');
+
+
 Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 {
 	//Route::get('poc', 'ReportController@showPOC');
@@ -71,6 +73,8 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::post('view_category', array('before' => 'role_1_2', 'uses' =>'TableController@postAdminReportCategory'));
 	Route::get('view_category/{startDate?}/{endDate?}', array('before' => 'role_1_2', 'uses' =>'TableController@getAdminReportCategory'));
 	//Route::get('export/{categoryId}/{khetId}/{methodId}/{foundAtId}/{locationId}/{startDate}/{endDate}', array('before' => 'role_1_2', 'uses' =>'TableController@export'));
+	Route::get('admin/export/{categoryId}/{khetId}/{methodId}/{foundAtId}/{locationId}/{startDate}/{endDate}',array('before' => 'role_1_2', 'uses' =>'TableController@convertAdminTableToPDF')); 
+	
 	//Route::get('map', 'ReportController@showPOC');
 	//Route::get('overall', 'ReportController@showOverall');
 	
@@ -82,6 +86,7 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	//Route::get('view', 'ReportController@showReport');
 	Route::post('view', 'TableController@postReport');
 	Route::get('view/{startDate?}/{endDate?}', 'TableController@getReport');
+	Route::get('location/export/{startDate?}/{endDate?}', 'TableController@convertLocationTableToPDF');
 	Route::get('exist', 'ReportController@checkIfRecordExist');
 	
 	//Route::get('create', 'ReportController@getCreate');
