@@ -72,8 +72,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 10)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -84,8 +87,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 10)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -96,8 +102,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 10)
-					<?php $check = true;?>	
-					{{Location::find($t->location_id)->name}},
+					@if($check)
+						,
+					@endif
+					<?php $check = true;?>
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -113,8 +122,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 1)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -125,8 +137,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 1)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -137,8 +152,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 1)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -156,8 +174,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 2)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -168,8 +189,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 2)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -180,8 +204,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 2)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -197,8 +224,11 @@
 			<?php $check = false;?> 
 			@foreach($notFound as $t)
 				@if($t->khet_id == 3)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -209,8 +239,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 3)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -221,8 +254,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 3)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -238,8 +274,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 4)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -250,8 +289,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 4)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -262,8 +304,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 4)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -279,8 +324,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 5)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -291,8 +339,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 5)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -303,8 +354,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 5)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -320,8 +374,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 6)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -332,8 +389,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 6)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -344,8 +404,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 6)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -361,8 +424,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 7)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -373,8 +439,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 7)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -385,8 +454,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 7)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -402,8 +474,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 8)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -414,8 +489,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 8)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -426,8 +504,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 8)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -443,8 +524,11 @@
 			<?php $check = false;?>
 			@foreach($notFound as $t)
 				@if($t->khet_id == 9)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -455,8 +539,11 @@
 			<?php $check = false;?>
 			@foreach($drugAndItem as $t)
 				@if($t->khet_id == 9)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)
@@ -467,8 +554,11 @@
 			<?php $check = false;?>
 			@foreach($other as $t)
 				@if($t->khet_id == 9)
+					@if($check)
+						,
+					@endif
 					<?php $check = true;?>
-					{{Location::find($t->location_id)->name}},
+					{{Location::find($t->location_id)->name}}
 				@endif
 			@endforeach
 			@if(!$check)

@@ -19,30 +19,26 @@
 				<!-- Post Title -->
 				<div class="form-group {{{ $errors->has('user') ? 'error' : '' }}}">
                     <div class="col-md-12">
-                        <label class="control-label" for="category">username</label>
+                        <label class="control-label" for="category">username</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('khet', ':message') }}}</font>
 						@if(isset($userId))
-							{{ Form::text('username',Input::old('user', User::find($userId)->username) , array('class'=>'form-control', 'placeholder'=>'username','readonly'=>'true'))}} </p>
-							{{{ $errors->first('khet', ':message') }}}
+							{{ Form::text('username',Input::old('user', User::find($userId)->username) , array('class'=>'form-control', 'placeholder'=>'username','readonly'=>'true'))}} </p>	
 						@else
 							{{ Form::text('username',Input::old('user', null) , array('class'=>'form-control', 'placeholder'=>'username'))}} </p>
-							{{{ $errors->first('khet', ':message') }}}
 						@endif
 						
-						<label class="control-label" for="category">password</label>
+						<label class="control-label" for="category">password</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('password', ':message') }}}</font>
 						<input class="form-control" placeholder="รหัสผ่าน" type="password" name="password" id="password"></p>
-						{{{ $errors->first('password', ':message') }}}
 						
-						<label class="control-label" for="category">ยืนยัน password</label>
+						
+						<label class="control-label" for="category">ยืนยัน password</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('password_confirm', ':message') }}}</font>
 						<input class="form-control" placeholder="ยืนยันรหัสผ่าน" type="password" name="password_confirm" id="password_confirm"> </p>
-						{{{ $errors->first('password_confirm', ':message') }}}
 						
-						<label class="control-label" for="category">Comment</label>
+						
+						<label class="control-label" for="category">Note</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('comment', ':message') }}}</font>
 						@if(isset($userId))
-							{{ Form::text('comment', Input::old('user', User::find($userId)->comment) , array('class'=>'form-control', 'placeholder'=>'Comment','readonly'=>'true'))}} </p>
-							{{{ $errors->first('comment', ':message') }}}
+							{{ Form::text('comment', Input::old('user', User::find($userId)->comment) , array('class'=>'form-control', 'placeholder'=>'Comment','readonly'=>'true'))}} </p>				
 						@else
 							{{ Form::text('comment', Input::old('user', null)  , array('class'=>'form-control', 'placeholder'=>'Comment'))}} </p>
-							{{{ $errors->first('comment', ':message') }}}
 						@endif
 						
 						  

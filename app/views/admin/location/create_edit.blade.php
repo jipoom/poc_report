@@ -19,33 +19,41 @@
 				<!-- Post Title -->
 				<div class="form-group {{{ $errors->has('khet') ? 'error' : '' }}}">
                     <div class="col-md-12">
-                        <label class="control-label" for="category">ชื่อย่อเรือนจำ</label>
+                        <label class="control-label" for="category">ชื่อย่อเรือนจำ</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('location_name', ':message') }}}</font>
 						{{ Form::text('location_name',Input::old('location_name', isset($locationId) ? Location::find($locationId)->name : null) , array('class'=>'form-control', 'placeholder'=>'ชื่อย่อเรือนจำ'))}} </p>
-						{{{ $errors->first('location_name', ':message') }}}
 						
-						<label class="control-label" for="category">ชื่อเต็มเรือนจำ</label>
+						
+						<label class="control-label" for="category">ชื่อเต็มเรือนจำ</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('location_fullname', ':message') }}}</font>
 						{{ Form::text('location_fullname',Input::old('location_fullname', isset($locationId) ? Location::find($locationId)->fullname : null) , array('class'=>'form-control', 'placeholder'=>'ชื่อเต็มเรือนจำ'))}} </p>
-						{{{ $errors->first('location_fullname', ':message') }}}
+						
 						
 						<label class="control-label" for="category">ระบุเขต</label>
-						{{ Form::select('khet_id', Khet::getArrayNotAll(),Input::old('khet_id',(isset($locationId))? Location::find($locationId)->khet_id : 0),array('id'=>'khet_id')) }} </p>
-						{{{ $errors->first('khet_id', ':message') }}}
+						{{ Form::select('khet_id', Khet::getArrayNotAll(),Input::old('khet_id',(isset($locationId))? Location::find($locationId)->khet_id : 0),array('id'=>'khet_id')) }} <font color="red">&nbsp;&nbsp;{{{ $errors->first('khet_id', ':message') }}}</font></p>
 						
-						<label class="control-label" for="category">username</label>
+						
+						<label class="control-label" for="category">username</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('username', ':message') }}}</font>
 						@if(isset($locationId))
 							{{ Form::text('username',Input::old('username', User::where('location_id','=',$locationId)->first()->username) , array('class'=>'form-control', 'placeholder'=>'ชื่อเต็มเรือนจำ','readonly'=>'true'))}} </p>
-							{{{ $errors->first('username', ':message') }}}
+							
 						@else
 							{{ Form::text('username',Input::old('username', null) , array('class'=>'form-control', 'placeholder'=>'ชื่อเต็มเรือนจำ'))}} </p>
-							{{{ $errors->first('username', ':message') }}}
+							
 						@endif
-						<label class="control-label" for="category">รหัสผ่าน</label>
+						<label class="control-label" for="category">รหัสผ่าน</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('password', ':message') }}}</font>
 						<input class="form-control" placeholder="รหัสผ่าน" type="password" name="password" id="password"></p>
-						{{{ $errors->first('password', ':message') }}}
 						
-						<label class="control-label" for="category">ยืนยันรหัสผ่าน</label>
+						
+						<label class="control-label" for="category">ยืนยันรหัสผ่าน</label><font color="red">&nbsp;&nbsp;@if ($message = Session::get('password'))
+ @if(is_array($message))
+    @foreach ($message as $m)
+    	<font color="red"> *{{ $m }}</font>
+    @endforeach
+ @else
+    <font color="red"> *{{ $message }}</font>
+ @endif
+@endif</font>
 						<input class="form-control" placeholder="ยืนยันรหัสผ่าน" type="password" name="password_confirm" id="password_confirm"> </p>
-						{{{ $errors->first('password_confirm', ':message') }}}
+						
 												  
 					</div>
 				</div>

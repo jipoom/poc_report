@@ -8,7 +8,7 @@
 {{ Form::open(array('url'=>'report/view', 'class'=>'form-signup', 'id'=>'infoForm')) }}
 ตั้งแต่: <input type="text" id="startDate" name="startDate" readonly="true"value="{{Input::old('startDate',(isset($startDate))? $startDate : date('d-m').'-'.$buddhistYear)}}"> 	
 ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
-{{ Form::submit() }}
+{{ Form::submit('ดูรายงาน') }}
 {{ Form::close() }}
 
 <table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;" >

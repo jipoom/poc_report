@@ -19,9 +19,9 @@
 				<!-- Post Title -->
 				<div class="form-group {{{ $errors->has('khet') ? 'error' : '' }}}">
                     <div class="col-md-12">
-                        <label class="control-label" for="category">ชื่อเขต</label>
+                        <label class="control-label" for="category">ชื่อเขต</label><font color="red">&nbsp;&nbsp;{{{ $errors->first('khet', ':message') }}}</font>
 						{{ Form::text('khet',Input::old('khet', isset($khetId) ? Khet::find($khetId)->name : null) , array('class'=>'form-control', 'placeholder'=>'ชื่อเขต'))}} </p>
-						{{{ $errors->first('khet', ':message') }}}
+						
 						  
 					</div>
 				</div>

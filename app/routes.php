@@ -26,9 +26,12 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	//Route::get('hdashboard', 'ReportController@showHDashBoard');
 	
 	//Admin Panel
+	Route::get('admin_panel', array('before' => 'role_1', 'uses' => 'AdminController@getAdminPanel'));
+	
+	
 	//report mgmt
-	Route::get('admin/report', array('before' => 'role_1', 'uses' => 'AdminController@getAdminPanel'));
-	Route::post('admin/report', array('before' => 'role_1', 'uses' =>'AdminController@postAdminPanel'));
+	Route::get('admin/report', array('before' => 'role_1', 'uses' => 'AdminController@getAdminReport'));
+	Route::post('admin/report', array('before' => 'role_1', 'uses' =>'AdminController@postAdminReport'));
 	Route::post('admin/report/add', array('before' => 'role_1', 'uses' =>'AdminController@postAddData'));
 	Route::post('admin/report/confirm', array('before' => 'role_1', 'uses' =>'AdminController@postConfirm'));
 	Route::get('admin/report/loadLocation/{khet_id}/{location_id}/{firstLocation?}', array('before' => 'role_1_2', 'uses' =>'AdminController@loadLocation'));
@@ -65,6 +68,8 @@ Route::group(array('prefix' => 'report', 'before' => 'auth'), function()
 	Route::post('admin/user/{userId}/edit',  array('before' => 'role_1', 'uses' => 'AdminUserController@postEdit'));
 	Route::get('admin/user/{userId}/delete',  array('before' => 'role_1', 'uses' => 'AdminUserController@getDelete'));
 	Route::post('admin/user/{userId}/delete',  array('before' => 'role_1', 'uses' => 'AdminUserController@postDelete'));
+	
+
 	
 	
 	//admin view report
@@ -137,7 +142,12 @@ Route::group(array('prefix' => 'user'), function()
 Route::get('/', function()
 {
 	if(Auth::check()){
-		return View::make('home');
+		if(Auth::user()->role_id == 1)
+			return Redirect::to('report/dashboard');
+		else if(Auth::user()->role_id == 2)
+			return Redirect::to('report/dashboard');
+		else if(Auth::user()->role_id == 3)
+			return Redirect::to('report/add');
 	}
 	else {
 		return View::make('user/login');

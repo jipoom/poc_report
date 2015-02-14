@@ -2,11 +2,14 @@
 
 class AdminController extends BaseController {
 	public function getAdminPanel(){
+		return View::make('admin/admin_panel');
+	}
+	public function getAdminReport(){
 		$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 		$location_id = 0;
-		return View::make('admin/admin_panel',compact('buddhistYear','location_id'));
+		return View::make('admin/report/admin_report',compact('buddhistYear','location_id'));
 	}
-	public function postAdminPanel(){
+	public function postAdminReport(){
 		if(Input::get('khet_id') != 0)
 		{ 	
 			$khetId = Input::get('khet_id');	
@@ -36,7 +39,7 @@ class AdminController extends BaseController {
 			
 			
 			
-			return View::make('admin/admin_panel',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
+			return View::make('admin/report/admin_report',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
 		}
 		else
 		{
@@ -165,7 +168,7 @@ class AdminController extends BaseController {
 				
 
 				//return to table page
-				return View::make('admin/admin_panel',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
+				return View::make('admin/report/admin_report',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
 				
 			}
 			else
@@ -283,7 +286,7 @@ class AdminController extends BaseController {
 				$date = Input::get('date');
 				$location_id = $locationId;
 				$isUserRequest=true;
-				return View::make('admin/admin_panel',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
+				return View::make('admin/report/admin_report',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
 				//return Redirect::to('report/admin')->withInput(array('date' => Input::get('date'), 'isFound' => Input::get('isFound')));
 			
 			}
@@ -347,7 +350,7 @@ class AdminController extends BaseController {
 			$khetId = Location::find($locationId)->khet_id;
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			//return to table page
-			return View::make('admin/admin_panel',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
+			return View::make('admin/report/admin_report',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
 
 		}
 	public function checkIfRecordExist()
@@ -398,7 +401,7 @@ class AdminController extends BaseController {
 			$isUserRequest=true;
 			$buddhistYear = date('Y',strtotime(date('d-m-Y')))+543;		
 			//return to table page
-			return View::make('admin/admin_panel',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
+			return View::make('admin/report/admin_report',compact('buddhistYear','location_id','isUserRequest','khetId','date','unconfirmInsideReport','unconfirmOutsideReport','unconfirmNotfound','noteContent'));
 
 		}			
 		else{

@@ -41,7 +41,8 @@ class AdminLocationController extends AdminController {
             'location_name'   => 'required|min:3|unique:locations,name',
             'location_fullname'   => 'required|min:3|unique:locations,fullname',
             'password'         => 'required',
-        	'password_confirm' => 'required|same:password' 
+        	'password_confirm' => 'required|same:password',
+        	'khet_id' => 'not_in:0' 
         );
 
 
@@ -110,8 +111,8 @@ class AdminLocationController extends AdminController {
          $rules = array(
          	'username'   => 'required|min:3|unique:users,username,'.$user->id.',id',
             'location_name'   => 'required|min:3|unique:locations,name,'.$locationId.',id',
-            'location_fullname'   => 'required|min:3|unique:locations,fullname,'.$locationId.',id'
- 
+            'location_fullname'   => 'required|min:3|unique:locations,fullname,'.$locationId.',id',
+ 			'khet_id' => 'not_in:0' 
         );
 
 
@@ -151,7 +152,10 @@ class AdminLocationController extends AdminController {
         }
 
         // Form validation failed
-        return Redirect::to('report/admin/location/' . $locationId . '/edit')->withInput()->withErrors($validator);
+        if (Input::get('password') != Input::get('password_confirm'))
+				return Redirect::to('report/admin/location/' . $locationId . '/edit')->withInput()->with('password', 'กรุณากรอกยืนยันรหัสผ่านให้ถูกต้อง');
+			else if ($validator->passes())
+        		return Redirect::to('report/admin/location/' . $locationId . '/edit')->withInput()->withErrors($validator);
 	}
 
 
