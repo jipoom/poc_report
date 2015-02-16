@@ -279,27 +279,6 @@
 		@endif
 		</section>
 	@endif
-	@if(count($unconfirmInsideReport)+count($unconfirmOutsideReport) > 0)
-    	{{ Form::open(array('url'=>'report/admin/report/confirm', 'class'=>'form-signup', 'id'=>'confirmForm')) }}
-    	<div id="note_area1" style="width: 500px">
-
-	    	หมายเหตุ <font size="2px"> ( กรอกข้อมูลที่จำเป็นเท่านั้น )</font> 
-	    	{{ Form::textarea('note1', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note1','rows'=> '3', 'cols' => '5', 'maxlength' =>'200' ))}} 
-			<br />
-			<b>&nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton1" onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
-		
-		</div>
-		{{form::close()}}
-	@endif
-	<!-- this button is showned when not_found is selected and hidden when found is selected-->
-	<div id = "note_area2" style="display: none; width: 500px">
-		<br />
-		หมายเหตุ  <font size="2px"> ( กรอกข้อมูลที่จำเป็นเท่านั้น )</font>  
-		{{ Form::textarea('note2', isset($noteContent) ? $noteContent : null, array('class'=>'form-control','id'=>'note2','rows'=> '3', 'cols' => '5', 'maxlength' =>'200' ))}} 
-		<br />
-		<b>&nbsp; &nbsp; </b><input type="button" class="btn btn-success" id ="confirmButton2"  onclick="confirmForm()" value="ยืนยัน"> <font color="#FF4444" size="2px">กรุณาตรวจทานความถูกต้องของข้อมูลก่อนกดยืนยัน</font>
-	
-	</div>
 	@endif
 	@if(count($unconfirmInsideReport)+count($unconfirmOutsideReport)+count($unconfirmNotfound) == 0)
 		<h4 style="background-color: #efefef; text-align: center">ระบบไม่พบข้อมูลในวันดังกล่าว</h4>

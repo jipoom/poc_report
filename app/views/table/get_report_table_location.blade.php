@@ -30,7 +30,7 @@ ini_set('memory_limit','1024M');
 					<th text-rotate="90" rowspan="2"><div><span>สุราหรือของมึนเมา</span></div></th>
 					<th text-rotate="90" rowspan="2"><div><span>อุปกรณ์สำหรับเล่นการพนัน</span></div></th>
 					<th text-rotate="90" rowspan="2"><div><span>เครื่องมืออันเป็นอุปกรณ์ในการหลบหนี</span></div></th>
-					<th text-rotate="90" rowspan="2"><div><span>อาวุธ เครื่องกระสุนปืน วัตถุระเบิด  ดอกไม้เพลิง และสิ่งเทียมอาวุธปืน</span></div></th>
+					<th rowspan="2"><div><span>อาวุธ เครื่องกระสุนปืน วัตถุระเบิด  ดอกไม้เพลิง และสิ่งเทียมอาวุธปืน</span></div></th>
 					<th text-rotate="90" rowspan="2"><div><span>อาวุธดัดแปลง เหล็กแหลม</span></div></th>
 					<th text-rotate="90" rowspan="2"><div><span>ของเน่าเสีย หรือของมีพิษต่อร่างกาย</span></div></th>
 					<th text-rotate="90" rowspan="2"><div><span>น้ำมันเชื้อเพลิง</span></div></th>
