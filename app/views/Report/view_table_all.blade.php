@@ -32,6 +32,7 @@
 {{ Form::submit('ดูรายงาน') }}
 {{ Form::close() }}
 <br>
+<P><a target = '_blank' href="{{{ URL::to('report/admin/export/0/'.$khet_id.'/'.$method_id.'/'.$found_at_id.'/'.$location_id.'/'.$startDate.'/'.$endDate) }}}" class="btn btn-default btn-xs">Export table to PDF format</a></p>
 <table class="table table-striped table-bordered tabletest" id="table"border="1" style="font-size: 12px;">
 			<thead>
 					
@@ -160,9 +161,8 @@
 					@endforeach
 					</tr>
 		</table>
-		<P><input type="button" value="select table" onclick="selectElementContents( document.getElementById('table') );"></P>
-		<P><a target = '_blank' href="{{{ URL::to('report/admin/export/0/'.$khet_id.'/'.$method_id.'/'.$found_at_id.'/'.$location_id.'/'.$startDate.'/'.$endDate) }}}" class="btn btn-default btn-xs">Export table to PDF format</a></p>
-
+		
+		
 @stop
 @section('scripts')
 <script>

@@ -10,7 +10,7 @@
 ถึง: <input type="text" id="endDate" name="endDate" readonly="true"value="{{Input::old('endDate',(isset($endDate))? $endDate : date('d-m').'-'.$buddhistYear)}}"> 	
 {{ Form::submit('ดูรายงาน') }}
 {{ Form::close() }}
-
+<P><a target = '_blank' href="{{{ URL::to('report/admin/export/0/'.$khet_id.'/'.$method_id.'/'.$found_at_id.'/'.$location_id.'/'.$startDate.'/'.$endDate) }}}" class="btn btn-default btn-xs">Export table to PDF format</a></p>
 <table class="table table-striped table-bordered tabletest" border="1" style="font-size: 12px;" >
 			<thead>
 					
@@ -136,8 +136,7 @@
 						@endforeach
 					</tr>
 		</table>
-		<P><a target = '_blank' href="{{{ URL::to('report/location/export/'.$startDate.'/'.$endDate) }}}" class="btn btn-default btn-xs ">Export table to PDF format</a></p>
-	
+		
 @stop
 @section('scripts')
 <script>
