@@ -279,6 +279,7 @@ class TableController extends BaseController {
 		// get summary
 		$total = Report::getTotal(Auth::user()->location->id, $startDate, $endDate);
 		$table = array_add($table,'รวม',$total);*/
+		
 		$startDate= date("Y-m-d", strtotime($startDate));	
 		$endDate= date("Y-m-d", strtotime($endDate));	
 		$table = ReportSummary::where('found_date','>=',$startDate)

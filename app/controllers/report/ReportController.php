@@ -279,7 +279,10 @@ class ReportController extends BaseController {
 				
 				$report -> save();
 				//return to table page
-				return Redirect::to('report/view')->with('message','บันทึกรายงานเสร็จสมบูรณ์');
+				$startDate = Report::convertYearCtoB(date("d-m-Y", $timestamp));
+				$endDate = Report::convertYearCtoB(date("d-m-Y", $timestamp));
+				return Redirect::to('report/view/'.$startDate.'/'.$endDate)->with('message','บันทึกรายงานเสร็จสมบูรณ์');
+
 				}
 			else
 			{
