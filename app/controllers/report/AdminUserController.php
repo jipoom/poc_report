@@ -9,7 +9,7 @@ class AdminUserController extends AdminController {
      	$title = "แก้ไขบัญชีผู้ใช้";
 
         // Grab all the blog posts
-        $user = User::where('role_id','=',2)->get();
+        $user = User::where('role_id','<>',3)->get();
 
         // Show the page
         return View::make('admin/user/index', compact('user', 'title'));
@@ -199,7 +199,7 @@ class AdminUserController extends AdminController {
    {
         	
         
-        $user = User::select(array('id', 'username'))->where('role_id','=',2);
+        $user = User::select(array('id', 'username'))->where('role_id','<>',3);
 
         return Datatables::of($user)
 
